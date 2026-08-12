@@ -233,11 +233,11 @@
 
       console.error(error);
 
-      showResult(
-        "error",
-        "❌ Error",
-        "Unable to verify this participant."
-      );
+   showResult(
+  "error",
+  "❌ Error",
+  error.code + "<br><br>" + error.message
+);
 
     }
 
