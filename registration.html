@@ -330,7 +330,11 @@
 
       document.getElementById("participantId")
         .textContent = participantId;
-
+new QRCode(document.getElementById("qrcode"), {
+  text: participantId,
+  width: 180,
+  height: 180
+});
       form.style.display = "none";
 
       document.getElementById("successMessage")
