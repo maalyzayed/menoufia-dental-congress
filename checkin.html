@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Conference Check-in</title>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h1 {
+      color: #173b63;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 450px;
+      margin: auto;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .success {
+      background: #eef8f1;
+      color: #26734d;
+    }
+
+    .warning {
+      background: #fff8e6;
+      color: #8a5a00;
+    }
+
+    .error {
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .name {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .id {
+      font-weight: bold;
+      color: #173b63;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background: #173b63;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <h1>Conference Check-in</h1>
+
+    <p class="subtitle">
+      Scan the participant QR Code
+    </p>
+
+    <div id="reader"></div>
+
+    <div id="result" class="result"></div>
+
+  </div>
+
+</div>
+
+
+<script type="module">
+
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc
+  }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
+
+    authDomain:
+      "menoufia-dental-congress.firebaseapp.com",
+
+    projectId:
+      "menoufia-dental-congress",
+
+    storageBucket:
+      "menoufia-dental-congress.firebasestorage.app",
+
+    messagingSenderId:
+      "20481129823",
+
+    appId:
+      "1:20481129823:web:24658314d19bcacf1dcaea"
+
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+
+  const db = getFirestore(app);
+
+  const result =
+    document.getElementById("result");
+
+
+  async function checkParticipant(participantId) {
+
+    try {
+
+      const participantRef =
+        doc(db, "participants", participantId);
+
+      const participantSnapshot =
+        await getDoc(participantRef);
+
+
+      if (!participantSnapshot.exists()) {
+
+        showResult(
+          "error",
+          "❌ Invalid Participant",
+          "This QR Code is not registered."
+        );
+
+        return;
+      }
+
+
+      const data =
+        participantSnapshot.data();
+
+
+      if (data.attendance === true) {
+
+        showResult(
+          "warning",
+          "⚠️ Already Checked In",
+          data.fullName +
+          "<br><br>Participant ID: " +
+          participantId
+        );
+
+        return;
+      }
+
+
+      await updateDoc(participantRef, {
+
+        attendance: true,
+
+        checkInTime:
+          new Date().toISOString()
+
+      });
+
+
+      showResult(
+        "success",
+        "✅ Check-in Successful",
+        "<div class='name'>" +
+        data.fullName +
+        "</div>" +
+
+        "<div class='id'>" +
+        participantId +
+        "</div>" +
+
+        "<br>" +
+
+        "Welcome to the conference!"
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showResult(
+        "error",
+        "❌ Error",
+        "Unable to verify this participant."
+      );
+
+    }
+
+  }
+
+
+  function showResult(type, title, message) {
+
+    result.className =
+      "result " + type;
+
+    result.innerHTML =
+      "<h2>" +
+      title +
+      "</h2>" +
+      "<p>" +
+      message +
+      "</p>";
+
+    result.style.display = "block";
+
+  }
+
+
+  function onScanSuccess(decodedText) {
+
+    html5QrcodeScanner.clear();
+
+    checkParticipant(decodedText);
+
+  }
+
+
+  function onScanFailure(error) {
+    // Ignore scanning errors
+  }
+
+
+  const html5QrcodeScanner =
+    new Html5QrcodeScanner(
+      "reader",
+      {
+        fps: 10,
+        qrbox: {
+          width: 250,
+          height: 250
+        }
+      },
+      false
+    );
+
+
+  html5QrcodeScanner.render(
+    onScanSuccess,
+    onScanFailure
+  );
+
+</script>
+
+</body>
+</html>
