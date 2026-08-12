@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,15 +84,14 @@
       color: #173b63;
     }
 
-    button {
+    #logoutButton {
       margin-top: 20px;
-      padding: 12px 25px;
+      padding: 10px 22px;
       border: none;
       border-radius: 8px;
-      background: #173b63;
+      background: #777;
       color: white;
       cursor: pointer;
-      font-weight: bold;
     }
   </style>
 </head>
@@ -112,6 +112,10 @@
 
     <div id="result" class="result"></div>
 
+    <button id="logoutButton">
+      Logout
+    </button>
+
   </div>
 
 </div>
@@ -129,6 +133,13 @@
     updateDoc
   }
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
   const firebaseConfig = {
@@ -156,29 +167,96 @@
   const app = initializeApp(firebaseConfig);
 
   const db = getFirestore(app);
-  import {
-  getAuth,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-const auth = getAuth(app);
+  const auth = getAuth(app);
 
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = "admin-login.html";
+
+  let scannerStarted = false;
+
+
+  /*
+    SECURITY CHECK
+
+    If the organizer is not logged in,
+    immediately send them to the login page.
+  */
+
+  onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+
+      window.location.replace("admin-login.html");
+
+      return;
+
+    }
+
+
+    // User is authenticated
+    // Start QR scanner only after authentication
+
+    startScanner();
+
+  });
+
+
+  function startScanner() {
+
+    if (scannerStarted) {
+      return;
+    }
+
+    scannerStarted = true;
+
+
+    const html5QrcodeScanner =
+      new Html5QrcodeScanner(
+        "reader",
+        {
+          fps: 10,
+
+          qrbox: {
+            width: 250,
+            height: 250
+          }
+        },
+        false
+      );
+
+
+    html5QrcodeScanner.render(
+      onScanSuccess,
+      onScanFailure
+    );
+
+
+    async function onScanSuccess(decodedText) {
+
+      await html5QrcodeScanner.clear();
+
+      await checkParticipant(decodedText);
+
+    }
+
+
+    function onScanFailure(error) {
+      // Ignore scanning errors
+    }
+
   }
-});
-
-  const result =
-    document.getElementById("result");
 
 
   async function checkParticipant(participantId) {
+
+    const result =
+      document.getElementById("result");
+
 
     try {
 
       const participantRef =
         doc(db, "participants", participantId);
+
 
       const participantSnapshot =
         await getDoc(participantRef);
@@ -193,6 +271,7 @@ onAuthStateChanged(auth, (user) => {
         );
 
         return;
+
       }
 
 
@@ -211,22 +290,27 @@ onAuthStateChanged(auth, (user) => {
         );
 
         return;
+
       }
 
 
-      await updateDoc(participantRef, {
+      await updateDoc(
+        participantRef,
+        {
 
-        attendance: true,
+          attendance: true,
 
-        checkInTime:
-          new Date().toISOString()
+          checkInTime:
+            new Date().toISOString()
 
-      });
+        }
+      );
 
 
       showResult(
         "success",
         "✅ Check-in Successful",
+
         "<div class='name'>" +
         data.fullName +
         "</div>" +
@@ -245,67 +329,65 @@ onAuthStateChanged(auth, (user) => {
 
       console.error(error);
 
-   showResult(
-  "error",
-  "❌ Error",
-  error.code + "<br><br>" + error.message
-);
+
+      showResult(
+        "error",
+        "❌ Error",
+
+        error.code +
+        "<br><br>" +
+        error.message
+      );
 
     }
 
   }
 
 
-  function showResult(type, title, message) {
+  function showResult(
+    type,
+    title,
+    message
+  ) {
+
+    const result =
+      document.getElementById("result");
+
 
     result.className =
       "result " + type;
+
 
     result.innerHTML =
       "<h2>" +
       title +
       "</h2>" +
+
       "<p>" +
       message +
       "</p>";
 
-    result.style.display = "block";
+
+    result.style.display =
+      "block";
 
   }
 
 
-  function onScanSuccess(decodedText) {
+  document
+    .getElementById("logoutButton")
+    .addEventListener(
+      "click",
+      async () => {
 
-    html5QrcodeScanner.clear();
+        await signOut(auth);
 
-    checkParticipant(decodedText);
+        window.location.replace(
+          "admin-login.html"
+        );
 
-  }
-
-
-  function onScanFailure(error) {
-    // Ignore scanning errors
-  }
-
-
-  const html5QrcodeScanner =
-    new Html5QrcodeScanner(
-      "reader",
-      {
-        fps: 10,
-        qrbox: {
-          width: 250,
-          height: 250
-        }
-      },
-      false
+      }
     );
-
-
-  html5QrcodeScanner.render(
-    onScanSuccess,
-    onScanFailure
-  );
 
 </script>
 
