@@ -178,7 +178,22 @@
 
 
 <div class="container">
-
+<div style="margin-bottom:20px; display:flex; justify-content:flex-end;">
+  <button
+    id="refreshButton"
+    style="
+      background:#173b63;
+      color:white;
+      border:none;
+      padding:11px 20px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:bold;
+    "
+  >
+    🔄 Refresh Data
+  </button>
+</div>
   <div class="stats">
 
     <div class="stat">
@@ -212,7 +227,17 @@
       <div class="stat-title">
         Not Checked In
       </div>
+<div class="stat">
 
+  <div class="stat-title">
+    Attendance Rate
+  </div>
+
+  <div class="stat-number" id="attendanceRate">
+    0%
+  </div>
+
+</div>
       <div class="stat-number" id="notCheckedIn">
         0
       </div>
@@ -375,7 +400,9 @@
       updateStats();
 
       displayParticipants(participants);
-
+document
+  .getElementById("refreshButton")
+  .addEventListener("click", loadParticipants);
 
     } catch (error) {
 
@@ -429,7 +456,14 @@
     document.getElementById(
       "notCheckedIn"
     ).textContent = notChecked;
+const rate =
+  total === 0
+    ? 0
+    : Math.round((checked / total) * 100);
 
+document.getElementById(
+  "attendanceRate"
+).textContent = rate + "%";
   }
 
 
