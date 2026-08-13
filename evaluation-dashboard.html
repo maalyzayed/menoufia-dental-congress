@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Evaluation Dashboard | Menoufia Dental Congress</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    .navbar {
+      background: #173b63;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 9px 12px;
+      border-radius: 7px;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      margin: 0 0 10px;
+      color: #173b63;
+    }
+
+    .header p {
+      color: #777;
+      margin: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: white;
+      padding: 25px 15px;
+      text-align: center;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: bold;
+      color: #173b63;
+      margin-bottom: 7px;
+    }
+
+    .stat-label {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .section {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      margin-bottom: 25px;
+    }
+
+    .section h2 {
+      color: #173b63;
+      margin-top: 0;
+    }
+
+    .rating-row {
+      margin: 18px 0;
+    }
+
+    .rating-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    .bar {
+      height: 12px;
+      background: #e8edf3;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #173b63;
+      border-radius: 20px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .comments {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .comment-box {
+      background: #f8fafc;
+      border: 1px solid #e4e8ed;
+      border-radius: 12px;
+      padding: 18px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .empty {
+      color: #888;
+      text-align: center;
+      padding: 25px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px;
+      color: #777;
+      font-size: 17px;
+    }
+
+    .error {
+      display: none;
+      background: #fff1f1;
+      border: 1px solid #e3aaaa;
+      color: #a33;
+      padding: 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .comments {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 650px) {
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-container {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 10px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat {
+        padding: 20px 10px;
+      }
+
+      .stat-number {
+        font-size: 26px;
+      }
+
+      .container {
+        padding: 0 12px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+  <div class="nav-container">
+
+    <a href="index.html" class="nav-logo">
+      Menoufia Dental Congress
+    </a>
+
+    <button class="menu-toggle"
+            onclick="toggleMenu()">
+      ☰
+    </button>
+
+    <div class="nav-links" id="navLinks">
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="speakers.html">
+        Speakers
+      </a>
+
+      <a href="program.html">
+        Scientific Program
+      </a>
+
+      <a href="registration.html">
+        Registration
+      </a>
+
+      <a href="checkin.html">
+        Check-in
+      </a>
+
+      <a href="evaluation.html">
+        Evaluation
+      </a>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+<main class="container">
+
+
+  <section class="header">
+
+    <h1>
+      Evaluation Dashboard
+    </h1>
+
+    <p>
+      Menoufia Dental Congress — Organizer Panel
+    </p>
+
+  </section>
+
+
+  <div class="error" id="errorMessage">
+    Unable to load evaluation data.
+  </div>
+
+
+  <div class="loading" id="loading">
+    Loading evaluation data...
+  </div>
+
+
+  <div id="dashboard"
+       style="display:none;">
+
+
+    <section class="stats">
+
+      <div class="stat">
+
+        <div class="stat-number"
+             id="totalEvaluations">
+          0
+        </div>
+
+        <div class="stat-label">
+          Total Evaluations
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-number"
+             id="overallAverage">
+          0
+        </div>
+
+        <div class="stat-label">
+          Overall Rating / 5
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-number"
+             id="recommendAverage">
+          0
+        </div>
+
+        <div class="stat-label">
+          Recommendation / 10
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-number"
+             id="futureYes">
+          0%
+        </div>
+
+        <div class="stat-label">
+          Would Attend Again
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <h2>
+        ⭐ Evaluation Results
+      </h2>
+
+
+      <div class="rating-row">
+
+        <div class="rating-header">
+          <span>Overall Conference</span>
+          <span id="overallValue">0 / 5</span>
+        </div>
+
+        <div class="bar">
+          <div class="bar-fill"
+               id="overallBar">
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="rating-row">
+
+        <div class="rating-header">
+          <span>Scientific Content</span>
+          <span id="contentValue">0 / 5</span>
+        </div>
+
+        <div class="bar">
+          <div class="bar-fill"
+               id="contentBar">
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="rating-row">
+
+        <div class="rating-header">
+          <span>Speakers</span>
+          <span id="speakersValue">0 / 5</span>
+        </div>
+
+        <div class="bar">
+          <div class="bar-fill"
+               id="speakersBar">
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="rating-row">
+
+        <div class="rating-header">
+          <span>Organization</span>
+          <span id="organizationValue">0 / 5</span>
+        </div>
+
+        <div class="bar">
+          <div class="bar-fill"
+               id="organizationBar">
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="rating-row">
+
+        <div class="rating-header">
+          <span>Venue & Facilities</span>
+          <span id="venueValue">0 / 5</span>
+        </div>
+
+        <div class="bar">
+          <div class="bar-fill"
+               id="venueBar">
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <h2>
+        💬 Participant Feedback
+      </h2>
+
+
+      <div class="comments">
+
+        <div>
+
+          <h3>
+            What participants liked
+          </h3>
+
+          <div id="likedComments">
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <h3>
+            Suggestions for improvement
+          </h3>
+
+          <div id="improvementComments">
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </div>
+
+
+</main>
+
+
+<footer>
+
+  Menoufia Dental Congress<br>
+  Faculty of Dentistry, Menoufia University
+
+</footer>
+
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+  import {
+    getFirestore,
+    collection,
+    getDocs
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyAB-AIOIQh0T0cVXQnUt7pvVnQi0CoFwSo",
+
+    authDomain:
+      "menoufia-dental-congress.firebaseapp.com",
+
+    projectId:
+      "menoufia-dental-congress",
+
+    storageBucket:
+      "menoufia-dental-congress.firebasestorage.app",
+
+    messagingSenderId:
+      "20481129823",
+
+    appId:
+      "1:20481129823:web:24658314d19bcacf1dcaea"
+
+  };
+
+
+  const app =
+    initializeApp(firebaseConfig);
+
+  const db =
+    getFirestore(app);
+
+
+  window.toggleMenu = function() {
+
+    document
+      .getElementById("navLinks")
+      .classList.toggle("active");
+
+  };
+
+
+  async function loadEvaluations() {
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(db, "evaluations")
+        );
+
+
+      const evaluations =
+        snapshot.docs.map(
+          doc => doc.data()
+        );
+
+
+      if (evaluations.length === 0) {
+
+        document
+          .getElementById("loading")
+          .textContent =
+          "No evaluations submitted yet.";
+
+        return;
+
+      }
+
+
+      const total =
+        evaluations.length;
+
+
+      function average(field) {
+
+        const values =
+          evaluations
+            .map(item => Number(item[field]))
+            .filter(value => !isNaN(value));
+
+        if (!values.length)
+          return 0;
+
+        return values.reduce(
+          (sum, value) => sum + value,
+          0
+        ) / values.length;
+
+      }
+
+
+      const overall =
+        average("overall");
+
+      const content =
+        average("content");
+
+      const speakers =
+        average("speakers");
+
+      const organization =
+        average("organization");
+
+      const venue =
+        average("venue");
+
+      const recommend =
+        average("recommend");
+
+
+      const futureYesCount =
+        evaluations.filter(
+          item =>
+            item.futureAttendance === "Yes"
+        ).length;
+
+
+      const futurePercentage =
+        Math.round(
+          (futureYesCount / total) * 100
+        );
+
+
+      document
+        .getElementById("totalEvaluations")
+        .textContent = total;
+
+
+      document
+        .getElementById("overallAverage")
+        .textContent =
+        overall.toFixed(2);
+
+
+      document
+        .getElementById("recommendAverage")
+        .textContent =
+        recommend.toFixed(2);
+
+
+      document
+        .getElementById("futureYes")
+        .textContent =
+        futurePercentage + "%";
+
+
+      function updateRating(
+        value,
+        valueId,
+        barId
+      ) {
+
+        document
+          .getElementById(valueId)
+          .textContent =
+          value.toFixed(2) + " / 5";
+
+
+        document
+          .getElementById(barId)
+          .style.width =
+          Math.min(
+            (value / 5) * 100,
+            100
+          ) + "%";
+
+      }
+
+
+      updateRating(
+        overall,
+        "overallValue",
+        "overallBar"
+      );
+
+
+      updateRating(
+        content,
+        "contentValue",
+        "contentBar"
+      );
+
+
+      updateRating(
+        speakers,
+        "speakersValue",
+        "speakersBar"
+      );
+
+
+      updateRating(
+        organization,
+        "organizationValue",
+        "organizationBar"
+      );
+
+
+      updateRating(
+        venue,
+        "venueValue",
+        "venueBar"
+      );
+
+
+      const likedContainer =
+        document.getElementById(
+          "likedComments"
+        );
+
+
+      const improvementContainer =
+        document.getElementById(
+          "improvementComments"
+        );
+
+
+      let likedCount = 0;
+
+      let improvementCount = 0;
+
+
+      evaluations.forEach(item => {
+
+        if (
+          item.likedMost &&
+          item.likedMost.trim()
+        ) {
+
+          const box =
+            document.createElement("div");
+
+          box.className =
+            "comment-box";
+
+          box.textContent =
+            item.likedMost;
+
+          likedContainer.appendChild(box);
+
+          likedCount++;
+
+        }
+
+
+        if (
+          item.improvement &&
+          item.improvement.trim()
+        ) {
+
+          const box =
+            document.createElement("div");
+
+          box.className =
+            "comment-box";
+
+          box.textContent =
+            item.improvement;
+
+          improvementContainer.appendChild(box);
+
+          improvementCount++;
+
+        }
+
+      });
+
+
+      if (!likedCount) {
+
+        likedContainer.innerHTML =
+          '<div class="empty">No comments yet.</div>';
+
+      }
+
+
+      if (!improvementCount) {
+
+        improvementContainer.innerHTML =
+          '<div class="empty">No suggestions yet.</div>';
+
+      }
+
+
+      document
+        .getElementById("loading")
+        .style.display = "none";
+
+
+      document
+        .getElementById("dashboard")
+        .style.display = "block";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      document
+        .getElementById("loading")
+        .style.display = "none";
+
+
+      document
+        .getElementById("errorMessage")
+        .style.display = "block";
+
+    }
+
+  }
+
+
+  loadEvaluations();
+
+</script>
+
+
+</body>
+
+</html>
