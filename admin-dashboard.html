@@ -423,12 +423,15 @@
   // Load participants
 
 async function loadParticipants() {
-
   try {
+
+    console.log("Loading participants...");
 
     const snapshot = await getDocs(
       collection(db, "participants")
     );
+
+    console.log("Participants found:", snapshot.size);
 
     participants = [];
 
@@ -441,36 +444,30 @@ async function loadParticipants() {
 
     });
 
-    updateStats();
+    console.log("Participants:", participants);
 
+    updateStats();
     displayParticipants(participants);
 
   } catch (error) {
 
-    console.error("Error loading participants:", error);
+    console.error("FIREBASE ERROR:", error);
 
-    document.getElementById(
-      "participantsTable"
-    ).innerHTML = `
-
+    document.getElementById("participantsTable").innerHTML = `
       <tr>
         <td colspan="7" class="empty">
-          Unable to load participants.
+          Unable to load participants.<br>
+          ${error.code || ""}
         </td>
       </tr>
-
     `;
-
   }
-
 }
   document
   .getElementById("refreshButton")
-  .addEventListener(
-    "click",
-    loadParticipants
-  );
-  loadParticipants();
+  .addEventListener("click", loadParticipants);
+
+loadParticipants();
 
 
   // Statistics
