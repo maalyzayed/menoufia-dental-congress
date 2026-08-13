@@ -422,54 +422,55 @@
 
   // Load participants
 
-  async function loadParticipants() {
+async function loadParticipants() {
 
-    try {
+  try {
 
-      const snapshot =
-        await getDocs(
-          collection(db, "participants")
-        );
+    const snapshot = await getDocs(
+      collection(db, "participants")
+    );
 
+    participants = [];
 
-      participants = [];
+    snapshot.forEach((doc) => {
 
-
-      snapshot.forEach((doc) => {
-
-        participants.push(
-          doc.data()
-        );
-
+      participants.push({
+        id: doc.id,
+        ...doc.data()
       });
 
+    });
 
-      updateStats();
+    updateStats();
 
-      displayParticipants(participants);
-document
-  .getElementById("refreshButton")
-  .addEventListener("click", loadParticipants);
+    displayParticipants(participants);
 
-    } catch (error) {
+  } catch (error) {
 
-      console.error(error);
+    console.error("Error loading participants:", error);
 
-      document.getElementById(
-        "participantsTable"
-      ).innerHTML = `
+    document.getElementById(
+      "participantsTable"
+    ).innerHTML = `
 
-        <tr>
-          <td colspan="7" class="empty">
-            Unable to load participants.
-          </td>
-        </tr>
+      <tr>
+        <td colspan="7" class="empty">
+          Unable to load participants.
+        </td>
+      </tr>
 
-      `;
-
-    }
+    `;
 
   }
+
+}
+  document
+  .getElementById("refreshButton")
+  .addEventListener(
+    "click",
+    loadParticipants
+  );
+  loadParticipants();
 
 
   // Statistics
