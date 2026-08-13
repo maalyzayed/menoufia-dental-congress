@@ -193,6 +193,73 @@
         align-items: flex-start;
       }
     }
+  
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      header {
+        background: white !important;
+        color: black !important;
+        border-bottom: 2px solid #183f68;
+      }
+
+      header h1,
+      header p {
+        color: black !important;
+      }
+
+      .toolbar,
+      .search-box,
+      .refresh-button,
+      #logoutButton,
+      button {
+        display: none !important;
+      }
+
+      .stats {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+      }
+
+      .stat,
+      .table-container {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+      }
+
+      .table-container {
+        margin-top: 20px !important;
+      }
+
+      table {
+        width: 100% !important;
+        font-size: 11px !important;
+      }
+
+      th,
+      td {
+        color: black !important;
+        border-bottom: 1px solid #ddd !important;
+      }
+
+      .checked {
+        color: #087f23 !important;
+      }
+
+      .not-checked {
+        color: #b00020 !important;
+      }
+
+      @page {
+        size: A4 landscape;
+        margin: 12mm;
+      }
+    }
+
   </style>
 </head>
 
@@ -218,6 +285,10 @@
 
       <button class="refresh-button" id="exportButton">
         📥 Export CSV
+      </button>
+
+      <button class="refresh-button" id="printButton">
+        🖨️ Print Attendance
       </button>
     </div>
 
@@ -605,6 +676,13 @@
     document
       .getElementById("exportButton")
       .addEventListener("click", exportCSV);
+
+    document
+      .getElementById("printButton")
+      .addEventListener("click", function () {
+        displayParticipants(participants);
+        window.print();
+      });
 
     function escapeHtml(value) {
       return String(value)
