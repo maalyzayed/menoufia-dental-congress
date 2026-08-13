@@ -211,9 +211,13 @@
 
   <div class="container">
 
-    <div class="toolbar">
+    <div class="toolbar" style="gap:10px;">
       <button class="refresh-button" id="refreshButton">
         🔄 Refresh Data
+      </button>
+
+      <button class="refresh-button" id="exportButton">
+        📥 Export CSV
       </button>
     </div>
 
@@ -534,6 +538,73 @@
         await signOut(auth);
         window.location.replace("admin-login.html");
       });
+
+    function exportCSV() {
+      if (participants.length === 0) {
+        alert("No participants to export.");
+        return;
+      }
+
+      const headers = [
+        "Participant ID",
+        "Name",
+        "Email",
+        "Institution",
+        "Type",
+        "Status",
+        "Check-in Time"
+      ];
+
+      const rows = participants.map((p) => {
+        let checkInTime = "";
+
+        if (p.checkInTime) {
+          const date = new Date(p.checkInTime);
+          if (!Number.isNaN(date.getTime())) {
+            checkInTime = date.toLocaleString();
+          }
+        }
+
+        return [
+          p.participantId || p.id || "",
+          p.fullName || "",
+          p.email || "",
+          p.institution || "",
+          p.category || "",
+          p.attendance === true ? "Checked In" : "Not Checked In",
+          checkInTime
+        ];
+      });
+
+      const csv = [headers, ...rows]
+        .map((row) =>
+          row.map((value) => {
+            const text = String(value ?? "");
+            return '"' + text.replaceAll('"', '""') + '"';
+          }).join(",")
+        )
+        .join("\r\n");
+
+      const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+      });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "menoufia-dental-congress-participants.csv";
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(url);
+    }
+
+    document
+      .getElementById("exportButton")
+      .addEventListener("click", exportCSV);
 
     function escapeHtml(value) {
       return String(value)
