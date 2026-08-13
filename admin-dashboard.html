@@ -208,77 +208,96 @@
     🔄 Refresh Data
   </button>
 </div>
-  <div class="stats">
+<div class="stats">
 
-    <div class="stat">
+  <div class="stat">
 
-      <div class="stat-title">
-        Total Participants
-      </div>
-
-      <div class="stat-number" id="totalParticipants">
-        0
-      </div>
-
+    <div class="stat-title">
+      Total Participants
     </div>
 
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Checked In
-      </div>
-
-      <div class="stat-number" id="checkedIn">
-        0
-      </div>
-
+    <div class="stat-number" id="totalParticipants">
+      0
     </div>
 
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Not Checked In
-      </div>
-<div class="stat">
-
-  <div class="stat-title">
-    Attendance Rate
   </div>
 
-  <div class="stat-number" id="attendanceRate">
-    0%
+
+  <div class="stat">
+
+    <div class="stat-title">
+      Checked In
+    </div>
+
+    <div class="stat-number" id="checkedIn">
+      0
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-title">
+      Not Checked In
+    </div>
+
+    <div class="stat-number" id="notCheckedIn">
+      0
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-title">
+      Attendance Rate
+    </div>
+
+    <div class="stat-number" id="attendanceRate">
+      0%
+    </div>
+
   </div>
 
 </div>
-      <div class="stat-number" id="notCheckedIn">
-        0
-      </div>
 
-    </div>
+
+<div class="search-box">
+
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search by name, email, institution or participant ID..."
+  >
+
+  <div style="display:flex; gap:10px; margin:15px 0; flex-wrap:wrap;">
+
+    <button
+      onclick="filterParticipants('all')"
+      class="filter-btn"
+    >
+      All
+    </button>
+
+    <button
+      onclick="filterParticipants('checked')"
+      class="filter-btn"
+    >
+      ✓ Checked In
+    </button>
+
+    <button
+      onclick="filterParticipants('not-checked')"
+      class="filter-btn"
+    >
+      ✕ Not Checked In
+    </button>
 
   </div>
 
-
-  <div class="search-box">
-
-    <input
-      type="text"
-      id="searchInput"
-      <div style="display:flex; gap:10px; margin:15px 0; flex-wrap:wrap;">
-
-  <button onclick="filterParticipants('all')" class="filter-btn">
-    All
-  </button>
-
-  <button onclick="filterParticipants('checked')" class="filter-btn">
-    ✓ Checked In
-  </button>
-
-  <button onclick="filterParticipants('not-checked')" class="filter-btn">
-    ✕ Not Checked In
-  </button>
+</div>
 
 </div>
       placeholder="Search by name, email, institution or participant ID..."
