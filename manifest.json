@@ -1,7 +1,7 @@
 {
   "name": "Menoufia Dental Congress",
   "short_name": "Dental Congress",
-  "description": "Official website of the Menoufia Dental Congress",
+  "description": "Official website of the Second Scientific Conference of the Faculty of Dentistry, Menoufia University",
   "start_url": "/menoufia-dental-congress/",
   "scope": "/menoufia-dental-congress/",
   "display": "standalone",
@@ -12,7 +12,8 @@
     {
       "src": "logo.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
     }
   ]
 }
