@@ -3,8 +3,16 @@
   "short_name": "Dental Congress",
   "description": "Official website of the Menoufia Dental Congress",
   "start_url": "/menoufia-dental-congress/",
+  "scope": "/menoufia-dental-congress/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#173b63",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg"
+    }
+  ]
 }
