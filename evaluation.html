@@ -680,7 +680,46 @@
 </footer>
 
 
-<script>
+<script type="module">
+
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+  }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
+
+    authDomain:
+      "menoufia-dental-congress.firebaseapp.com",
+
+    projectId:
+      "menoufia-dental-congress",
+
+    storageBucket:
+      "menoufia-dental-congress.firebasestorage.app",
+
+    messagingSenderId:
+      "20481129823",
+
+    appId:
+      "1:20481129823:web:24658314d19bcacf1dcaea"
+
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+
+  const db = getFirestore(app);
+
 
   function toggleMenu() {
 
@@ -692,23 +731,120 @@
   }
 
 
-  document
-    .getElementById("evaluationForm")
-    .addEventListener("submit", function(event) {
+  const form =
+    document.getElementById("evaluationForm");
 
-      event.preventDefault();
+  const successMessage =
+    document.getElementById("successMessage");
 
-      document
-        .getElementById("evaluationForm")
-        .style.display = "none";
 
-      document
-        .getElementById("successMessage")
-        .style.display = "block";
+  form.addEventListener("submit", async function(event) {
 
-    });
+    event.preventDefault();
+
+
+    const submitButton =
+      form.querySelector(".submit-btn");
+
+    submitButton.disabled = true;
+
+    submitButton.textContent = "Submitting...";
+
+
+    try {
+
+      await addDoc(
+        collection(db, "evaluations"),
+        {
+
+          overall:
+            Number(
+              form.querySelector(
+                'input[name="overall"]:checked'
+              ).value
+            ),
+
+          content:
+            Number(
+              form.querySelector(
+                'input[name="content"]:checked'
+              ).value
+            ),
+
+          speakers:
+            Number(
+              form.querySelector(
+                'input[name="speakers"]:checked'
+              ).value
+            ),
+
+          organization:
+            Number(
+              form.querySelector(
+                'input[name="organization"]:checked'
+              ).value
+            ),
+
+          venue:
+            Number(
+              form.querySelector(
+                'input[name="venue"]:checked'
+              ).value
+            ),
+
+          futureAttendance:
+            form.querySelector(
+              'input[name="futureAttendance"]:checked'
+            ).value,
+
+          recommend:
+            Number(
+              form.querySelector(
+                'input[name="recommend"]:checked'
+              ).value
+            ),
+
+          likedMost:
+            form.likedMost.value.trim(),
+
+          improvement:
+            form.improvement.value.trim(),
+
+          createdAt:
+            serverTimestamp()
+
+        }
+      );
+
+
+      form.style.display = "none";
+
+      successMessage.style.display = "block";
+
+
+    } catch (error) {
+
+      console.error(
+        "Evaluation submission error:",
+        error
+      );
+
+      submitButton.disabled = false;
+
+      submitButton.textContent =
+        "Submit Evaluation";
+
+      alert(
+        "Sorry, your evaluation could not be submitted. Please try again."
+      );
+
+    }
+
+  });
+  
 
 </script>
+  
 
 </body>
 </html>
