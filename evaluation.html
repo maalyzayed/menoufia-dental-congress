@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Conference Evaluation | Menoufia Dental Congress</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    .navbar {
+      background: #173b63;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 9px 12px;
+      border-radius: 7px;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .hero {
+      background: white;
+      padding: 40px 25px;
+      text-align: center;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      color: #173b63;
+      margin: 0 0 12px;
+      font-size: 32px;
+    }
+
+    .hero p {
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .form-card {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .question {
+      margin-bottom: 28px;
+    }
+
+    .question label.title {
+      display: block;
+      font-weight: bold;
+      color: #173b63;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .required {
+      color: #c0392b;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .option {
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background: #f5f8fc;
+      border-color: #173b63;
+    }
+
+    .option input {
+      margin-right: 8px;
+    }
+
+    textarea,
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 110px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: #173b63;
+      color: white;
+      padding: 15px;
+      border-radius: 9px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background: #102e4d;
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: 35px 20px;
+    }
+
+    .success-icon {
+      font-size: 50px;
+      margin-bottom: 10px;
+    }
+
+    .success h2 {
+      color: #173b63;
+    }
+
+    .success p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+
+      .nav-container {
+        flex-wrap: wrap;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 10px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links a {
+        text-align: center;
+        padding: 12px;
+      }
+
+      .container {
+        margin-top: 25px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .form-card {
+        padding: 22px 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+  <div class="nav-container">
+
+    <a href="index.html" class="nav-logo">
+      Menoufia Dental Congress
+    </a>
+
+    <button class="menu-toggle" onclick="toggleMenu()">
+      ☰
+    </button>
+
+    <div class="nav-links" id="navLinks">
+
+      <a href="index.html">Home</a>
+
+      <a href="speakers.html">Speakers</a>
+
+      <a href="program.html">Scientific Program</a>
+
+      <a href="registration.html">Registration</a>
+
+      <a href="checkin.html">Check-in</a>
+
+      <a href="evaluation.html" class="active">
+        Evaluation
+      </a>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+<main class="container">
+
+  <section class="hero">
+
+    <h1>
+      Conference Evaluation
+    </h1>
+
+    <p>
+      Thank you for attending the 2nd Scientific Conference
+      of the Faculty of Dentistry, Menoufia University.
+      <br>
+      Your feedback will help us improve future conferences.
+    </p>
+
+  </section>
+
+
+  <section class="form-card">
+
+    <form id="evaluationForm">
+
+      <!-- Question 1 -->
+
+      <div class="question">
+
+        <label class="title">
+          1. How would you rate the conference overall?
+          <span class="required">*</span>
+        </label>
+
+        <div class="options">
+
+          <label class="option">
+            <input type="radio" name="overall" value="5" required>
+            Excellent
+          </label>
+
+          <label class="option">
+            <input type="radio" name="overall" value="4">
+            Very Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="overall" value="3">
+            Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="overall" value="2">
+            Fair
+          </label>
+
+          <label class="option">
+            <input type="radio" name="overall" value="1">
+            Poor
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question 2 -->
+
+      <div class="question">
+
+        <label class="title">
+          2. How relevant was the scientific content to your professional needs?
+          <span class="required">*</span>
+        </label>
+
+        <div class="options">
+
+          <label class="option">
+            <input type="radio" name="content" value="5" required>
+            Extremely Relevant
+          </label>
+
+          <label class="option">
+            <input type="radio" name="content" value="4">
+            Very Relevant
+          </label>
+
+          <label class="option">
+            <input type="radio" name="content" value="3">
+            Relevant
+          </label>
+
+          <label class="option">
+            <input type="radio" name="content" value="2">
+            Slightly Relevant
+          </label>
+
+          <label class="option">
+            <input type="radio" name="content" value="1">
+            Not Relevant
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question 3 -->
+
+      <div class="question">
+
+        <label class="title">
+          3. How would you rate the quality of the speakers?
+          <span class="required">*</span>
+        </label>
+
+        <div class="options">
+
+          <label class="option">
+            <input type="radio" name="speakers" value="5" required>
+            Excellent
+          </label>
+
+          <label class="option">
+            <input type="radio" name="speakers" value="4">
+            Very Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="speakers" value="3">
+            Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="speakers" value="2">
+            Fair
+          </label>
+
+          <label class="option">
+            <input type="radio" name="speakers" value="1">
+            Poor
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question 4 -->
+
+      <div class="question">
+
+        <label class="title">
+          4. How would you rate the organization and registration process?
+          <span class="required">*</span>
+        </label>
+
+        <div class="options">
+
+          <label class="option">
+            <input type="radio" name="organization" value="5" required>
+            Excellent
+          </label>
+
+          <label class="option">
+            <input type="radio" name="organization" value="4">
+            Very Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="organization" value="3">
+            Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="organization" value="2">
+            Fair
+          </label>
+
+          <label class="option">
+            <input type="radio" name="organization" value="1">
+            Poor
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question 5 -->
+
+      <div class="question">
+
+        <label class="title">
+          5. How would you rate the venue and facilities?
+          <span class="required">*</span>
+        </label>
+
+        <div class="options">
+
+          <label class="option">
+            <input type="radio" name="venue" value="5" required>
+            Excellent
+          </label>
+
+          <label class="option">
+            <input type="radio" name="venue" value="4">
+            Very Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="venue" value="3">
+            Good
+          </label>
+
+          <label class="option">
+            <input type="radio" name="venue" value="2">
+            Fair
+          </label>
+
+          <label class="option">
+            <input type="radio" name="venue" value="1">
+            Poor
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question 6 -->
+
+      <div class="question">
+
+        <label class="title">
+          6. Would you attend a future Menoufia Dental Congress?
+          <span class="required">*</span>
+        </label>
+
+        <div class="options">
+
+          <label class="option">
+            <input type="radio" name="futureAttendance" value="Yes" required>
+            Yes
+          </label>
+
+          <label class="option">
+            <input type="radio" name="futureAttendance" value="Maybe">
+            Maybe
+          </label>
+
+          <label class="option">
+            <input type="radio" name="futureAttendance" value="No">
+            No
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question 7 -->
+
+      <div class="question">
+
+        <label class="title">
+          7. How likely are you to recommend this conference to a colleague?
+          <span class="required">*</span>
+        </label>
+
+        <div class="options">
+
+          <label class="option">
+            <input type="radio" name="recommend" value="10" required>
+            10 — Extremely Likely
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="9">
+            9
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="8">
+            8
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="7">
+            7
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="6">
+            6
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="5">
+            5
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="4">
+            4
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="3">
+            3
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="2">
+            2
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="1">
+            1
+          </label>
+
+          <label class="option">
+            <input type="radio" name="recommend" value="0">
+            0 — Not at All Likely
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question 8 -->
+
+      <div class="question">
+
+        <label class="title">
+          8. What did you like most about the conference?
+        </label>
+
+        <textarea
+          name="likedMost"
+          placeholder="Tell us what you enjoyed most..."
+        ></textarea>
+
+      </div>
+
+
+      <!-- Question 9 -->
+
+      <div class="question">
+
+        <label class="title">
+          9. What is one thing we could improve in future conferences?
+        </label>
+
+        <textarea
+          name="improvement"
+          placeholder="Your suggestions are valuable to us..."
+        ></textarea>
+
+      </div>
+
+
+      <button type="submit" class="submit-btn">
+        Submit Evaluation
+      </button>
+
+    </form>
+
+
+    <div class="success" id="successMessage">
+
+      <div class="success-icon">
+        ✅
+      </div>
+
+      <h2>
+        Thank You!
+      </h2>
+
+      <p>
+        Your evaluation has been submitted successfully.
+        <br>
+        We appreciate your valuable feedback.
+      </p>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  Menoufia Dental Congress<br>
+  Faculty of Dentistry, Menoufia University
+
+</footer>
+
+
+<script>
+
+  function toggleMenu() {
+
+    const navLinks =
+      document.getElementById("navLinks");
+
+    navLinks.classList.toggle("active");
+
+  }
+
+
+  document
+    .getElementById("evaluationForm")
+    .addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      document
+        .getElementById("evaluationForm")
+        .style.display = "none";
+
+      document
+        .getElementById("successMessage")
+        .style.display = "block";
+
+    });
+
+</script>
+
+</body>
+</html>
