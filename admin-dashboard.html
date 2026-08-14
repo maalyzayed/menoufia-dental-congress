@@ -430,15 +430,30 @@
     let currentFilter = "all";
 
     // Protect the dashboard.
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.replace("admin-login.html");
-        return;
-      }
+onAuthStateChanged(auth, (user) => {
 
-      loadParticipants();
-    });
+  if (!user) {
+    window.location.replace("admin-login.html");
+    return;
+  }
 
+  const params = new URLSearchParams(
+    window.location.search
+  );
+
+  const redirect =
+    params.get("redirect");
+
+  if (redirect === "evaluation") {
+    window.location.replace(
+      "evaluation-dashboard.html"
+    );
+    return;
+  }
+
+  loadParticipants();
+
+});
     async function loadParticipants() {
       const table = document.getElementById("participantsTable");
 
