@@ -885,16 +885,16 @@ const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
 
   if (!user) {
-    window.location.href =
-      "admin-dashboard.html?redirect=evaluation";
+    document.getElementById("loading").textContent =
+      "Please login as Organizer first.";
     return;
   }
 
   if (
     user.uid !== "fS56FR5b2vdd632fpUZWXbJFWwj1"
   ) {
-    window.location.href =
-      "admin-dashboard.html";
+    document.getElementById("loading").textContent =
+      "Access denied.";
     return;
   }
 
