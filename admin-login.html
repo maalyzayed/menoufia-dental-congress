@@ -198,18 +198,34 @@
       document.getElementById("password").value;
 
 
-    try {
+  try {
 
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+  await signInWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
 
-   window.location.href = "admin-panel.html";
+  const params = new URLSearchParams(
+    window.location.search
+  );
 
+  const redirect =
+    params.get("redirect");
 
-    } catch (error) {
+  if (redirect === "evaluation") {
+
+    window.location.href =
+      "evaluation-dashboard.html";
+
+  } else {
+
+    window.location.href =
+      "admin-dashboard.html";
+
+  }
+
+} catch (error) {
 
       console.error(error);
 
