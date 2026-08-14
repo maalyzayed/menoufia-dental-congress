@@ -862,22 +862,23 @@ const auth = getAuth(app);
         .style.display = "block";
 
 
-    } catch (error) {
+   } catch (error) {
 
-      console.error(error);
+  console.error("EVALUATION ERROR:", error);
 
+  document
+    .getElementById("loading")
+    .style.display = "none";
 
-      document
-        .getElementById("loading")
-        .style.display = "none";
+  const errorMessage =
+    document.getElementById("errorMessage");
 
+  errorMessage.style.display = "block";
 
-      document
-        .getElementById("errorMessage")
-        .style.display = "block";
+  errorMessage.textContent =
+    "Error: " + error.code + " — " + error.message;
 
-    }
-
+}
   }
 
 
