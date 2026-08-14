@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Panel | Menoufia Dental Congress</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 650px;
+    }
+
+    .card {
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+      text-align: center;
+    }
+
+    h1 {
+      color: #173b63;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #777;
+      margin-bottom: 30px;
+    }
+
+    .menu {
+      display: grid;
+      gap: 14px;
+    }
+
+    .menu a,
+    .logout {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #173b63;
+      color: white;
+    }
+
+    .menu a:hover,
+    .logout:hover {
+      opacity: 0.9;
+    }
+
+    .logout {
+      background: #777;
+    }
+
+    .loading {
+      color: #777;
+      padding: 20px;
+    }
+
+    .error {
+      display: none;
+      color: #a33;
+      background: #fff0f0;
+      padding: 14px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+  <div class="card" id="loading">
+
+    <h1>
+      Organizer Panel
+    </h1>
+
+    <div class="loading">
+      Checking organizer access...
+    </div>
+
+  </div>
+
+
+  <div class="card"
+       id="panel"
+       style="display:none;">
+
+    <h1>
+      Organizer Panel
+    </h1>
+
+    <div class="subtitle">
+      Menoufia Dental Congress
+    </div>
+
+
+    <div class="menu">
+
+      <a href="checkin.html">
+        📷 Check-in
+      </a>
+
+
+      <a href="evaluation-dashboard.html">
+        📊 Evaluation Dashboard
+      </a>
+
+
+      <a href="registration.html">
+        📝 Registration
+      </a>
+
+
+      <a href="index.html">
+        🌐 Main Website
+      </a>
+
+
+      <button
+        class="logout"
+        id="logoutButton">
+
+        🚪 Logout
+
+      </button>
+
+    </div>
+
+
+    <div
+      class="error"
+      id="errorMessage">
+    </div>
+
+  </div>
+
+</div>
+
+
+<script type="module">
+
+
+  import {
+    initializeApp
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
+
+    authDomain:
+      "menoufia-dental-congress.firebaseapp.com",
+
+    projectId:
+      "menoufia-dental-congress",
+
+    storageBucket:
+      "menoufia-dental-congress.firebasestorage.app",
+
+    messagingSenderId:
+      "20481129823",
+
+    appId:
+      "1:20481129823:web:24658314d19bcacf1dcaea"
+
+  };
+
+
+  const app =
+    initializeApp(firebaseConfig);
+
+
+  const auth =
+    getAuth(app);
+
+
+  const ORGANIZER_UID =
+    "fS56FR5b2vdd632fpUZWXbJFWwj1";
+
+
+  const loading =
+    document.getElementById("loading");
+
+
+  const panel =
+    document.getElementById("panel");
+
+
+  onAuthStateChanged(
+    auth,
+    (user) => {
+
+      if (
+        user &&
+        user.uid === ORGANIZER_UID
+      ) {
+
+        loading.style.display =
+          "none";
+
+        panel.style.display =
+          "block";
+
+      } else {
+
+        window.location.href =
+          "admin-login.html";
+
+      }
+
+    }
+  );
+
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener(
+      "click",
+      async () => {
+
+        await signOut(auth);
+
+        window.location.href =
+          "admin-login.html";
+
+      }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>
