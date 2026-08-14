@@ -558,7 +558,10 @@
     initializeApp
   } from
   "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   import {
     getFirestore,
@@ -596,7 +599,7 @@
 
   const db =
     getFirestore(app);
-
+const auth = getAuth(app);
 
   window.toggleMenu = function() {
 
@@ -878,7 +881,29 @@
   }
 
 
+onAuthStateChanged(auth, (user) => {
+
+  if (!user) {
+
+    document.getElementById("loading").textContent =
+      "Please login as Organizer first.";
+
+    return;
+  }
+
+  if (
+    user.uid !== "fS56FR5b2vdd632fpUZWXbJFWwj1"
+  ) {
+
+    document.getElementById("loading").textContent =
+      "Access denied.";
+
+    return;
+  }
+
   loadEvaluations();
+
+});
 
 </script>
 
