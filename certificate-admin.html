@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Certificate Management | Menoufia Dental Congress</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      padding: 30px 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .header {
+      background: #173b63;
+      color: white;
+      padding: 25px;
+      border-radius: 18px;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.85;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      color: #173b63;
+      margin-top: 0;
+    }
+
+    .participant {
+      border: 1px solid #e0e5eb;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .participant-info {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #173b63;
+    }
+
+    .email {
+      color: #777;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    button,
+    .view-button {
+      border: none;
+      border-radius: 9px;
+      padding: 11px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .generate {
+      background: #173b63;
+      color: white;
+    }
+
+    .view-button {
+      background: #c9a227;
+      color: white;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .success {
+      background: #ecfdf3;
+      color: #027a48;
+    }
+
+    .error {
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 25px;
+      color: #777;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #173b63;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+  <a href="admin-panel.html" class="back">
+    ← Back to Organizer Panel
+  </a>
+
+
+  <div class="header">
+
+    <h1>
+      🎓 Certificate Management
+    </h1>
+
+    <p>
+      Menoufia Dental Congress
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>
+      Participants
+    </h2>
+
+    <div
+      id="loading"
+      class="loading">
+
+      Loading participants...
+
+    </div>
+
+    <div id="participantsList"></div>
+
+    <div
+      id="status"
+      class="status">
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<script type="module">
+
+
+  import {
+    initializeApp
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    getDoc,
+    setDoc
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  /* =========================
+     FIREBASE CONFIG
+     ========================= */
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyAB-AIOIQh0tOcVXQnUt7pvVnQi0CoFwSo",
+
+    authDomain:
+      "menoufia-dental-congress.firebaseapp.com",
+
+    projectId:
+      "menoufia-dental-congress",
+
+    storageBucket:
+      "menoufia-dental-congress.firebasestorage.app",
+
+    messagingSenderId:
+      "20481129823",
+
+    appId:
+      "1:20481129823:web:24658314d19bcacf1dcaea"
+
+  };
+
+
+  const app =
+    initializeApp(firebaseConfig);
+
+
+  const auth =
+    getAuth(app);
+
+
+  const db =
+    getFirestore(app);
+
+
+  const ORGANIZER_UID =
+    "fS56FR5b2vdd632fpUZWXbJFWwj1";
+
+
+  const loading =
+    document.getElementById(
+      "loading"
+    );
+
+
+  const list =
+    document.getElementById(
+      "participantsList"
+    );
+
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+
+  /* =========================
+     AUTHENTICATION
+     ========================= */
+
+  onAuthStateChanged(
+    auth,
+    async (user) => {
+
+      if (
+        !user ||
+        user.uid !== ORGANIZER_UID
+      ) {
+
+        window.location.href =
+          "admin-login.html";
+
+        return;
+
+      }
+
+
+      loadParticipants();
+
+    }
+  );
+
+
+  /* =========================
+     LOAD PARTICIPANTS
+     ========================= */
+
+  async function loadParticipants() {
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            "participants"
+          )
+        );
+
+
+      loading.style.display =
+        "none";
+
+
+      if (snapshot.empty) {
+
+        list.innerHTML =
+          "<p>No participants found.</p>";
+
+        return;
+
+      }
+
+
+      snapshot.forEach(
+        participantDoc => {
+
+          const data =
+            participantDoc.data();
+
+
+          const participantId =
+            participantDoc.id;
+
+
+          createParticipantRow(
+            participantId,
+            data
+          );
+
+        }
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      loading.textContent =
+        "Error: " +
+        error.code +
+        " — " +
+        error.message;
+
+    }
+
+  }
+
+
+  /* =========================
+     CREATE PARTICIPANT ROW
+     ========================= */
+
+  function createParticipantRow(
+    participantId,
+    data
+  ) {
+
+    const row =
+      document.createElement(
+        "div"
+      );
+
+    row.className =
+      "participant";
+
+
+    const info =
+      document.createElement(
+        "div"
+      );
+
+    info.className =
+      "participant-info";
+
+
+    const name =
+      document.createElement(
+        "div"
+      );
+
+    name.className =
+      "name";
+
+
+    name.textContent =
+      data.fullName ||
+      "Unnamed Participant";
+
+
+    const email =
+      document.createElement(
+        "div"
+      );
+
+    email.className =
+      "email";
+
+
+    email.textContent =
+      data.email ||
+      participantId;
+
+
+    info.appendChild(name);
+    info.appendChild(email);
+
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "generate";
+
+
+    button.textContent =
+      "🎓 Generate Certificate";
+
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        generateCertificate(
+          participantId,
+          data,
+          button,
+          row
+        );
+
+      }
+    );
+
+
+    row.appendChild(info);
+    row.appendChild(button);
+
+
+    list.appendChild(row);
+
+  }
+
+
+  /* =========================
+     GENERATE CERTIFICATE
+     ========================= */
+
+  async function generateCertificate(
+    participantId,
+    participantData,
+    button,
+    row
+  ) {
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Generating...";
+
+
+    try {
+
+      /*
+       * Check whether this participant
+       * already has a certificate.
+       */
+
+      const certificatesSnapshot =
+        await getDocs(
+          collection(
+            db,
+            "certificates"
+          )
+        );
+
+
+      let existingCertificateId =
+        null;
+
+
+      certificatesSnapshot.forEach(
+        certificateDoc => {
+
+          const data =
+            certificateDoc.data();
+
+
+          if (
+            data.participantId ===
+            participantId
+          ) {
+
+            existingCertificateId =
+              certificateDoc.id;
+
+          }
+
+        }
+      );
+
+
+      /*
+       * Prevent duplicate certificate
+       */
+
+      if (existingCertificateId) {
+
+        showExistingCertificate(
+          existingCertificateId,
+          row
+        );
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "🎓 Generate Certificate";
+
+        return;
+
+      }
+
+
+      /*
+       * Generate new Certificate ID
+       */
+
+      const certificatesCount =
+        certificatesSnapshot.size;
+
+
+      const number =
+        certificatesCount + 1;
+
+
+      const certificateId =
+        "MDC-2026-" +
+        String(number)
+          .padStart(4, "0");
+
+
+      /*
+       * Create certificate document
+       */
+
+      await setDoc(
+        doc(
+          db,
+          "certificates",
+          certificateId
+        ),
+        {
+
+          fullName:
+            participantData.fullName ||
+            "Participant",
+
+          participantId:
+            participantId,
+
+          email:
+            participantData.email ||
+            "",
+
+          institution:
+            participantData.institution ||
+            "",
+
+          certificateId:
+            certificateId,
+
+          createdAt:
+            new Date().toISOString()
+
+        }
+      );
+
+
+      showSuccess(
+        "Certificate created successfully: " +
+        certificateId
+      );
+
+
+      showCertificateButton(
+        certificateId,
+        row
+      );
+
+
+      button.textContent =
+        "Certificate Created";
+
+      button.disabled =
+        true;
+
+
+    } catch (error) {
+
+      console.error(
+        "Certificate generation error:",
+        error
+      );
+
+
+      showError(
+        "Error: " +
+        error.code +
+        " — " +
+        error.message
+      );
+
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "🎓 Generate Certificate";
+
+    }
+
+  }
+
+
+  /* =========================
+     VIEW CERTIFICATE
+     ========================= */
+
+  function showCertificateButton(
+    certificateId,
+    row
+  ) {
+
+    if (
+      row.querySelector(
+        ".view-button"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.className =
+      "view-button";
+
+
+    link.textContent =
+      "View Certificate";
+
+
+    link.href =
+      "certificate.html?id=" +
+      encodeURIComponent(
+        certificateId
+      );
+
+
+    link.target =
+      "_blank";
+
+
+    row.appendChild(link);
+
+  }
+
+
+  /* =========================
+     EXISTING CERTIFICATE
+     ========================= */
+
+  function showExistingCertificate(
+    certificateId,
+    row
+  ) {
+
+    showSuccess(
+      "This participant already has certificate " +
+      certificateId
+    );
+
+
+    showCertificateButton(
+      certificateId,
+      row
+    );
+
+  }
+
+
+  /* =========================
+     STATUS
+     ========================= */
+
+  function showSuccess(message) {
+
+    status.className =
+      "status success";
+
+    status.textContent =
+      message;
+
+    status.style.display =
+      "block";
+
+  }
+
+
+  function showError(message) {
+
+    status.className =
+      "status error";
+
+    status.textContent =
+      message;
+
+    status.style.display =
+      "block";
+
+  }
+
+
+</script>
+
+
+</body>
+
+</html>
