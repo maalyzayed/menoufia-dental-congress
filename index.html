@@ -199,7 +199,7 @@ a{color:#0d6f98;font-weight:700}
 </div>
 
 <script>
-const D = {"date": "26–27 August 2026", "venue": "Menoufia University Hotel, Shebin El-Kom, Menoufia, Egypt", "theme": "Shaping the Future of Dentistry Through Science and Innovation", "fees": "Dentist: 500 EGP | Student: 200 EGP | Early registration discount: 100 EGP", "leaders": [["Congress President", "Prof. Dr. Salah Hegazy", "Dean, Faculty of Dentistry – Menoufia University"], ["Vice President", "Prof. Dr. Rana Elhalbawy", "Vice Dean for Education and Students"], ["Vice President", "Prof. Dr. Farid Wagdy", "Vice Dean for Community Service and Environmental Development"], ["Vice President", "Associate Prof. Dr. Hoda Gaafar", "Vice Dean for Postgraduate Studies and Research"], ["Congress Coordinator", "Associate Prof. Dr. Mohamed Abdelrahman", ""], ["Congress Coordinator", "Dr. Mostafa Sweidan", ""]], "topics": ["Prosthodontics and Implant Dentistry", "Endodontics and Restorative Dentistry", "Oral and Maxillofacial Surgery", "Orthodontics", "Periodontology", "Pediatric Dentistry", "Oral Medicine and Oral Pathology", "Dental Biomaterials", "Digital Dentistry and Artificial Intelligence", "Dental Education and Research Methodology"], "audience": ["Faculty members", "Assistant teaching staff", "Dentists", "Postgraduate students", "Dental students", "Dentists working in the healthcare sector"], "benefits": ["Attendance of all scientific sessions", "An accredited certificate of attendance", "Participation in discussions and workshops", "Opportunities to present research and scientific posters", "Networking with experts and specialists"], "submission": "https://forms.gle/4ncbbVhedjgMBm84A"};
+const D = {"date": "26–27 August 2026", "venue": "Menoufia University Hotel, Shebin El-Kom, Menoufia, Egypt", "theme": "Shaping the Future of Dentistry Through Science and Innovation", "fees": "Dentist: 400 EGP | Student: 250 EGP | Early registration discount: 100 EGP", "leaders": [["Congress President", "Prof. Dr. Salah Hegazy", "Dean, Faculty of Dentistry – Menoufia University"], ["Vice President", "Prof. Dr. Rana Elhalbawy", "Vice Dean for Education and Students"], ["Vice President", "Prof. Dr. Farid Wagdy", "Vice Dean for Community Service and Environmental Development"], ["Vice President", "Associate Prof. Dr. Hoda Gaafar", "Vice Dean for Postgraduate Studies and Research"], ["Congress Coordinator", "Associate Prof. Dr. Mohamed Abdelrahman", ""], ["Congress Coordinator", "Dr. Mostafa Sweidan", ""]], "topics": ["Prosthodontics and Implant Dentistry", "Endodontics and Restorative Dentistry", "Oral and Maxillofacial Surgery", "Orthodontics", "Periodontology", "Pediatric Dentistry", "Oral Medicine and Oral Pathology", "Dental Biomaterials", "Digital Dentistry and Artificial Intelligence", "Dental Education and Research Methodology"], "audience": ["Faculty members", "Assistant teaching staff", "Dentists", "Postgraduate students", "Dental students", "Dentists working in the healthcare sector"], "benefits": ["Attendance of all scientific sessions", "An accredited certificate of attendance", "Participation in discussions and workshops", "Opportunities to present research and scientific posters", "Networking with experts and specialists"], "submission": "https://forms.gle/4ncbbVhedjgMBm84A"};
 
 function add(text, who='bot') {
   const box=document.getElementById('messages');
@@ -218,7 +218,7 @@ function answer(q) {
   const x=norm(q);
   if (/help|menu|options/.test(x)) return "You can ask me about:<br>• Conference date<br>• Venue & location<br>• Registration fees<br>• Scientific topics<br>• Conference leadership<br>• Eligible attendees<br>• Participation benefits<br>• Research/presentation submission<br>• About the Congress";
   if (/when|date|day|متى|ميعاد|تاريخ/.test(x)) return "📅 <b>Conference Date</b><br>The Congress will take place on <b>26–27 August 2026</b> (Wednesday and Thursday).";
-  if (/where|venue|location|مكان|اين|فين/.test(x)) return "📍 <b>Venue</b><br>Menoufia University Hotel<br>Shebin El-Kom, Menoufia, Egypt.";
+  if (/where|venue|location|مكان|اين|فين/.test(x)) return "📍 <b>Venue</b><br>Menoufia University Hotel<br>Shebin El-Kom, Menoufia, Egypt.<br> /location on Google maps <br>https://maps.app.goo.gl/xdw6YR4k1TLx1TY37?g_st=aw";
   if (/fee|fees|price|cost|registration.*(fee|cost)|رسوم|سعر|اشتراك/.test(x)) return "💰 <b>Proposed Registration Fees</b><br>• Dentist: <b>500 EGP</b><br>• Student: <b>200 EGP</b><br>• Early registration discount: <b>100 EGP</b> off the registration fee.<br><br><small>These are described as proposed fees in the provided conference document.</small>";
   if (/who can|attend|audience|مين.*يحضر|الفئات/.test(x)) return "🎓 <b>Target Participants</b><br>"+D.audience.map(v=>"• "+v).join("<br>");
   if (/topic|scientific|specialt|محاور|تخصص/.test(x)) return "🔬 <b>Scientific Topics</b><br>"+D.topics.map(v=>"• "+v).join("<br>");
@@ -261,79 +261,6 @@ add("👋 <b>Welcome to The 2nd Menoufia Dental Congress!</b><br><i>"+D.theme+"<
     navLinks.classList.toggle("active");
   }
 </script>
-    <section id="location" style="
-  padding: 60px 20px;
-  background: #f4f7fb;
-  text-align: center;
-">
-
-  <div style="
-    max-width: 850px;
-    margin: auto;
-  ">
-
-    <h2 style="
-      color: #173b63;
-      font-size: 32px;
-      margin-bottom: 12px;
-    ">
-      📍 Conference Venue
-    </h2>
-
-    <div style="
-      background: white;
-      padding: 35px 30px;
-      border-radius: 18px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
-    ">
-
-      <h3 style="
-        color: #173b63;
-        font-size: 25px;
-        margin: 0 0 15px;
-      ">
-        Menoufia University Hotel
-      </h3>
-
-      <p style="
-        color: #666;
-        font-size: 18px;
-        line-height: 1.8;
-        margin: 8px 0;
-      ">
-        📍 Shebin El-Kom, Menoufia Governorate, Egypt
-      </p>
-
-      <p style="
-        color: #666;
-        font-size: 17px;
-        margin: 12px 0 25px;
-      ">
-        📅 26–27 August 2026
-      </p>
-
-      <a
-        href="https://maps.app.goo.gl/xdw6YR4k1TLx1TY37?g_st=aw"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="
-          display: inline-block;
-          padding: 13px 28px;
-          background: #173b63;
-          color: white;
-          text-decoration: none;
-          border-radius: 9px;
-          font-weight: bold;
-          font-size: 16px;
-        "
-      >
-        📍 Open Location on Google Maps
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
+  
 </body>
 </html>
