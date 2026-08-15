@@ -218,7 +218,32 @@ function answer(q) {
   const x=norm(q);
   if (/help|menu|options/.test(x)) return "You can ask me about:<br>• Conference date<br>• Venue & location<br>• Registration fees<br>• Scientific topics<br>• Conference leadership<br>• Eligible attendees<br>• Participation benefits<br>• Research/presentation submission<br>• About the Congress";
   if (/when|date|day|متى|ميعاد|تاريخ/.test(x)) return "📅 <b>Conference Date</b><br>The Congress will take place on <b>26–27 August 2026</b> (Wednesday and Thursday).";
-  if (/where|venue|location|مكان|اين|فين/.test(x)) return "📍 <b>Venue</b><br>Menoufia University Hotel<br>Shebin El-Kom, Menoufia, Egypt.<br> /location on Google maps <br>https://maps.app.goo.gl/xdw6YR4k1TLx1TY37?g_st=aw";
+  if (/where|venue|location|مكان|اين|فين/.test(x)) return `
+  📍 <b>Venue</b><br>
+  Menoufia University Hotel<br>
+  Shebin El-Kom, Menoufia, Egypt.<br><br>
+
+<a
+  href="https://maps.app.goo.gl/xdw6YR4k1TLx1TY37?g_st=aw"
+  target="_blank"
+  rel="noopener noreferrer"
+  style="
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 24px;
+    background: #173b63;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(23,59,99,0.25);
+    transition: 0.3s;
+  "
+>
+  📍 Open Location on Google Maps
+</a>
+`;
   if (/fee|fees|price|cost|registration.*(fee|cost)|رسوم|سعر|اشتراك/.test(x)) return "💰 <b>Proposed Registration Fees</b><br>• Dentist: <b>500 EGP</b><br>• Student: <b>200 EGP</b><br>• Early registration discount: <b>100 EGP</b> off the registration fee.<br><br><small>These are described as proposed fees in the provided conference document.</small>";
   if (/who can|attend|audience|مين.*يحضر|الفئات/.test(x)) return "🎓 <b>Target Participants</b><br>"+D.audience.map(v=>"• "+v).join("<br>");
   if (/topic|scientific|specialt|محاور|تخصص/.test(x)) return "🔬 <b>Scientific Topics</b><br>"+D.topics.map(v=>"• "+v).join("<br>");
