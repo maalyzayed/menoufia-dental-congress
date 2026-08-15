@@ -59,35 +59,38 @@
        PARTICIPANT NAME
        ========================= */
 
-    .participant-name-area {
-      position: absolute;
+  .participant-name-area {
+  position: absolute;
 
-      left: 24%;
-      top: 39%;
+  left: 25%;
+  top: 39%;
+  width: 50%;
+  height: 14%;
 
-      width: 52%;
-      height: 11%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  background: #fff;
 
-      background: rgba(255,255,255,0.96);
+  z-index: 10;
+}
 
-      border-bottom: 2px solid #c9a227;
-    }
+.participant-name {
+  color: #102c52;
 
-    .participant-name {
-      color: #102c52;
-      font-family: "Brush Script MT",
-                   "Segoe Script",
-                   cursive;
+  font-family:
+    "Brush Script MT",
+    "Segoe Script",
+    cursive;
 
-      font-size: clamp(32px, 4.2vw, 64px);
+  font-size: clamp(32px, 4vw, 60px);
 
-      white-space: nowrap;
-      text-align: center;
-    }
+  white-space: nowrap;
+  text-align: center;
+
+  line-height: 1;
+}
 
 
     /* =========================
