@@ -219,18 +219,17 @@ await signInWithEmailAndPassword(
   const redirect =
     params.get("redirect");
 
-  if (redirect === "evaluation") {
+if (redirect === "evaluation") {
 
-    window.location.href =
-      "evaluation-dashboard.html";
+  window.location.href =
+    "evaluation-dashboard.html";
 
-  } else {
+} else {
 
-    window.location.href =
-      "admin-dashboard.html";
+  window.location.href =
+    "admin-panel.html";
 
-  }
-
+}
 } catch (error) {
 
       console.error(error);
