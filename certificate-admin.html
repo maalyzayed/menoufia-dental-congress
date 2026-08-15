@@ -290,43 +290,39 @@ const db =
      AUTHENTICATION
      ========================= */
 
-  onAuthStateChanged(
-  auth,
-  async (user) => {
+onAuthStateChanged(auth, (user) => {
 
-    console.log("AUTH USER:", user);
+  console.log("AUTH STATE CHANGED");
+  console.log("USER:", user);
 
-    if (!user) {
-
-      loading.textContent =
-        "No Firebase user found.";
-
-      setTimeout(() => {
-        window.location.href =
-          "admin-login.html";
-      }, 1500);
-
-      return;
-    }
+  if (user) {
 
     console.log("USER UID:", user.uid);
-    console.log("ORGANIZER UID:", ORGANIZER_UID);
+    console.log("EXPECTED UID:", ORGANIZER_UID);
 
-    if (user.uid !== ORGANIZER_UID) {
+    if (user.uid === ORGANIZER_UID) {
 
-      loading.textContent =
-        "You are logged in, but you are not the Organizer.";
+      loading.innerHTML =
+        "Organizer verified. Loading participants...";
 
-      return;
+      loadParticipants();
+
+    } else {
+
+      loading.innerHTML =
+        "Wrong Organizer UID.<br><br>" +
+        "Logged UID: " + user.uid;
+
     }
 
-    loading.style.display =
-      "none";
+  } else {
 
-    loadParticipants();
+    loading.innerHTML =
+      "NO USER — Firebase Auth did not find a login.";
 
   }
-);
+
+});
 
   /* =========================
      LOAD PARTICIPANTS
