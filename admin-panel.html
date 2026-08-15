@@ -184,12 +184,13 @@
 
 
   import {
-    getAuth,
-    onAuthStateChanged,
-    signOut
-  } from
-  "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
+ import {
+  initializeAuth,
+  browserLocalPersistence,
+  onAuthStateChanged,
+  signOut
+} from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   const firebaseConfig = {
 
@@ -218,9 +219,10 @@
     initializeApp(firebaseConfig);
 
 
-  const auth =
-    getAuth(app);
-
+ const auth =
+  initializeAuth(app, {
+    persistence: browserLocalPersistence
+  });
 
   const ORGANIZER_UID =
     "fS56FR5b2vdd632fpUZWXbJFWwj1";
