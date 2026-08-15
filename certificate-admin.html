@@ -207,27 +207,25 @@
 <script type="module">
 
 
-  import {
-    initializeApp
-  } from
-  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+ import {
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
   getAuth,
-  onAuthStateChanged,
-  signOut
+  onAuthStateChanged
 } from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-  import {
-    getFirestore,
-    collection,
-    getDocs,
-    doc,
-    getDoc,
-    setDoc
-  } from
-  "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc
+} from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
   /* =========================
@@ -257,17 +255,14 @@ import {
   };
 
 
-  const app =
-    initializeApp(firebaseConfig);
+const app =
+  initializeApp(firebaseConfig);
 
+const auth =
+  getAuth(app);
 
-  const auth =
-    getAuth(app);
-
-
-  const db =
-    getFirestore(app);
-
+const db =
+  getFirestore(app);
 
   const ORGANIZER_UID =
     "fS56FR5b2vdd632fpUZWXbJFWwj1";
@@ -296,27 +291,42 @@ import {
      ========================= */
 
   onAuthStateChanged(
-    auth,
-    async (user) => {
+  auth,
+  async (user) => {
 
-      if (
-        !user ||
-        user.uid !== ORGANIZER_UID
-      ) {
+    console.log("AUTH USER:", user);
 
+    if (!user) {
+
+      loading.textContent =
+        "No Firebase user found.";
+
+      setTimeout(() => {
         window.location.href =
           "admin-login.html";
+      }, 1500);
 
-        return;
-
-      }
-
-
-      loadParticipants();
-
+      return;
     }
-  );
 
+    console.log("USER UID:", user.uid);
+    console.log("ORGANIZER UID:", ORGANIZER_UID);
+
+    if (user.uid !== ORGANIZER_UID) {
+
+      loading.textContent =
+        "You are logged in, but you are not the Organizer.";
+
+      return;
+    }
+
+    loading.style.display =
+      "none";
+
+    loadParticipants();
+
+  }
+);
 
   /* =========================
      LOAD PARTICIPANTS
