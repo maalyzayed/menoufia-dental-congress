@@ -123,6 +123,65 @@ a{color:#0d6f98;font-weight:700}
   }
 }
 </style>
+  <style>
+.countdown-container {
+  margin: 25px auto;
+  text-align: center;
+}
+
+.countdown-title {
+  color: #d4af37;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.countdown-box {
+  min-width: 75px;
+  padding: 12px 10px;
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  border-radius: 10px;
+  background: rgba(23, 59, 99, 0.9);
+  color: white;
+}
+
+.countdown-box span {
+  display: block;
+  font-size: 25px;
+  font-weight: bold;
+  color: #d4af37;
+}
+
+.countdown-box small {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .countdown {
+    gap: 7px;
+  }
+
+  .countdown-box {
+    min-width: 65px;
+    padding: 10px 7px;
+  }
+
+  .countdown-box span {
+    font-size: 21px;
+  }
+}
+</style>
 </head>
 <body>
 <nav class="navbar">
@@ -131,7 +190,37 @@ a{color:#0d6f98;font-weight:700}
     <a href="index.html" class="nav-logo">
       Menoufia Dental Congress
     </a>
+<div class="countdown-container">
 
+  <div class="countdown-title">
+    Conference Starts In
+  </div>
+
+  <div class="countdown">
+
+    <div class="countdown-box">
+      <span id="days">00</span>
+      <small>Days</small>
+    </div>
+
+    <div class="countdown-box">
+      <span id="hours">00</span>
+      <small>Hours</small>
+    </div>
+
+    <div class="countdown-box">
+      <span id="minutes">00</span>
+      <small>Minutes</small>
+    </div>
+
+    <div class="countdown-box">
+      <span id="seconds">00</span>
+      <small>Seconds</small>
+    </div>
+
+  </div>
+
+</div>
     <button class="menu-toggle" onclick="toggleMenu()">
       ☰
     </button>
@@ -285,6 +374,71 @@ add("👋 <b>Welcome to The 2nd Menoufia Dental Congress!</b><br><i>"+D.theme+"<
     const navLinks = document.getElementById("navLinks");
     navLinks.classList.toggle("active");
   }
+</script>
+    <script>
+
+const conferenceDate =
+  new Date("2026-08-26T09:00:00+03:00").getTime();
+
+const countdownTimer =
+  setInterval(function () {
+
+    const now =
+      new Date().getTime();
+
+    const distance =
+      conferenceDate - now;
+
+    if (distance <= 0) {
+
+      clearInterval(countdownTimer);
+
+      document.querySelector(".countdown-container").innerHTML = `
+        <div class="countdown-title">
+          🎉 The Conference Has Started!
+        </div>
+      `;
+
+      return;
+    }
+
+    const days =
+      Math.floor(
+        distance / (1000 * 60 * 60 * 24)
+      );
+
+    const hours =
+      Math.floor(
+        (distance % (1000 * 60 * 60 * 24))
+        / (1000 * 60 * 60)
+      );
+
+    const minutes =
+      Math.floor(
+        (distance % (1000 * 60 * 60))
+        / (1000 * 60)
+      );
+
+    const seconds =
+      Math.floor(
+        (distance % (1000 * 60))
+        / 1000
+      );
+
+    document.getElementById("days").textContent =
+      String(days).padStart(2, "0");
+
+    document.getElementById("hours").textContent =
+      String(hours).padStart(2, "0");
+
+    document.getElementById("minutes").textContent =
+      String(minutes).padStart(2, "0");
+
+    document.getElementById("seconds").textContent =
+      String(seconds).padStart(2, "0");
+
+  }, 1000);
+
 </script>
   </body>
 </html>
