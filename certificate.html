@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Menoufia Dental Congress - Certificate</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #eef3f8;
+      color: #173b63;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 15px;
+    }
+
+    .certificate {
+      width: 100%;
+      max-width: 1100px;
+      min-height: 700px;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid #c9a227;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+      padding: 55px;
+    }
+
+    .certificate::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid #c9a227;
+      pointer-events: none;
+    }
+
+    .top-decoration,
+    .bottom-decoration {
+      position: absolute;
+      width: 260px;
+      height: 120px;
+      background: #173b63;
+      z-index: 0;
+    }
+
+    .top-decoration {
+      top: -60px;
+      left: -80px;
+      transform: rotate(-18deg);
+    }
+
+    .bottom-decoration {
+      bottom: -60px;
+      right: -80px;
+      transform: rotate(-18deg);
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .logos {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logos img {
+      width: 105px;
+      height: 105px;
+      object-fit: contain;
+    }
+
+    .university-title {
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .faculty-title {
+      font-size: 19px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .certificate-title {
+      font-size: 58px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      margin-top: 30px;
+    }
+
+    .subtitle {
+      font-size: 25px;
+      color: #b38719;
+      letter-spacing: 5px;
+      margin-top: 5px;
+    }
+
+    .certify {
+      margin-top: 35px;
+      font-size: 19px;
+    }
+
+    .participant-name {
+      font-size: 48px;
+      font-style: italic;
+      color: #173b63;
+      margin: 18px 0;
+      border-bottom: 2px solid #c9a227;
+      display: inline-block;
+      padding: 0 50px 8px;
+    }
+
+    .participated {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .congress-name {
+      font-size: 29px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .theme {
+      color: #b38719;
+      font-size: 20px;
+      font-style: italic;
+      margin-top: 8px;
+    }
+
+    .details {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-top: 30px;
+      font-size: 17px;
+    }
+
+    .signature {
+      margin-top: 35px;
+      display: inline-block;
+      min-width: 280px;
+      border-top: 1px solid #c9a227;
+      padding-top: 10px;
+    }
+
+    .signature-name {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .signature-role {
+      margin-top: 5px;
+      color: #555;
+    }
+
+    .certificate-id {
+      position: absolute;
+      bottom: 25px;
+      left: 35px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #173b63;
+    }
+
+    .loading {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      color: #173b63;
+    }
+
+    .error {
+      color: #b42318;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 10px;
+      }
+
+      .certificate {
+        padding: 35px 20px;
+      }
+
+      .certificate-title {
+        font-size: 38px;
+      }
+
+      .participant-name {
+        font-size: 32px;
+        padding: 0 15px 8px;
+      }
+
+      .congress-name {
+        font-size: 21px;
+      }
+
+      .details {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .logos img {
+        width: 75px;
+        height: 75px;
+      }
+
+      .university-title {
+        font-size: 17px;
+      }
+
+      .faculty-title {
+        font-size: 14px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .certificate {
+        box-shadow: none;
+        max-width: none;
+        width: 100%;
+        min-height: 100vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loading" class="loading">
+    Loading certificate...
+  </div>
+
+  <div id="certificate" class="certificate" style="display:none;">
+
+    <div class="top-decoration"></div>
+    <div class="bottom-decoration"></div>
+
+    <div class="content">
+
+      <div class="logos">
+
+        <img
+          src="جامعة المنوفية.jpg"
+          alt="Menoufia University"
+        >
+
+        <div>
+          <div class="university-title">
+            MENOUFIA UNIVERSITY
+          </div>
+
+          <div class="faculty-title">
+            FACULTY OF DENTISTRY
+          </div>
+        </div>
+
+        <img
+          src="logo.jpg"
+          alt="Faculty of Dentistry"
+        >
+
+      </div>
+
+      <div class="certificate-title">
+        CERTIFICATE
+      </div>
+
+      <div class="subtitle">
+        OF ATTENDANCE
+      </div>
+
+      <div class="certify">
+        THIS IS TO CERTIFY THAT
+      </div>
+
+      <div id="participantName" class="participant-name">
+        Participant Name
+      </div>
+
+      <div class="participated">
+        has participated in the
+      </div>
+
+      <div class="congress-name">
+        2ND MENOUFIA DENTAL CONGRESS
+      </div>
+
+      <div class="theme">
+        Innovate, Integrate, Elevate Dentistry
+      </div>
+
+      <div class="details">
+        <div>
+          📅 26 – 27 AUGUST 2026
+        </div>
+
+        <div>
+          📍 MENOUFIA UNIVERSITY HOTEL
+        </div>
+      </div>
+
+      <div class="signature">
+
+        <div class="signature-name">
+          Prof Salah Hegazy
+        </div>
+
+        <div class="signature-role">
+          Congress President
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="certificateId" class="certificate-id">
+      Certificate ID: —
+    </div>
+
+  </div>
+
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+
+      apiKey: "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
+
+      authDomain:
+        "menoufia-dental-congress.firebaseapp.com",
+
+      projectId:
+        "menoufia-dental-congress",
+
+      storageBucket:
+        "menoufia-dental-congress.firebasestorage.app",
+
+      messagingSenderId:
+        "20481129823",
+
+      appId:
+        "1:20481129823:web:24658314d19bcacf1dcaea"
+
+    };
+
+
+    const app =
+      initializeApp(firebaseConfig);
+
+    const db =
+      getFirestore(app);
+
+
+    async function loadCertificate() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      const certificateId =
+        params.get("id");
+
+
+      if (!certificateId) {
+
+        showError(
+          "No certificate ID was provided."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const certificateRef =
+          doc(
+            db,
+            "certificates",
+            certificateId
+          );
+
+
+        const certificateSnap =
+          await getDoc(
+            certificateRef
+          );
+
+
+        if (!certificateSnap.exists()) {
+
+          showError(
+            "Certificate not found."
+          );
+
+          return;
+
+        }
+
+
+        const data =
+          certificateSnap.data();
+
+
+        document
+          .getElementById("participantName")
+          .textContent =
+          data.fullName || "Participant";
+
+
+        document
+          .getElementById("certificateId")
+          .textContent =
+          "Certificate ID: " +
+          certificateId;
+
+
+        document
+          .getElementById("loading")
+          .style.display =
+          "none";
+
+
+        document
+          .getElementById("certificate")
+          .style.display =
+          "block";
+
+
+      } catch (error) {
+
+        console.error(
+          "Certificate error:",
+          error
+        );
+
+
+        showError(
+          "Unable to load this certificate."
+        );
+
+      }
+
+    }
+
+
+    function showError(message) {
+
+      const loading =
+        document.getElementById("loading");
+
+      loading.className =
+        "error";
+
+      loading.textContent =
+        message;
+
+    }
+
+
+    loadCertificate();
+
+  </script>
+
+</body>
+</html>
