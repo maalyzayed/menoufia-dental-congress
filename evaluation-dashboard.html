@@ -884,24 +884,28 @@ const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
 
+  console.log("AUTH USER:", user);
+
   if (!user) {
     document.getElementById("loading").textContent =
-      "Please login as Organizer first.";
+      "NO USER — Firebase Auth did not find a login.";
     return;
   }
+
+  document.getElementById("loading").textContent =
+    "Logged in UID: " + user.uid;
 
   if (
     user.uid !== "fS56FR5b2vdd632fpUZWXbJFWwj1"
   ) {
     document.getElementById("loading").textContent =
-      "Access denied.";
+      "WRONG ORGANIZER UID: " + user.uid;
     return;
   }
 
   loadEvaluations();
 
 });
-
 </script>
 
 
