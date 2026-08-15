@@ -219,10 +219,7 @@
     initializeApp(firebaseConfig);
 
 
- const auth =
-  initializeAuth(app, {
-    persistence: browserLocalPersistence
-  });
+const auth = getAuth(app);
 
   const ORGANIZER_UID =
     "fS56FR5b2vdd632fpUZWXbJFWwj1";
