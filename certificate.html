@@ -97,69 +97,80 @@
        QR CODE
        ========================= */
 
-    .qr-area {
-      position: absolute;
+.qr-area {
+  position: absolute;
 
-      left: 4.2%;
-      top: 58%;
+  left: 4.5%;
+  top: 61%;
 
-      width: 10.5%;
-      height: 15%;
+  width: 10.8%;
+  height: 18%;
 
-      background: white;
+  background: #fff;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      padding: 4px;
-    }
+  padding: 6px;
 
-    #qrcode {
-      width: 100%;
-      height: 100%;
+  z-index: 10;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+#qrcode {
+  width: 100%;
+  height: 100%;
 
-    #qrcode img,
-    #qrcode canvas {
-      max-width: 100%;
-      max-height: 100%;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+#qrcode img,
+#qrcode canvas {
+  width: 100% !important;
+  height: 100% !important;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+}
 
     /* =========================
        CERTIFICATE ID
        ========================= */
+.certificate-id-area {
+  position: absolute;
 
-    .certificate-id-area {
-      position: absolute;
+  left: 4.4%;
+  top: 77.5%;
 
-      left: 4.1%;
-      top: 74%;
+  width: 11%;
+  height: 4.5%;
 
-      width: 11%;
-      height: 3.8%;
+  background: #173b63;
 
-      background: #173b63;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  z-index: 11;
+}
 
-    .certificate-id {
-      color: white;
-      font-size: clamp(8px, 1vw, 14px);
-      font-weight: bold;
-      text-align: center;
-      white-space: nowrap;
-    }
+.certificate-id {
+  color: white;
 
+  font-family: Arial, sans-serif;
 
+  font-size: clamp(8px, 0.9vw, 13px);
+
+  font-weight: bold;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
     /* =========================
        PRINT
        ========================= */
