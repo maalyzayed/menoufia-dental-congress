@@ -138,7 +138,8 @@ import { initializeApp }
   from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
-  getAuth,
+  initializeAuth,
+  browserLocalPersistence,
   signInWithEmailAndPassword
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
@@ -167,8 +168,9 @@ from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-
+const auth = initializeAuth(app, {
+  persistence: browserLocalPersistence
+});
 
   const form =
     document.getElementById("loginForm");
