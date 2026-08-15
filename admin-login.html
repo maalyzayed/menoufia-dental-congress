@@ -134,14 +134,14 @@
 
 <script type="module">
 
- import { initializeApp }
+import { initializeApp }
   from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
-  initializeAuth,
-  browserLocalPersistence,
+  getAuth,
   signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   const firebaseConfig = {
 
@@ -167,9 +167,7 @@ import {
 
   const app = initializeApp(firebaseConfig);
 
-  const auth = initializeAuth(app, {
-  persistence: browserLocalPersistence
-});
+const auth = getAuth(app);
 
 
   const form =
@@ -199,50 +197,29 @@ import {
       document.getElementById("password").value;
 
 
-  try {
+try {
 
-await setPersistence(
-  auth,
-  browserLocalPersistence
-);
-
-await signInWithEmailAndPassword(
-  auth,
-  email,
-  password
-);
-
-  const params = new URLSearchParams(
-    window.location.search
+  await signInWithEmailAndPassword(
+    auth,
+    email,
+    password
   );
 
-  const redirect =
-    params.get("redirect");
+  window.location.href = "admin-panel.html";
 
-if (redirect === "evaluation") {
-
-  window.location.href =
-    "evaluation-dashboard.html";
-
-} else {
-
-  window.location.href =
-    "admin-panel.html";
-
-}
 } catch (error) {
 
-      console.error(error);
+  console.error("LOGIN ERROR:", error.code, error.message);
 
-      errorMessage.textContent =
-        "Invalid email or password.";
+  errorMessage.textContent =
+    "Login failed: " + error.code;
 
-      errorMessage.style.display = "block";
+  errorMessage.style.display = "block";
 
-      button.disabled = false;
-      button.textContent = "Login";
+  button.disabled = false;
+  button.textContent = "Login";
 
-    }
+}
 
   });
 
