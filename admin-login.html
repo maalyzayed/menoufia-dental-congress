@@ -134,16 +134,14 @@
 
 <script type="module">
 
-  import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+ import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-  import {
-  getAuth,
-  setPersistence,
+import {
+  initializeAuth,
   browserLocalPersistence,
   signInWithEmailAndPassword
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   const firebaseConfig = {
 
@@ -169,7 +167,9 @@ from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   const app = initializeApp(firebaseConfig);
 
-  const auth = getAuth(app);
+  const auth = initializeAuth(app, {
+  persistence: browserLocalPersistence
+});
 
 
   const form =
