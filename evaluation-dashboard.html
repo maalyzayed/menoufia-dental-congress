@@ -888,18 +888,15 @@ onAuthStateChanged(auth, (user) => {
 
   if (!user) {
     document.getElementById("loading").textContent =
-      "NO USER — Firebase Auth did not find a login.";
+      "Please login as Organizer first.";
     return;
   }
-
-  document.getElementById("loading").textContent =
-    "Logged in UID: " + user.uid;
 
   if (
     user.uid !== "fS56FR5b2vdd632fpUZWXbJFWwj1"
   ) {
     document.getElementById("loading").textContent =
-      "WRONG ORGANIZER UID: " + user.uid;
+      "Access denied.";
     return;
   }
 
