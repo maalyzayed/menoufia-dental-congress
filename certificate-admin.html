@@ -182,8 +182,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
   import { initializeAuth, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-  import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
+ import { getFirestore, collection, getDocs, doc, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
   const firebaseConfig = {
     apiKey: "AIzaSyAB-AIOIQh0tOcVXQnUt7pvVnQi0CoFwSo",
     authDomain: "menoufia-dental-congress.firebaseapp.com",
@@ -395,10 +394,11 @@
         }
 
         // إرسال الإيميل (يتطلب تفعيل خدمة Trigger Email في فايربيس)
+       // إرسال الإيميل عبر مجموعة mail
         if (data.email) {
           const certificateLink = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certificateId);
           
-          await setDoc(doc(collection(db, "mail")), {
+          await addDoc(collection(db, "mail"), {
             to: data.email,
             message: {
               subject: "شهادة حضور مؤتمر المنوفية لطب الأسنان - Menoufia Dental Congress",
