@@ -355,24 +355,27 @@ onAuthStateChanged(auth, (user) => {
       }
 
 
-      snapshot.forEach(
-        participantDoc => {
+    snapshot.forEach(
+  participantDoc => {
 
-          const data =
-            participantDoc.data();
+    const data =
+      participantDoc.data();
 
+    // Only participants who completed check-in
+    if (data.attendance !== true) {
+      return;
+    }
 
-          const participantId =
-            participantDoc.id;
+    const participantId =
+      participantDoc.id;
 
+    createParticipantRow(
+      participantId,
+      data
+    );
 
-          createParticipantRow(
-            participantId,
-            data
-          );
-
-        }
-      );
+  }
+);
 
 
     } catch (error) {
