@@ -2,16 +2,11 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Management | Menoufia Dental Congress</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -147,641 +142,333 @@
       text-decoration: none;
       font-weight: bold;
     }
-
   </style>
-
 </head>
-
 
 <body>
 
-
 <div class="container">
-
 
   <a href="admin-panel.html" class="back">
     ← Back to Organizer Panel
   </a>
 
-
   <div class="header">
-
-    <h1>
-      🎓 Certificate Management
-    </h1>
-
-    <p>
-      Menoufia Dental Congress
-    </p>
-
+    <h1>🎓 Certificate Management</h1>
+    <p>Menoufia Dental Congress</p>
   </div>
 
+  <!-- زرار إصدار وإرسال الكل للحاضرين فقط -->
+  <div class="card" style="text-align: center; margin-bottom: 20px;">
+    <button id="generateAllBtn" class="generate" style="background: #c9a227; font-size: 16px; padding: 14px 25px;">
+      🚀 إصدار وإرسال الشهادات لكل الحاضرين (Check-in) دفعة واحدة
+    </button>
+  </div>
 
   <div class="card">
+    <h2>Participants (Checked-in)</h2>
 
-    <h2>
-      Participants
-    </h2>
-
-    <div
-      id="loading"
-      class="loading">
-
+    <div id="loading" class="loading">
       Loading participants...
-
     </div>
 
     <div id="participantsList"></div>
 
-    <div
-      id="status"
-      class="status">
-    </div>
-
+    <div id="status" class="status"></div>
   </div>
-
 
 </div>
 
-
 <script type="module">
-
-
- import {
-  initializeApp
-} from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-import {
-  initializeAuth,
-  browserLocalPersistence,
-  onAuthStateChanged
-} from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  doc,
-  setDoc
-} from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-  /* =========================
-     FIREBASE CONFIG
-     ========================= */
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { initializeAuth, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
   const firebaseConfig = {
-
-    apiKey:
-      "AIzaSyAB-AIOIQh0tOcVXQnUt7pvVnQi0CoFwSo",
-
-    authDomain:
-      "menoufia-dental-congress.firebaseapp.com",
-
-    projectId:
-      "menoufia-dental-congress",
-
-    storageBucket:
-      "menoufia-dental-congress.firebasestorage.app",
-
-    messagingSenderId:
-      "20481129823",
-
-    appId:
-      "1:20481129823:web:24658314d19bcacf1dcaea"
-
+    apiKey: "AIzaSyAB-AIOIQh0tOcVXQnUt7pvVnQi0CoFwSo",
+    authDomain: "menoufia-dental-congress.firebaseapp.com",
+    projectId: "menoufia-dental-congress",
+    storageBucket: "menoufia-dental-congress.firebasestorage.app",
+    messagingSenderId: "20481129823",
+    appId: "1:20481129823:web:24658314d19bcacf1dcaea"
   };
 
+  const app = initializeApp(firebaseConfig);
+  const auth = initializeAuth(app, { persistence: browserLocalPersistence });
+  const db = getFirestore(app);
 
-const app =
-  initializeApp(firebaseConfig);
+  const ORGANIZER_UID = "fS56FR5b2vdd632fpUZWXbJFWwj1";
 
-const auth =
-  initializeAuth(app, {
-    persistence: browserLocalPersistence
-  });
-
-const db =
-  getFirestore(app);
-
-  const ORGANIZER_UID =
-    "fS56FR5b2vdd632fpUZWXbJFWwj1";
-
-
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-
-  const list =
-    document.getElementById(
-      "participantsList"
-    );
-
-
-  const status =
-    document.getElementById(
-      "status"
-    );
-
+  const loading = document.getElementById("loading");
+  const list = document.getElementById("participantsList");
+  const status = document.getElementById("status");
 
   /* =========================
      AUTHENTICATION
      ========================= */
-
-onAuthStateChanged(auth, (user) => {
-
-  console.log("AUTH STATE CHANGED");
-  console.log("USER:", user);
-
-  if (user) {
-
-    console.log("USER UID:", user.uid);
-    console.log("EXPECTED UID:", ORGANIZER_UID);
-
-    if (user.uid === ORGANIZER_UID) {
-
-      loading.innerHTML =
-        "Organizer verified. Loading participants...";
-
-      loadParticipants();
-
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      if (user.uid === ORGANIZER_UID) {
+        loading.innerHTML = "Organizer verified. Loading participants...";
+        loadParticipants();
+      } else {
+        loading.innerHTML = "Wrong Organizer UID.<br><br>Logged UID: " + user.uid;
+      }
     } else {
-
-      loading.innerHTML =
-        "Wrong Organizer UID.<br><br>" +
-        "Logged UID: " + user.uid;
-
+      loading.innerHTML = "NO USER — Firebase Auth did not find a login.";
     }
-
-  } else {
-
-    loading.innerHTML =
-      "NO USER — Firebase Auth did not find a login.";
-
-  }
-
-});
+  });
 
   /* =========================
-     LOAD PARTICIPANTS
+     LOAD PARTICIPANTS (CHECK-IN ONLY)
      ========================= */
-
   async function loadParticipants() {
-
     try {
-
-      const snapshot =
-        await getDocs(
-          collection(
-            db,
-            "participants"
-          )
-        );
-
-
-      loading.style.display =
-        "none";
-
+      const snapshot = await getDocs(collection(db, "participants"));
+      loading.style.display = "none";
 
       if (snapshot.empty) {
-
-        list.innerHTML =
-          "<p>No participants found.</p>";
-
+        list.innerHTML = "<p>No participants found.</p>";
         return;
-
       }
 
+      let checkedInCount = 0;
 
-    snapshot.forEach(
-  participantDoc => {
+      snapshot.forEach(participantDoc => {
+        const data = participantDoc.data();
 
-    const data =
-      participantDoc.data();
+        // فلترة: يتم جلب وعرض من قاموا بعمل Check-in فقط
+        if (data.attendance !== true) {
+          return;
+        }
 
-    // Only participants who completed check-in
-    if (data.attendance !== true) {
-      return;
-    }
+        checkedInCount++;
+        const participantId = participantDoc.id;
+        createParticipantRow(participantId, data);
+      });
 
-    const participantId =
-      participantDoc.id;
-
-    createParticipantRow(
-      participantId,
-      data
-    );
-
-  }
-);
-
+      if (checkedInCount === 0) {
+        list.innerHTML = "<p>No participants have completed check-in yet.</p>";
+      }
 
     } catch (error) {
-
       console.error(error);
-
-      loading.textContent =
-        "Error: " +
-        error.code +
-        " — " +
-        error.message;
-
+      loading.textContent = "Error: " + error.code + " — " + error.message;
     }
-
   }
-
 
   /* =========================
      CREATE PARTICIPANT ROW
      ========================= */
+  function createParticipantRow(participantId, data) {
+    const row = document.createElement("div");
+    row.className = "participant";
 
-  function createParticipantRow(
-    participantId,
-    data
-  ) {
+    const info = document.createElement("div");
+    info.className = "participant-info";
 
-    const row =
-      document.createElement(
-        "div"
-      );
+    const name = document.createElement("div");
+    name.className = "name";
+    name.textContent = data.fullName || "Unnamed Participant";
 
-    row.className =
-      "participant";
-
-
-    const info =
-      document.createElement(
-        "div"
-      );
-
-    info.className =
-      "participant-info";
-
-
-    const name =
-      document.createElement(
-        "div"
-      );
-
-    name.className =
-      "name";
-
-
-    name.textContent =
-      data.fullName ||
-      "Unnamed Participant";
-
-
-    const email =
-      document.createElement(
-        "div"
-      );
-
-    email.className =
-      "email";
-
-
-    email.textContent =
-      data.email ||
-      participantId;
-
+    const email = document.createElement("div");
+    email.className = "email";
+    email.textContent = data.email || participantId;
 
     info.appendChild(name);
     info.appendChild(email);
 
+    const button = document.createElement("button");
+    button.className = "generate";
+    button.textContent = "🎓 Generate Certificate";
 
-    const button =
-      document.createElement(
-        "button"
-      );
-
-
-    button.className =
-      "generate";
-
-
-    button.textContent =
-      "🎓 Generate Certificate";
-
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        generateCertificate(
-          participantId,
-          data,
-          button,
-          row
-        );
-
-      }
-    );
-
+    button.addEventListener("click", () => {
+      generateCertificate(participantId, data, button, row);
+    });
 
     row.appendChild(info);
     row.appendChild(button);
-
-
     list.appendChild(row);
-
   }
-
 
   /* =========================
-     GENERATE CERTIFICATE
+     GENERATE CERTIFICATE (SINGLE)
      ========================= */
-
-  async function generateCertificate(
-    participantId,
-    participantData,
-    button,
-    row
-  ) {
-
-    button.disabled =
-      true;
-
-    button.textContent =
-      "Generating...";
-
+  async function generateCertificate(participantId, participantData, button, row) {
+    button.disabled = true;
+    button.textContent = "Generating...";
 
     try {
+      const certificatesSnapshot = await getDocs(collection(db, "certificates"));
+      let existingCertificateId = null;
 
-      /*
-       * Check whether this participant
-       * already has a certificate.
-       */
-
-      const certificatesSnapshot =
-        await getDocs(
-          collection(
-            db,
-            "certificates"
-          )
-        );
-
-
-      let existingCertificateId =
-        null;
-
-
-      certificatesSnapshot.forEach(
-        certificateDoc => {
-
-          const data =
-            certificateDoc.data();
-
-
-          if (
-            data.participantId ===
-            participantId
-          ) {
-
-            existingCertificateId =
-              certificateDoc.id;
-
-          }
-
+      certificatesSnapshot.forEach(certificateDoc => {
+        const data = certificateDoc.data();
+        if (data.participantId === participantId) {
+          existingCertificateId = certificateDoc.id;
         }
-      );
-
-
-      /*
-       * Prevent duplicate certificate
-       */
+      });
 
       if (existingCertificateId) {
-
-        showExistingCertificate(
-          existingCertificateId,
-          row
-        );
-
-        button.disabled =
-          false;
-
-        button.textContent =
-          "🎓 Generate Certificate";
-
+        showExistingCertificate(existingCertificateId, row);
+        button.disabled = false;
+        button.textContent = "🎓 Generate Certificate";
         return;
-
       }
 
+      const certificatesCount = certificatesSnapshot.size;
+      const number = certificatesCount + 1;
+      const certificateId = "MDC-2026-" + String(number).padStart(4, "0");
 
-      /*
-       * Generate new Certificate ID
-       */
+      await setDoc(doc(db, "certificates", certificateId), {
+        fullName: participantData.fullName || "Participant",
+        participantId: participantId,
+        email: participantData.email || "",
+        institution: participantData.institution || "",
+        certificateId: certificateId,
+        createdAt: new Date().toISOString()
+      });
 
-      const certificatesCount =
-        certificatesSnapshot.size;
+      showSuccess("Certificate created successfully: " + certificateId);
+      showCertificateButton(certificateId, row);
 
-
-      const number =
-        certificatesCount + 1;
-
-
-      const certificateId =
-        "MDC-2026-" +
-        String(number)
-          .padStart(4, "0");
-
-
-      /*
-       * Create certificate document
-       */
-
-      await setDoc(
-        doc(
-          db,
-          "certificates",
-          certificateId
-        ),
-        {
-
-          fullName:
-            participantData.fullName ||
-            "Participant",
-
-          participantId:
-            participantId,
-
-          email:
-            participantData.email ||
-            "",
-
-          institution:
-            participantData.institution ||
-            "",
-
-          certificateId:
-            certificateId,
-
-          createdAt:
-            new Date().toISOString()
-
-        }
-      );
-
-
-      showSuccess(
-        "Certificate created successfully: " +
-        certificateId
-      );
-
-
-      showCertificateButton(
-        certificateId,
-        row
-      );
-
-
-      button.textContent =
-        "Certificate Created";
-
-      button.disabled =
-        true;
-
+      button.textContent = "Certificate Created";
+      button.disabled = true;
 
     } catch (error) {
-
-      console.error(
-        "Certificate generation error:",
-        error
-      );
-
-
-      showError(
-        "Error: " +
-        error.code +
-        " — " +
-        error.message
-      );
-
-
-      button.disabled =
-        false;
-
-      button.textContent =
-        "🎓 Generate Certificate";
-
+      console.error("Certificate generation error:", error);
+      showError("Error: " + error.code + " — " + error.message);
+      button.disabled = false;
+      button.textContent = "🎓 Generate Certificate";
     }
-
   }
 
+  /* =========================
+     GENERATE & EMAIL ALL CHECKED-IN
+     ========================= */
+  document.getElementById("generateAllBtn").addEventListener("click", generateAllCheckedInCertificates);
+
+  async function generateAllCheckedInCertificates() {
+    const btn = document.getElementById("generateAllBtn");
+    btn.disabled = true;
+    btn.textContent = "جاري الإصدار والإرسال للحاضرين فقط...";
+    
+    showSuccess("جاري معالجة الحاضرين الذين أتموا الـ Check-in وإرسال الشهادات...");
+
+    try {
+      const participantsSnapshot = await getDocs(collection(db, "participants"));
+      const certificatesSnapshot = await getDocs(collection(db, "certificates"));
+      
+      const existingCerts = new Map();
+      certificatesSnapshot.forEach(docSnap => {
+        const d = docSnap.data();
+        existingCerts.set(d.participantId, docSnap.id);
+      });
+
+      let countCreated = 0;
+      let totalCount = certificatesSnapshot.size;
+
+      for (const participantDoc of participantsSnapshot.docs) {
+        const data = participantDoc.data();
+        const participantId = participantDoc.id;
+
+        // التأكد الصارم أن الشخص أتم الـ Check-in فقط
+        if (data.attendance !== true) continue;
+
+        let certificateId = existingCerts.get(participantId);
+
+        if (!certificateId) {
+          totalCount++;
+          certificateId = "MDC-2026-" + String(totalCount).padStart(4, "0");
+
+          await setDoc(doc(db, "certificates", certificateId), {
+            fullName: data.fullName || "Participant",
+            participantId: participantId,
+            email: data.email || "",
+            institution: data.institution || "",
+            certificateId: certificateId,
+            createdAt: new Date().toISOString()
+          });
+          
+          existingCerts.set(participantId, certificateId);
+          countCreated++;
+        }
+
+        // إرسال الإيميل (يتطلب تفعيل خدمة Trigger Email في فايربيس)
+        if (data.email) {
+          const certificateLink = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certificateId);
+          
+          await setDoc(doc(collection(db, "mail")), {
+            to: data.email,
+            message: {
+              subject: "شهادة حضور مؤتمر المنوفية لطب الأسنان - Menoufia Dental Congress",
+              html: `
+                <div dir="rtl" style="font-family: Arial, sans-serif; padding: 20px; color: #102c52;">
+                  <h2>مرحباً د. ${data.fullName || "المشارِك"}،</h2>
+                  <p>شكراً لحضورك الفعاليات المتميزة لـ <b>مؤتمر المنوفية لطب الأسنان (Menoufia Dental Congress)</b>.</p>
+                  <p>يسعدنا أن نفيدكم بأنه تم إصدار شهادة الحضور الخاصة بكم بنجاح.</p>
+                  <p style="margin: 20px 0;">
+                    <a href="${certificateLink}" style="background: #173b63; color: white; padding: 12px 20px; text-decoration: none; border-radius: 8px; font-weight: bold;">عرض وتحميل الشهادة</a>
+                  </p>
+                  <p>مع خالص تحياتنا،<br>لجنة تنظيم المؤتمر</p>
+                </div>
+              `
+            }
+          });
+        }
+      }
+
+      showSuccess(`تم بنجاح! تم إنشاء ${countCreated} شهادة جديدة وإرسالها عبر البريد الإلكتروني للحاضرين الذين عملوا Check-in.`);
+      btn.textContent = "✅ تمت العملية بنجاح";
+
+    } catch (error) {
+      console.error("Error batch generating certificates:", error);
+      showError("حدث خطأ أثناء الإصدار الجماعي: " + error.message);
+      btn.disabled = false;
+      btn.textContent = "🚀 إصدار وإرسال الشهادات لكل الحاضرين (Check-in) دفعة واحدة";
+    }
+  }
 
   /* =========================
      VIEW CERTIFICATE
      ========================= */
-
-  function showCertificateButton(
-    certificateId,
-    row
-  ) {
-
-    if (
-      row.querySelector(
-        ".view-button"
-      )
-    ) {
-
+  function showCertificateButton(certificateId, row) {
+    if (row.querySelector(".view-button")) {
       return;
-
     }
 
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.className =
-      "view-button";
-
-
-    link.textContent =
-      "View Certificate";
-
-
-    link.href =
-      "certificate.html?id=" +
-      encodeURIComponent(
-        certificateId
-      );
-
-
-    link.target =
-      "_blank";
-
+    const link = document.createElement("a");
+    link.className = "view-button";
+    link.textContent = "View Certificate";
+    link.href = "certificate.html?id=" + encodeURIComponent(certificateId);
+    link.target = "_blank";
 
     row.appendChild(link);
-
   }
-
 
   /* =========================
      EXISTING CERTIFICATE
      ========================= */
-
-  function showExistingCertificate(
-    certificateId,
-    row
-  ) {
-
-    showSuccess(
-      "This participant already has certificate " +
-      certificateId
-    );
-
-
-    showCertificateButton(
-      certificateId,
-      row
-    );
-
+  function showExistingCertificate(certificateId, row) {
+    showSuccess("This participant already has certificate " + certificateId);
+    showCertificateButton(certificateId, row);
   }
-
 
   /* =========================
      STATUS
      ========================= */
-
   function showSuccess(message) {
-
-    status.className =
-      "status success";
-
-    status.textContent =
-      message;
-
-    status.style.display =
-      "block";
-
+    status.className = "status success";
+    status.textContent = message;
+    status.style.display = "block";
   }
-
 
   function showError(message) {
-
-    status.className =
-      "status error";
-
-    status.textContent =
-      message;
-
-    status.style.display =
-      "block";
-
+    status.className = "status error";
+    status.textContent = message;
+    status.style.display = "block";
   }
-
-
 </script>
 
-
 </body>
-
 </html>
