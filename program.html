@@ -11,24 +11,36 @@
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #222;
+    :root {
+      --teal-dark: #063d3d;
+      --teal: #087f80;
+      --teal-light: #dff4f4;
+      --white: #ffffff;
+      --text: #073d3e;
+      --bg: #eaf8f9;
+      --shadow: 0 8px 25px rgba(0, 60, 60, 0.12);
     }
 
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eaf8f9 0%, #d9f1f3 100%);
+      color: var(--text);
+    }
+
+    /* ================= NAVBAR ================= */
+
     .navbar {
-      background: #173b63;
+      background: var(--teal-dark);
       width: 100%;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+      box-shadow: 0 3px 15px rgba(0,0,0,0.15);
     }
 
     .nav-container {
-      max-width: 1200px;
+      max-width: 1250px;
       margin: auto;
       padding: 12px 20px;
       display: flex;
@@ -46,20 +58,20 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
 
     .nav-links a {
       color: white;
       text-decoration: none;
-      padding: 9px 12px;
+      padding: 9px 13px;
       border-radius: 7px;
       font-size: 14px;
     }
 
     .nav-links a:hover,
     .nav-links a.active {
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.16);
     }
 
     .menu-toggle {
@@ -67,107 +79,237 @@
       background: transparent;
       border: none;
       color: white;
-      font-size: 26px;
+      font-size: 27px;
       cursor: pointer;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 20px;
+    /* ================= MAIN ================= */
+
+    .program-container {
+      max-width: 1250px;
+      margin: 35px auto;
+      padding: 0 18px 40px;
     }
 
-    .hero {
-      background: white;
-      padding: 45px 25px;
+    /* ================= HEADER ================= */
+
+    .program-header {
       text-align: center;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
-    .hero h1 {
+    .program-header h1 {
       margin: 0;
-      color: #173b63;
-      font-size: 34px;
+      color: var(--teal-dark);
+      font-size: 42px;
+      font-weight: 800;
     }
 
-    .hero p {
-      color: #666;
+    .program-header p {
+      margin: 8px 0 18px;
+      color: #557272;
       font-size: 17px;
-      margin-top: 12px;
     }
 
-    .conference-date {
+    .conference-info {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--teal-dark);
+      color: white;
+      padding: 11px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+      box-shadow: var(--shadow);
+    }
+
+    /* ================= DAY TITLE ================= */
+
+    .day-title {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .day-title span {
       display: inline-block;
-      margin-top: 15px;
-      padding: 10px 18px;
-      background: #eef4fa;
-      color: #173b63;
-      border-radius: 8px;
+      background: var(--teal);
+      color: white;
+      padding: 11px 30px;
+      border-radius: 30px;
+      font-size: 22px;
       font-weight: bold;
     }
 
-    .program-card {
-      background: white;
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-    }
+    /* ================= TIME ================= */
 
-    .program-card h2 {
-      margin-top: 0;
-      color: #173b63;
-      border-bottom: 2px solid #eef1f5;
-      padding-bottom: 12px;
-    }
-
-    .empty-program {
+    .time-bar {
+      width: 390px;
+      max-width: 90%;
+      margin: 25px auto 15px;
+      background: var(--teal-dark);
+      color: white;
+      border-radius: 25px;
+      padding: 9px 18px;
       text-align: center;
-      padding: 40px 20px;
-      color: #777;
+      font-size: 17px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
-    .empty-program strong {
-      display: block;
-      color: #173b63;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
+    /* ================= SESSION ================= */
 
     .session {
       display: grid;
-      grid-template-columns: 140px 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
-      padding: 18px 0;
-      border-bottom: 1px solid #eee;
+      margin-bottom: 8px;
     }
 
-    .session:last-child {
-      border-bottom: none;
+    .lecture {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 105px 1fr;
+      min-height: 150px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(8,127,128,0.10);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .session-time {
-      color: #173b63;
+    .lecture:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,60,60,0.16);
+    }
+
+    .speaker-photo {
+      width: 105px;
+      height: 100%;
+      min-height: 150px;
+      object-fit: cover;
+      background: #d9eeee;
+    }
+
+    .lecture-content {
+      padding: 14px 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .speaker-name {
+      background: var(--teal);
+      color: white;
+      padding: 9px 10px;
+      border-radius: 8px;
+      font-size: 15px;
       font-weight: bold;
+      line-height: 1.25;
+      margin-bottom: 11px;
     }
 
-    .session-title {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .session-speaker {
-      color: #666;
+    .lecture-title {
+      color: var(--text);
       font-size: 14px;
+      line-height: 1.45;
+      font-weight: 600;
     }
+
+    /* ================= BREAK ================= */
+
+    .break {
+      margin: 25px auto;
+      background: var(--teal-dark);
+      color: white;
+      text-align: center;
+      border-radius: 18px;
+      padding: 14px;
+      max-width: 950px;
+      box-shadow: var(--shadow);
+    }
+
+    .break-title {
+      font-family: Georgia, serif;
+      font-size: 42px;
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+
+    .break-time {
+      font-size: 15px;
+      font-weight: bold;
+      opacity: 0.9;
+    }
+
+    /* ================= FOOTER INFO ================= */
+
+    .conference-team {
+      margin-top: 45px;
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .team-item {
+      padding: 8px;
+    }
+
+    .team-role {
+      color: #699090;
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .team-name {
+      color: var(--teal-dark);
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .venue {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e4eeee;
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--teal-dark);
+    }
+
+    /* ================= FOOTER ================= */
 
     footer {
       text-align: center;
-      padding: 30px 20px;
-      color: #777;
+      padding: 25px 20px;
+      background: var(--teal-dark);
+      color: white;
       font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 900px) {
+
+      .session {
+        grid-template-columns: 1fr;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .program-header h1 {
+        font-size: 34px;
+      }
     }
 
     @media (max-width: 700px) {
@@ -197,23 +339,65 @@
         padding: 12px;
       }
 
-      .hero h1 {
-        font-size: 27px;
-      }
-
-      .session {
-        grid-template-columns: 1fr;
-        gap: 6px;
-      }
-
-      .container {
+      .program-container {
         margin-top: 25px;
+        padding: 0 12px 30px;
+      }
+
+      .program-header h1 {
+        font-size: 29px;
+      }
+
+      .program-header p {
+        font-size: 15px;
+      }
+
+      .conference-info {
+        font-size: 14px;
+        padding: 10px 17px;
+      }
+
+      .lecture {
+        grid-template-columns: 85px 1fr;
+        min-height: 130px;
+      }
+
+      .speaker-photo {
+        width: 85px;
+        min-height: 130px;
+      }
+
+      .lecture-content {
+        padding: 10px;
+      }
+
+      .speaker-name {
+        font-size: 13px;
+        padding: 7px;
+      }
+
+      .lecture-title {
+        font-size: 12px;
+      }
+
+      .time-bar {
+        font-size: 14px;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .break-title {
+        font-size: 34px;
       }
     }
   </style>
 </head>
 
 <body>
+
+<!-- ================= NAVBAR ================= -->
 
 <nav class="navbar">
 
@@ -241,8 +425,6 @@
         Registration
       </a>
 
-     
-
     </div>
 
   </div>
@@ -250,84 +432,468 @@
 </nav>
 
 
-<main class="container">
+<!-- ================= PROGRAM ================= -->
 
-  <section class="hero">
+<main class="program-container">
 
-    <h1>
-      Scientific Program
-    </h1>
+  <header class="program-header">
+
+    <h1>Scientific Program</h1>
 
     <p>
-      The 2nd Scientific Conference
-      of the Faculty of Dentistry,
-      Menoufia University
+      The 2nd Annual Scientific Conference
+      of the Faculty of Dentistry, Menoufia University
     </p>
 
-    <div class="conference-date">
-      27–28 August 2026
+    <div class="conference-info">
+      Tuesday • 26th August 2026
     </div>
 
-  </section>
+  </header>
 
 
-  <section class="program-card">
-
-    <h2>
-      Conference Program
-    </h2>
-
-    <div class="empty-program">
-
-      <strong>
-        Scientific Program Coming Soon
-      </strong>
-
-      The detailed sessions, lectures,
-      speakers and timings will be announced soon.
-
-    </div>
-
-  </section>
+  <div class="day-title">
+    <span>Conference Scientific Program</span>
+  </div>
 
 
-  <!--
-  Example structure for adding the final program:
+  <!-- ================= 10:00 - 10:40 ================= -->
 
-  <section class="program-card">
+  <div class="time-bar">
+    🕐 10:00 AM – 10:40 AM
+  </div>
 
-    <h2>Day 1 — 27 August 2026</h2>
+  <div class="session">
 
-    <div class="session">
+    <article class="lecture">
 
-      <div class="session-time">
-        09:00 AM
-      </div>
+      <img
+        src="images/mahmoud-saeed.jpg"
+        class="speaker-photo"
+        alt="Dr. Mahmoud Saeed"
+      >
 
-      <div>
+      <div class="lecture-content">
 
-        <div class="session-title">
-          Lecture Title
+        <div class="speaker-name">
+          DR. Mahmoud Saeed
         </div>
 
-        <div class="session-speaker">
-          Speaker Name
+        <div class="lecture-title">
+          Direct Pulp Capping<br>
+          Using Tissue Engineering Strategies
         </div>
 
       </div>
 
+    </article>
+
+
+    <article class="lecture">
+
+      <img
+        src="images/abd-elfattah-sadka.jpg"
+        class="speaker-photo"
+        alt="Prof. Abd El Fattah Sadka"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          PROF. Abd El Fattah Sadka
+        </div>
+
+        <div class="lecture-title">
+          History &amp; Evolution Of
+          Treatment Of Maxillofacial Trauma
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- ================= 10:50 - 11:30 ================= -->
+
+  <div class="time-bar">
+    🕐 10:50 AM – 11:30 AM
+  </div>
+
+  <div class="session">
+
+    <article class="lecture">
+
+      <img
+        src="images/mohamed-duheim.jpg"
+        class="speaker-photo"
+        alt="Ass. Prof. Mohamed Duheim"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          ASS. PROF. Mohamed Duheim<br>
+          DR. Amira Mokhtar<br>
+          DR. Norhan Samy
+        </div>
+
+        <div class="lecture-title">
+          Advancing Prosthodontics:
+          Digital Techniques and Clinical Tips for Success
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="lecture">
+
+      <img
+        src="images/mohamed-mamoun.jpg"
+        class="speaker-photo"
+        alt="Prof. Mohamed Mamoun"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          PROF. Mohamed Mamoun
+        </div>
+
+        <div class="lecture-title">
+          Short Dental Implants:
+          Predictable Solution Or An Easy Way Out?
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- ================= 11:40 - 12:20 ================= -->
+
+  <div class="time-bar">
+    🕐 11:40 AM – 12:20 PM
+  </div>
+
+  <div class="session">
+
+    <article class="lecture">
+
+      <img
+        src="images/abeer-darrag.jpg"
+        class="speaker-photo"
+        alt="Prof. Abeer Mostafa Darrag"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          PROF. Abeer Mostafa Darrag
+        </div>
+
+        <div class="lecture-title">
+          Microbiological Aspects of Endodontic
+          Infections and up to date Disinfection Strategies.
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="lecture">
+
+      <img
+        src="images/salah-hegazy.jpg"
+        class="speaker-photo"
+        alt="Prof. Salah Hegazy"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          PROF. Salah Hegazy
+        </div>
+
+        <div class="lecture-title">
+          Toward Successful Implant Prosthodontics
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- ================= BREAK ================= -->
+
+  <div class="break">
+
+    <div class="break-title">
+      Break
+    </div>
+
+    <div class="break-time">
+      12:20 PM – 01:30 PM
+    </div>
+
+  </div>
+
+
+  <!-- ================= 01:30 - 02:10 ================= -->
+
+  <div class="time-bar">
+    🕐 01:30 PM – 02:10 PM
+  </div>
+
+  <div class="session">
+
+    <article class="lecture">
+
+      <img
+        src="images/mohamed-el-layeh.jpg"
+        class="speaker-photo"
+        alt="Prof. Mohamed El-Layeh"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          PROF. Mohamed El-Layeh
+        </div>
+
+        <div class="lecture-title">
+          Laminate Veneers:<br>
+          Is Perfect Restoration A Possible Distination?
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="lecture">
+
+      <img
+        src="images/yasser-el-sheikh.jpg"
+        class="speaker-photo"
+        alt="Prof. Yasser El Sheikh"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          PROF. Yasser El Sheikh
+        </div>
+
+        <div class="lecture-title">
+          TMJ Dilemma Evaluation and Management
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- ================= 02:20 - 03:00 ================= -->
+
+  <div class="time-bar">
+    🕐 02:20 PM – 03:00 PM
+  </div>
+
+  <div class="session">
+
+    <article class="lecture">
+
+      <img
+        src="images/osama-askar.jpg"
+        class="speaker-photo"
+        alt="Ass. Prof. Osama Askar"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          ASS. PROF. Osama Askar
+        </div>
+
+        <div class="lecture-title">
+          Stackable Surgical Guide
+          For Complete Arch Implant Cases
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="lecture">
+
+      <img
+        src="images/bassem-el-fahl.jpg"
+        class="speaker-photo"
+        alt="Ass. Prof. Bassem N. El Fahl"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          ASS. PROF. Bassem N. El Fahl
+        </div>
+
+        <div class="lecture-title">
+          Digital Workflow for
+          Gummy Smile Management
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- ================= 03:10 - 03:50 ================= -->
+
+  <div class="time-bar">
+    🕐 03:10 PM – 03:50 PM
+  </div>
+
+  <div class="session">
+
+    <article class="lecture">
+
+      <img
+        src="images/mohamed-el-sawy.jpg"
+        class="speaker-photo"
+        alt="Dr. Mohammed A. El-Sawy"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          DR. Mohammed A. El-Sawy
+        </div>
+
+        <div class="lecture-title">
+          Diabetics and implant overventures:
+          How far can we go?
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="lecture">
+
+      <img
+        src="images/mohamed-khater.jpg"
+        class="speaker-photo"
+        alt="Dr. Mohamed Khater"
+      >
+
+      <div class="lecture-content">
+
+        <div class="speaker-name">
+          DR. Mohamed Khater
+        </div>
+
+        <div class="lecture-title">
+          Oroantral Communication
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- ================= CONFERENCE TEAM ================= -->
+
+  <section class="conference-team">
+
+    <div class="team-grid">
+
+      <div class="team-item">
+
+        <div class="team-role">
+          Conference Coordinator
+        </div>
+
+        <div class="team-name">
+          Dr. Mohamed Abd El Rahman
+        </div>
+
+      </div>
+
+
+      <div class="team-item">
+
+        <div class="team-role">
+          Conference Coordinator
+        </div>
+
+        <div class="team-name">
+          Dr. Mostafa Swedan
+        </div>
+
+      </div>
+
+
+      <div class="team-item">
+
+        <div class="team-role">
+          Vice President
+        </div>
+
+        <div class="team-name">
+          Prof. Rana Hilmy Elhalbawy
+        </div>
+
+      </div>
+
+
+      <div class="team-item">
+
+        <div class="team-role">
+          Conference President
+        </div>
+
+        <div class="team-name">
+          Prof. Salah Abdelfatah Hegazy
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="venue">
+      📍 Menoufia University Hotel - Conferences Hall
     </div>
 
   </section>
-  -->
-
 
 </main>
 
 
+<!-- ================= FOOTER ================= -->
+
 <footer>
 
   Menoufia Dental Congress<br>
+
   Faculty of Dentistry, Menoufia University
 
 </footer>
