@@ -882,27 +882,8 @@ const auth = getAuth(app);
   }
 
 
-onAuthStateChanged(auth, (user) => {
-
-  console.log("AUTH USER:", user);
-
-  if (!user) {
-    document.getElementById("loading").textContent =
-      "Please login as Organizer first.";
-    return;
-  }
-
-  if (
-    user.uid !== "fS56FR5b2vdd632fpUZWXbJFWwj1"
-  ) {
-    document.getElementById("loading").textContent =
-      "Access denied.";
-    return;
-  }
-
-  loadEvaluations();
-
-});
+// للاختبار المباشر دون فحص تسجيل الدخول
+loadEvaluations();
 </script>
 
 
