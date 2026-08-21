@@ -486,19 +486,23 @@
     }
   }
 
-  // زر تحميل الكل دفعة واحدة تباعاً
-  document.getElementById("downloadAllBtn").addEventListener("click", async () => {
+// زر تحميل الكل دفعة واحدة عبر فتحها
+  document.getElementById("downloadAllBtn").addEventListener("click", () => {
     const downloadBtns = document.querySelectorAll(".download-button");
     if (downloadBtns.length === 0) {
       showError("لا توجد شهادات صادرة بعد لتحميلها! يرجى إصدار الشهادات أولاً.");
       return;
     }
     
-    showSuccess(`جاري بدء تحميل ${downloadBtns.length} شهادة تباعاً...`);
-    for (const btn of downloadBtns) {
-      btn.click();
-      await new Promise(r => setTimeout(r, 1200)); // تأخير بسيط بين كل تحميل لتفادي حظر المتصفح
-    }
+    showSuccess(`سيتم فتح ${downloadBtns.length} شهادة الآن. يمكنك حفظها كـ PDF بضغطة زر.`);
+    
+    // فتح روابط الشهادات الموجودة
+    const viewButtons = document.querySelectorAll(".view-button");
+    viewButtons.forEach((btn, index) => {
+      setTimeout(() => {
+        window.open(btn.href, '_blank');
+      }, index * 500); // فتح كل شهادة بفارق نصف ثانية لتفادي حظر المتصفح
+    });
   });
 
   function showSuccess(message) {
