@@ -221,7 +221,7 @@
   const list = document.getElementById("participantsList");
   const status = document.getElementById("status");
 
-  onAuthStateChanged(auth, (user) => {
+ onAuthStateChanged(auth, (user) => {
     if (user) {
       if (user.uid === ORGANIZER_UID) {
         loading.innerHTML = "Organizer verified. Loading participants...";
