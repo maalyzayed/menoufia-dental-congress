@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Management | Menoufia Dental Congress</title>
+  <!-- مكتبة html2canvas لتحويل الشهادة إلى صورة وتحميلها -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     * {
@@ -86,15 +88,23 @@
       font-size: 14px;
     }
 
+    .actions-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     button,
-    .view-button {
+    .view-button,
+    .download-button {
       border: none;
       border-radius: 9px;
-      padding: 11px 18px;
+      padding: 11px 16px;
       font-weight: bold;
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
+      font-size: 14px;
     }
 
     .generate {
@@ -104,6 +114,11 @@
 
     .view-button {
       background: #c9a227;
+      color: white;
+    }
+
+    .download-button {
+      background: #027a48;
       color: white;
     }
 
@@ -158,10 +173,13 @@
     <p>Menoufia Dental Congress</p>
   </div>
 
-  <!-- زرار إصدار وإرسال الكل للحاضرين فقط -->
-  <div class="card" style="text-align: center; margin-bottom: 20px;">
-    <button id="generateAllBtn" class="generate" style="background: #c9a227; font-size: 16px; padding: 14px 25px;">
-      🚀 إصدار وإرسال الشهادات لكل الحاضرين (Check-in) دفعة واحدة
+  <!-- الأزرار الرئيسية في الأعلى -->
+  <div class="card" style="text-align: center; margin-bottom: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+    <button id="generateAllBtn" class="generate" style="background: #c9a227; font-size: 15px; padding: 12px 20px;">
+      🚀 إصدار وإرسال الشهادات لكل الحاضرين دفعة واحدة
+    </button>
+    <button id="downloadAllBtn" class="download-button" style="font-size: 15px; padding: 12px 20px;">
+      📦 تحميل كل الشهادات (صور) دفعة واحدة
     </button>
   </div>
 
@@ -182,7 +200,8 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
   import { initializeAuth, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
- import { getFirestore, collection, getDocs, doc, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, doc, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  
   const firebaseConfig = {
     apiKey: "AIzaSyAB-AIOIQh0tOcVXQnUt7pvVnQi0CoFwSo",
     authDomain: "menoufia-dental-congress.firebaseapp.com",
@@ -202,9 +221,6 @@
   const list = document.getElementById("participantsList");
   const status = document.getElementById("status");
 
-  /* =========================
-     AUTHENTICATION
-     ========================= */
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (user.uid === ORGANIZER_UID) {
@@ -218,9 +234,6 @@
     }
   });
 
-  /* =========================
-     LOAD PARTICIPANTS (CHECK-IN ONLY)
-     ========================= */
   async function loadParticipants() {
     try {
       const snapshot = await getDocs(collection(db, "participants"));
@@ -235,11 +248,7 @@
 
       snapshot.forEach(participantDoc => {
         const data = participantDoc.data();
-
-        // فلترة: يتم جلب وعرض من قاموا بعمل Check-in فقط
-        if (data.attendance !== true) {
-          return;
-        }
+        if (data.attendance !== true) return;
 
         checkedInCount++;
         const participantId = participantDoc.id;
@@ -256,12 +265,11 @@
     }
   }
 
-  /* =========================
-     CREATE PARTICIPANT ROW
-     ========================= */
   function createParticipantRow(participantId, data) {
     const row = document.createElement("div");
     row.className = "participant";
+    row.dataset.participantId = participantId;
+    row.dataset.fullName = data.fullName || "";
 
     const info = document.createElement("div");
     info.className = "participant-info";
@@ -277,22 +285,106 @@
     info.appendChild(name);
     info.appendChild(email);
 
+    const actions = document.createElement("div");
+    actions.className = "actions-group";
+
     const button = document.createElement("button");
     button.className = "generate";
-    button.textContent = "🎓 Generate Certificate";
+    button.textContent = "🎓 Generate";
 
     button.addEventListener("click", () => {
       generateCertificate(participantId, data, button, row);
     });
 
+    actions.appendChild(button);
     row.appendChild(info);
-    row.appendChild(button);
+    row.appendChild(actions);
     list.appendChild(row);
+
+    // التحقق المسبق إذا كانت الشهادة موجودة بالفعل لعرض أزرار العرض والتحميل مباشرة
+    checkExistingCertificateOnLoad(participantId, row);
   }
 
-  /* =========================
-     GENERATE CERTIFICATE (SINGLE)
-     ========================= */
+  async function checkExistingCertificateOnLoad(participantId, row) {
+    try {
+      const certificatesSnapshot = await getDocs(collection(db, "certificates"));
+      certificatesSnapshot.forEach(certificateDoc => {
+        const data = certificateDoc.data();
+        if (data.participantId === participantId) {
+          const certId = certificateDoc.id;
+          const genBtn = row.querySelector(".generate");
+          if (genBtn) {
+            genBtn.textContent = "Created";
+            genBtn.disabled = true;
+          }
+          showCertificateButtons(certId, row);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function showCertificateButtons(certificateId, row) {
+    const actions = row.querySelector(".actions-group");
+    if (actions.querySelector(".view-button")) return;
+
+    const viewLink = document.createElement("a");
+    viewLink.className = "view-button";
+    viewLink.textContent = "View";
+    viewLink.href = "certificate.html?id=" + encodeURIComponent(certificateId);
+    viewLink.target = "_blank";
+
+    const downloadBtn = document.createElement("button");
+    downloadBtn.className = "download-button";
+    downloadBtn.textContent = "📥 Download";
+    downloadBtn.addEventListener("click", () => downloadCertificateImage(certificateId, row.dataset.fullName));
+
+    actions.appendChild(viewLink);
+    actions.appendChild(downloadBtn);
+  }
+
+  // دالة تحميل الشهادة كصورة عبر جلبها في نافذة مخفية وتحويلها
+  async function downloadCertificateImage(certificateId, fullName) {
+    try {
+      showSuccess("جاري تجهيز وتحميل شهادة: " + fullName);
+      
+      // فتح صفحة الشهادة في عنصر iframe مخفي لجلبها وتصويرها
+      const iframe = document.createElement("iframe");
+      iframe.style.position = "absolute";
+      iframe.style.left = "-9999px";
+      iframe.style.width = "1200px";
+      iframe.style.height = "850px";
+      iframe.src = "certificate.html?id=" + encodeURIComponent(certificateId);
+      
+      document.body.appendChild(iframe);
+
+      iframe.onload = () => {
+        setTimeout(async () => {
+          try {
+            const docElement = iframe.contentWindow.document.body;
+            const canvas = await html2canvas(docElement, { scale: 2, useCORS: true });
+            
+            const link = document.createElement("a");
+            link.download = `Certificate_${fullName.replace(/\s+/g, '_')}_${certificateId}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+
+            document.body.removeChild(iframe);
+            showSuccess("تم تحميل الشهادة بنجاح!");
+          } catch (err) {
+            console.error(err);
+            showError("حدث خطأ أثناء تصوير الشهادة.");
+            document.body.removeChild(iframe);
+          }
+        }, 1500);
+      };
+    } catch (e) {
+      console.error(e);
+      showError("فشل تحميل الشهادة.");
+    }
+  }
+
   async function generateCertificate(participantId, participantData, button, row) {
     button.disabled = true;
     button.textContent = "Generating...";
@@ -309,9 +401,8 @@
       });
 
       if (existingCertificateId) {
-        showExistingCertificate(existingCertificateId, row);
-        button.disabled = false;
-        button.textContent = "🎓 Generate Certificate";
+        showCertificateButtons(existingCertificateId, row);
+        button.textContent = "Created";
         return;
       }
 
@@ -329,31 +420,27 @@
       });
 
       showSuccess("Certificate created successfully: " + certificateId);
-      showCertificateButton(certificateId, row);
+      showCertificateButtons(certificateId, row);
 
-      button.textContent = "Certificate Created";
+      button.textContent = "Created";
       button.disabled = true;
 
     } catch (error) {
       console.error("Certificate generation error:", error);
       showError("Error: " + error.code + " — " + error.message);
       button.disabled = false;
-      button.textContent = "🎓 Generate Certificate";
+      button.textContent = "🎓 Generate";
     }
   }
 
-  /* =========================
-     GENERATE & EMAIL ALL CHECKED-IN
-     ========================= */
+  // الإصدار الجماعي
   document.getElementById("generateAllBtn").addEventListener("click", generateAllCheckedInCertificates);
 
   async function generateAllCheckedInCertificates() {
     const btn = document.getElementById("generateAllBtn");
     btn.disabled = true;
-    btn.textContent = "جاري الإصدار والإرسال للحاضرين فقط...";
+    btn.textContent = "جاري الإصدار والإرسال...";
     
-    showSuccess("جاري معالجة الحاضرين الذين أتموا الـ Check-in وإرسال الشهادات...");
-
     try {
       const participantsSnapshot = await getDocs(collection(db, "participants"));
       const certificatesSnapshot = await getDocs(collection(db, "certificates"));
@@ -371,7 +458,6 @@
         const data = participantDoc.data();
         const participantId = participantDoc.id;
 
-        // التأكد الصارم أن الشخص أتم الـ Check-in فقط
         if (data.attendance !== true) continue;
 
         let certificateId = existingCerts.get(participantId);
@@ -393,11 +479,8 @@
           countCreated++;
         }
 
-        // إرسال الإيميل (يتطلب تفعيل خدمة Trigger Email في فايربيس)
-       // إرسال الإيميل عبر مجموعة mail
         if (data.email) {
           const certificateLink = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certificateId);
-          
           await addDoc(collection(db, "mail"), {
             to: data.email,
             message: {
@@ -418,45 +501,33 @@
         }
       }
 
-      showSuccess(`تم بنجاح! تم إنشاء ${countCreated} شهادة جديدة وإرسالها عبر البريد الإلكتروني للحاضرين الذين عملوا Check-in.`);
+      showSuccess(`تم بنجاح! تم إنشاء ${countCreated} شهادة جديدة وإرسالها للحاضرين.`);
       btn.textContent = "✅ تمت العملية بنجاح";
+      location.reload(); // تحديث الصفحة لتحديث الأزرار لكل الحاضرين
 
     } catch (error) {
-      console.error("Error batch generating certificates:", error);
-      showError("حدث خطأ أثناء الإصدار الجماعي: " + error.message);
+      console.error(error);
+      showError("حدث خطأ: " + error.message);
       btn.disabled = false;
-      btn.textContent = "🚀 إصدار وإرسال الشهادات لكل الحاضرين (Check-in) دفعة واحدة";
+      btn.textContent = "🚀 إصدار وإرسال الشهادات لكل الحاضرين دفعة واحدة";
     }
   }
 
-  /* =========================
-     VIEW CERTIFICATE
-     ========================= */
-  function showCertificateButton(certificateId, row) {
-    if (row.querySelector(".view-button")) {
+  // زر تحميل الكل دفعة واحدة تباعاً
+  document.getElementById("downloadAllBtn").addEventListener("click", async () => {
+    const downloadBtns = document.querySelectorAll(".download-button");
+    if (downloadBtns.length === 0) {
+      showError("لا توجد شهادات صادرة بعد لتحميلها! يرجى إصدار الشهادات أولاً.");
       return;
     }
+    
+    showSuccess(`جاري بدء تحميل ${downloadBtns.length} شهادة تباعاً...`);
+    for (const btn of downloadBtns) {
+      btn.click();
+      await new Promise(r => setTimeout(r, 1200)); // تأخير بسيط بين كل تحميل لتفادي حظر المتصفح
+    }
+  });
 
-    const link = document.createElement("a");
-    link.className = "view-button";
-    link.textContent = "View Certificate";
-    link.href = "certificate.html?id=" + encodeURIComponent(certificateId);
-    link.target = "_blank";
-
-    row.appendChild(link);
-  }
-
-  /* =========================
-     EXISTING CERTIFICATE
-     ========================= */
-  function showExistingCertificate(certificateId, row) {
-    showSuccess("This participant already has certificate " + certificateId);
-    showCertificateButton(certificateId, row);
-  }
-
-  /* =========================
-     STATUS
-     ========================= */
   function showSuccess(message) {
     status.className = "status success";
     status.textContent = message;
