@@ -486,22 +486,29 @@
     }
   }
 
-// زر تحميل الكل دفعة واحدة عبر فتحها
+// زر تحميل الكل - عرض الروابط بدلاً من فتحها تلقائياً
   document.getElementById("downloadAllBtn").addEventListener("click", () => {
-    const downloadBtns = document.querySelectorAll(".download-button");
-    if (downloadBtns.length === 0) {
-      showError("لا توجد شهادات صادرة بعد لتحميلها! يرجى إصدار الشهادات أولاً.");
+    const viewButtons = document.querySelectorAll(".view-button");
+    if (viewButtons.length === 0) {
+      showError("لا توجد شهادات صادرة بعد! يرجى إصدار الشهادات أولاً.");
       return;
     }
-    
-    showSuccess(`سيتم فتح ${downloadBtns.length} شهادة الآن. يمكنك حفظها كـ PDF بضغطة زر.`);
-    
-    // فتح روابط الشهادات الموجودة
-    const viewButtons = document.querySelectorAll(".view-button");
+
+    // إنشاء منطقة عرض الروابط
+    let htmlContent = "<strong>تم تجهيز الروابط (اضغط لفتح كل شهادة):</strong><br><br>";
     viewButtons.forEach((btn, index) => {
-      setTimeout(() => {
-        window.open(btn.href, '_blank');
-      }, index * 500); // فتح كل شهادة بفارق نصف ثانية لتفادي حظر المتصفح
+      htmlContent += `<a href="${btn.href}" target="_blank" style="color: #173b63; display: block; margin-bottom: 5px;">شهادة رقم ${index + 1}</a>`;
+    });
+
+    status.innerHTML = htmlContent;
+    status.className = "status success";
+    status.style.display = "block";
+    
+    // محاولة فتح أول 3 شهادات فقط لتقليل احتمالية الحظر
+    viewButtons.forEach((btn, index) => {
+      if (index < 3) {
+        setTimeout(() => window.open(btn.href, '_blank'), index * 500);
+      }
     });
   });
 
