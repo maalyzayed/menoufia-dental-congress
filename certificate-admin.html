@@ -344,44 +344,17 @@
     actions.appendChild(downloadBtn);
   }
 
-  // دالة تحميل الشهادة كصورة عبر جلبها في نافذة مخفية وتحويلها
-  async function downloadCertificateImage(certificateId, fullName) {
-    try {
-      showSuccess("جاري تجهيز وتحميل شهادة: " + fullName);
-      
-      // فتح صفحة الشهادة في عنصر iframe مخفي لجلبها وتصويرها
-      const iframe = document.createElement("iframe");
-      iframe.style.position = "absolute";
-      iframe.style.left = "-9999px";
-      iframe.style.width = "1200px";
-      iframe.style.height = "850px";
-      iframe.src = "certificate.html?id=" + encodeURIComponent(certificateId);
-      
-      document.body.appendChild(iframe);
-
-      iframe.onload = () => {
-        setTimeout(async () => {
-          try {
-            const docElement = iframe.contentWindow.document.body;
-            const canvas = await html2canvas(docElement, { scale: 2, useCORS: true });
-            
-            const link = document.createElement("a");
-            link.download = `Certificate_${fullName.replace(/\s+/g, '_')}_${certificateId}.png`;
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-
-            document.body.removeChild(iframe);
-            showSuccess("تم تحميل الشهادة بنجاح!");
-          } catch (err) {
-            console.error(err);
-            showError("حدث خطأ أثناء تصوير الشهادة.");
-            document.body.removeChild(iframe);
-          }
-        }, 1500);
-      };
-    } catch (e) {
-      console.error(e);
-      showError("فشل تحميل الشهادة.");
+// دالة تحميل أو عرض الشهادة بشكل مباشر ومضمون
+  function downloadCertificateImage(certificateId, fullName) {
+    const certUrl = "certificate.html?id=" + encodeURIComponent(certificateId);
+    
+    // فتح الشهادة في نافذة جديدة
+    const win = window.open(certUrl, '_blank');
+    
+    if (win) {
+      showSuccess(`تم فتح شهادة ${fullName} في نافذة جديدة. يمكنك الضغط فيها على Ctrl + P ثم اختيار Save as PDF لحفظها.`);
+    } else {
+      showError("يرجى السماح للنوافذ المنبثقة (Pop-ups) بالعمل في متصفحك لكي يتم فتح الشهادة.");
     }
   }
 
