@@ -190,6 +190,16 @@
       vertical-align: middle;
     }
 
+    /* Keep every time clearly separated from the speaker name */
+    .schedule td:first-child {
+      border-right: 2px solid var(--blue-soft);
+      padding-right: 28px;
+    }
+
+    .schedule td:last-child {
+      padding-left: 28px;
+    }
+
     .time {
       color: var(--blue-dark);
       font-weight: 800;
@@ -220,6 +230,15 @@
       color: white;
       border-top-color: var(--blue-dark);
       padding: 16px 13px;
+    }
+
+    .break-row td:first-child {
+      border-right: 2px solid rgba(255,255,255,0.28);
+      padding-right: 28px;
+    }
+
+    .break-row td:last-child {
+      padding-left: 28px;
     }
 
     .break-row .time,
@@ -321,6 +340,14 @@
 
       .schedule td {
         padding: 12px 8px;
+      }
+
+      .schedule td:first-child {
+        padding-right: 18px;
+      }
+
+      .schedule td:last-child {
+        padding-left: 18px;
       }
 
       .time {
