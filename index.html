@@ -1064,7 +1064,7 @@ function answer(q) {
 
 `;
 
-  if (/fee|fees|price|cost|registration.*(fee|cost)|رسوم|سعر|اشتراك/.test(x)) return "💰 <b>Proposed Registration Fees</b><br>• Dentist: <b>500 EGP</b><br>• Student: <b>200 EGP</b><br>• Early registration discount: <b>100 EGP</b> off the registration fee.<br><br><small>These are described as proposed fees in the provided conference document.</small>";
+  if (/fee|fees|price|cost|registration.*(fee|cost)|رسوم|سعر|اشتراك/.test(x)) return "💰 <b>Proposed Registration Fees</b><br>• Dentist: <b>400 EGP</b><br>• Student: <b>250 EGP</b><br>• Early registration discount: <b>100 EGP</b> off the registration fee.<br><br><small>These are described as proposed fees in the provided conference document.</small>";
 
   if (/who can|attend|audience|مين.*يحضر|الفئات/.test(x)) return "🎓 <b>Target Participants</b><br>"+D.audience.map(v=>"• "+v).join("<br>");
 
