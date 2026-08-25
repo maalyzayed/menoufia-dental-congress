@@ -279,7 +279,7 @@
       const viewLink = document.createElement("a");
       viewLink.className = "view-btn";
       viewLink.textContent = "عرض الشهادة (" + certId + ")";
-      viewLink.href = "certificate.html?id=" + encodeURIComponent(certId);
+    viewLink.href = "certificate.html?id=" + encodeURIComponent(certId) + "&v=2";
       viewLink.target = "_blank";
       actions.appendChild(viewLink);
     } else {
