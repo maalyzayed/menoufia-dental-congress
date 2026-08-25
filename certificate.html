@@ -384,24 +384,26 @@
 
         }
 
-
-        const data =
-          certificateSnap.data();
-
-
-        const fullName =
-          data.fullName ||
-          "Participant";
-
+const data = certificateSnap.data();
+        const rawName = data.fullName || "Participant";
 
         /* =========================
-           NAME
+           NAME (مع إضافة DR/)
            ========================= */
+        function formatDoctorName(name) {
+          const clean = name.trim();
+          // لو الاسم مكتوب مبيوقاً بـ Dr أو DR بأي شكل، لا نكرره ونوحده
+          if (/^dr[\/.\s]/i.test(clean)) {
+            return clean.replace(/^dr[\/.\s]+/i, "DR/ ");
+          }
+          return "DR/ " + clean;
+        }
+
+        const fullName = formatDoctorName(rawName);
 
         document
           .getElementById("participantName")
-          .textContent =
-          fullName;
+          .textContent = fullName;
 
 
         /* =========================
