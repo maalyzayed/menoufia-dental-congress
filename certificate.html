@@ -399,12 +399,20 @@ const data = certificateSnap.data();
           return "DR/ " + clean;
         }
 
-        const fullName = formatDoctorName(rawName);
+       let rawName = data.fullName || "Participant";
+        
+        // تنظيف الاسم والتأكد من إضافة DR/ في البداية إذا لم تكن موجودة
+        let cleanName = rawName.trim();
+        if (!/^dr[\/.\s]/i.test(cleanName)) {
+          cleanName = "DR/ " + cleanName;
+        } else {
+          // توحيد شكل اللقب ليكون "DR/ " دائماً
+          cleanName = cleanName.replace(/^dr[\/.\s]+/i, "DR/ ");
+        }
 
         document
           .getElementById("participantName")
-          .textContent = fullName;
-
+          .textContent = cleanName;
 
         /* =========================
            CERTIFICATE ID
