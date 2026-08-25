@@ -1,4 +1,4 @@
-const CACHE_NAME = "menoufia-dental-congress-v1";
+const CACHE_NAME = "menoufia-dental-congress-v2";
 
 const FILES_TO_CACHE = [
   "/menoufia-dental-congress/",
@@ -50,7 +50,7 @@ self.addEventListener('fetch', (event) => {
         // نسخ الاستجابة لتخزينها
         const responseToCache = networkResponse.clone();
 
-        caches.open('v1').then((cache) => {
+        caches.open('v2').then((cache) => {
           cache.put(event.request, responseToCache);
         });
 
