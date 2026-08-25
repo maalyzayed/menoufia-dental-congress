@@ -68,7 +68,8 @@
       transition: 0.2s;
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover,
+    .nav-links a.active {
       background: rgba(255,255,255,0.15);
     }
 
@@ -80,6 +81,7 @@
       font-size: 26px;
       cursor: pointer;
     }
+
 
     /* =========================
        HERO
@@ -103,12 +105,15 @@
       display: inline-block;
 
       color: #d4af37;
+
       border: 1px solid rgba(212,175,55,0.7);
 
       padding: 8px 18px;
+
       border-radius: 30px;
 
       font-size: 13px;
+
       font-weight: bold;
 
       letter-spacing: 2px;
@@ -118,60 +123,83 @@
 
     .hero h1 {
       margin: 0;
+
       font-size: 48px;
+
       letter-spacing: 1px;
     }
 
     .hero p {
       margin: 15px auto 0;
-      max-width: 700px;
+
+      max-width: 760px;
 
       font-size: 18px;
+
       line-height: 1.7;
 
       opacity: 0.9;
     }
 
+
     /* =========================
-       SPEAKERS
+       SPEAKERS SECTION
        ========================= */
 
     .speakers-section {
-      max-width: 1200px;
+
+      max-width: 1250px;
+
       margin: auto;
+
       padding: 60px 20px 80px;
     }
 
     .section-title {
+
       text-align: center;
+
       margin-bottom: 45px;
     }
 
     .section-title span {
+
       color: #d4af37;
+
       font-size: 13px;
+
       font-weight: bold;
+
       letter-spacing: 2px;
     }
 
     .section-title h2 {
+
       margin: 10px 0;
+
       font-size: 34px;
+
       color: #173b63;
     }
 
     .section-title p {
+
       color: #687b89;
-      max-width: 650px;
+
+      max-width: 700px;
+
       margin: auto;
+
       line-height: 1.7;
     }
+
 
     /* =========================
        GRID
        ========================= */
 
     .speakers-grid {
+
       display: grid;
 
       grid-template-columns:
@@ -179,6 +207,7 @@
 
       gap: 25px;
     }
+
 
     /* =========================
        CARD
@@ -212,6 +241,7 @@
         0 18px 40px rgba(23,59,99,0.15);
     }
 
+
     /* GOLD TOP LINE */
 
     .speaker-card::before {
@@ -224,12 +254,14 @@
       left: 0;
 
       width: 100%;
+
       height: 4px;
 
       background: #d4af37;
 
       z-index: 2;
     }
+
 
     /* =========================
        IMAGE
@@ -238,6 +270,7 @@
     .speaker-image {
 
       width: 100%;
+
       height: 260px;
 
       background:
@@ -248,7 +281,9 @@
         );
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       overflow: hidden;
@@ -257,11 +292,13 @@
     .speaker-image img {
 
       width: 100%;
+
       height: 100%;
 
       object-fit: cover;
 
-      transition: transform 0.4s ease;
+      transition:
+        transform 0.4s ease;
     }
 
     .speaker-card:hover
@@ -269,6 +306,7 @@
 
       transform: scale(1.05);
     }
+
 
     /* =========================
        CONTENT
@@ -292,27 +330,121 @@
       line-height: 1.4;
     }
 
+
+    /* ROLE */
+
     .speaker-role {
 
-      margin-top: 8px;
+      margin-top: 7px;
 
       color: #b18b1e;
 
+      font-size: 12px;
+
+      font-weight: bold;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.5px;
+    }
+
+
+    /* =========================
+       TOPIC
+       ========================= */
+
+    .speaker-topic {
+
+      margin-top: 13px;
+
+      color: #315b78;
+
       font-size: 13px;
+
+      font-weight: 600;
+
+      line-height: 1.5;
+
+      min-height: 60px;
+    }
+
+
+    /* =========================
+       INFORMATION
+       ========================= */
+
+    .speaker-meta {
+
+      margin-top: 14px;
+
+      padding-top: 12px;
+
+      border-top:
+        1px solid #e3edf2;
+
+      color: #687b89;
+
+      font-size: 12px;
+
+      line-height: 1.8;
+    }
+
+    .speaker-meta strong {
+
+      color: #173b63;
+    }
+
+    .speaker-hall {
+
+      display: inline-block;
+
+      margin-top: 3px;
+
+      color: #b18b1e;
 
       font-weight: bold;
     }
+
+
+    /* =========================
+       NUMBER
+       ========================= */
 
     .speaker-number {
 
       margin-top: 12px;
 
-      font-size: 11px;
+      font-size: 10px;
 
       color: #9aa9b2;
 
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
     }
+
+
+    /* =========================
+       DAY LABEL
+       ========================= */
+
+    .day-label {
+
+      display: inline-block;
+
+      margin-top: 10px;
+
+      padding: 5px 10px;
+
+      border-radius: 20px;
+
+      background: #eef6fb;
+
+      color: #173b63;
+
+      font-size: 11px;
+
+      font-weight: bold;
+    }
+
 
     /* =========================
        FOOTER
@@ -329,17 +461,21 @@
       padding: 25px 20px;
 
       font-size: 13px;
+
+      line-height: 1.8;
     }
 
     footer strong {
+
       color: #d4af37;
     }
+
 
     /* =========================
        TABLET
        ========================= */
 
-    @media (max-width: 1000px) {
+    @media (max-width: 1100px) {
 
       .speakers-grid {
 
@@ -349,6 +485,29 @@
 
     }
 
+
+    /* =========================
+       TABLET SMALL
+       ========================= */
+
+    @media (max-width: 800px) {
+
+      .speakers-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+        gap: 18px;
+      }
+
+      .speaker-image {
+
+        height: 240px;
+      }
+
+    }
+
+
     /* =========================
        MOBILE
        ========================= */
@@ -356,10 +515,12 @@
     @media (max-width: 700px) {
 
       .nav-container {
+
         flex-wrap: wrap;
       }
 
       .menu-toggle {
+
         display: block;
       }
 
@@ -377,64 +538,140 @@
       }
 
       .nav-links.active {
+
         display: flex;
       }
 
       .nav-links a {
+
         text-align: center;
+
         padding: 12px;
       }
 
+
       .hero {
+
         padding: 55px 18px 45px;
       }
 
       .hero h1 {
+
         font-size: 34px;
       }
 
       .hero p {
+
         font-size: 15px;
       }
+
+
+      .speakers-section {
+
+        padding:
+          45px 12px 60px;
+      }
+
+
+      .section-title h2 {
+
+        font-size: 27px;
+      }
+
+
+      .section-title p {
+
+        font-size: 14px;
+      }
+
 
       .speakers-grid {
 
         grid-template-columns:
           repeat(2, 1fr);
 
-        gap: 15px;
+        gap: 12px;
       }
+
 
       .speaker-image {
-        height: 220px;
+
+        height: 190px;
       }
+
 
       .speaker-content {
-        padding: 16px 10px 18px;
+
+        padding:
+          15px 10px 18px;
       }
 
+
       .speaker-content h3 {
+
         font-size: 15px;
+      }
+
+
+      .speaker-role {
+
+        font-size: 10px;
+      }
+
+
+      .speaker-topic {
+
+        font-size: 11px;
+
+        min-height: auto;
+
+        margin-top: 10px;
+      }
+
+
+      .speaker-meta {
+
+        font-size: 10px;
+
+        line-height: 1.7;
+      }
+
+
+      .speaker-number {
+
+        font-size: 9px;
       }
 
     }
 
+
+    /* =========================
+       VERY SMALL MOBILE
+       ========================= */
+
     @media (max-width: 450px) {
 
-      .speakers-section {
-        padding: 45px 12px 60px;
-      }
-
       .speakers-grid {
-        gap: 12px;
+
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 9px;
       }
 
       .speaker-image {
-        height: 190px;
+
+        height: 165px;
       }
 
-      .section-title h2 {
-        font-size: 27px;
+      .speaker-content h3 {
+
+        font-size: 14px;
+      }
+
+      .speaker-topic {
+
+        font-size: 10px;
       }
 
     }
@@ -479,15 +716,14 @@
         Home
       </a>
 
-      <a href="speakers.html">
+      <a href="speakers.html"
+         class="active">
         Speakers
       </a>
 
       <a href="program.html">
         Program
       </a>
-
-     
 
     </div>
 
@@ -503,17 +739,25 @@
 <section class="hero">
 
   <div class="hero-badge">
+
     2ND MENOUFIA DENTAL CONGRESS
+
   </div>
 
+
   <h1>
+
     Our Distinguished Speakers
+
   </h1>
 
+
   <p>
+
     Meet the distinguished professors,
     clinicians, researchers, and dental
     experts joining us at the congress.
+
   </p>
 
 </section>
@@ -529,17 +773,25 @@
   <div class="section-title">
 
     <span>
+
       MEET THE EXPERTS
+
     </span>
 
+
     <h2>
+
       Distinguished Speakers
+
     </h2>
 
+
     <p>
+
       A distinguished group of experts
       sharing their knowledge, experience,
       and vision for the future of dentistry.
+
     </p>
 
   </div>
@@ -548,6 +800,7 @@
   <div
     class="speakers-grid"
     id="speakersGrid">
+
   </div>
 
 
@@ -565,10 +818,18 @@
   <br>
 
   <strong>
-    Innovate, Integrate, Elevate Dentistry
+
+    Shaping the Future of Dentistry
+    Through Science and Innovation
+
   </strong>
 
+  <br>
+
+  Faculty of Dentistry, Menoufia University
+
 </footer>
+
 
 
 <script>
@@ -580,136 +841,484 @@
 
 const speakers = [
 
-  {
-    name: "Mahmoud Saeed",
-    image: "mahmoud saeed.jpg"
-  },
+  /* =========================
+     WEDNESDAY - HALL 1
+     ========================= */
 
   {
-    name: "Islam Kasem",
-    image: "islam kasem.jpg"
+    name: "Prof. Abdelfattah Sadakah",
+
+    image: "Abdelfatah sadakah.jpg",
+
+    topic:
+      "Pros and Cons in Computer Guided Oral and Maxillofacial Surgery",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "11:30 AM – 12:15 PM"
   },
 
-  {
-    name: "Hoda Gaafar",
-    image: "hoda gaafar.jpg"
-  },
 
   {
-    name: "Mohamed Elsawy",
-    image: "mohamed elsawy.jpg"
+    name: "Prof. Enas El Gendy",
+
+    image: "Enas Elgendy.jpg",
+
+    topic:
+      "Classification of Focal Peri-implant Inflammation/Deficiencies at Single Implant Sites in the Esthetic Zone",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "12:15 PM – 1:00 PM"
   },
 
-  {
-    name: "Walaa Mohamed",
-    image: "walaa mohamed.jpg"
-  },
 
   {
-    name: "Adriano Piattelli",
-    image: "adriano piattelli.jpg"
+    name: "Assist. Prof. Abdelrahman Mohamed",
+
+    image: "A.Rahman Fadag.jpg",
+
+    topic:
+      "Sealer Based Obturation Technique: Simplicity of RCT",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "2:00 PM – 2:35 PM"
   },
 
-  {
-    name: "Hamdi Hosni",
-    image: "hamdi hosni.jpg"
-  },
 
   {
-    name: "Sara Elkot",
-    image: "sara elkot.jpg"
+    name: "Dr. Mohamed Khater",
+
+    image: "mohamed khater.jpg",
+
+    topic:
+      "Early Diagnosis of Oral Cancer",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "2:45 PM – 3:20 PM"
   },
 
-  {
-    name: "Asmaa Khater",
-    image: "asmaa khater.jpg"
-  },
+
+  /* =========================
+     WEDNESDAY - HALL 2
+     ========================= */
 
   {
-    name: "Abdelrahman Elkholy",
-    image: "abdelrahman elkholy.jpg"
+    name: "Dr. Mahmoud Saeed",
+
+    image: "mahmoud saeed.jpg",
+
+    topic:
+      "Saliva as a Powerful Diagnostic Tool",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "10:00 AM – 10:35 AM"
   },
 
-  {
-    name: "Salah Hegazy",
-    image: "salah hegazy.jpg"
-  },
 
   {
-    name: "Mohamed Khater",
-    image: "mohamed khater.jpg"
+    name: "Dr. Karima Mansour",
+
+    image: "karima mansour.jpg",
+
+    topic:
+      "Management of Gummy Smile",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "10:35 AM – 11:10 AM"
   },
 
-  {
-    name: "Mostafa Swedan",
-    image: "mostafa swedan.jpg"
-  },
 
   {
-    name: "Mohmed Al-Sahat",
-    image: "mohmed al-sahat.jpg"
+    name: "Assist. Prof. Hisham Abada",
+
+    image: "hisham abada.jpg",
+
+    topic:
+      "Management of Endodontic Mishaps: Evidence-Based Approaches",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "11:10 AM – 11:45 AM"
   },
 
-  {
-    name: "Amira Farid",
-    image: "Amira farid.jpg"
-  },
 
   {
-    name: "Abdelhalim Faris",
-    image: "abdelhalim Faris.jpg"
+    name: "Prof. Ahmed Z. El-Hoshy",
+
+    image: "Ahmed z.el-hoshy.jpg",
+
+    topic:
+      "Diabetes in Whole Management: From Rehabilitation to Health Infiltration",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "11:45 AM – 12:20 PM"
   },
 
-  {
-    name: "Ahmed Z. El-Hoshy",
-    image: "Ahmed z.el-hoshy.jpg"
-  },
 
   {
-    name: "Mohamed Elsaharty",
-    image: "mohamed elsaharty.jpg"
+    name: "Assist. Prof. Hoda Gaafar",
+
+    image: "hoda gaafar.jpg",
+
+    topic:
+      "Rationale of Bloomoptability in Evolutional Dentistry",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "12:20 PM – 12:55 PM"
   },
 
-  {
-    name: "Karima Mansour",
-    image: "karima mansour.jpg"
-  },
 
   {
-    name: "Abdelfatah Sadakah",
-    image: "Abdelfatah sadakah.jpg"
+    name: "Assist. Prof. Sarah Elkot",
+
+    image: "sara elkot.jpg",
+
+    topic:
+      "Role of Laser in Management of Periodontal Disease",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "2:00 PM – 2:35 PM"
   },
 
-  {
-    name: "Hisham Abada",
-    image: "hisham abada.jpg"
-  },
 
   {
-    name: "Ahmed Abdelwahed",
-    image: "Ahmed abdelwahed.jpg"
+    name: "Assist. Prof. Mohamed Elsaharty",
+
+    image: "mohamed elsaharty.jpg",
+
+    topic:
+      "Biomechanics of Dental Implants-Assisted Maxillary Protraction",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "2:45 PM – 3:20 PM"
   },
 
-  {
-    name: "Rami Al-Fodeh",
-    image: "Rami al-fodeh.jpg"
-  },
 
   {
-    name: "Enas Elgendy",
-    image: "Enas Elgendy.jpg"
+    name: "Dr. Walaa Mohamed Hassan",
+
+    image: "walaa mohamed.jpg",
+
+    topic:
+      "Demystifying Class III Restorations: Contemporary Concepts and Clinical Pearls",
+
+    day:
+      "Wednesday, 26 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "3:20 PM – 3:55 PM"
   },
 
+
+  /* =========================
+     THURSDAY - HALL 1
+     ========================= */
+
   {
-    name: "A. Rahman Fadag",
-    image: "A.Rahman Fadag.jpg"
+    name: "Dr. Mohammed A. El-Sawy",
+
+    image: "mohamed elsawy.jpg",
+
+    topic:
+      "Advanced Digital Workflows and Implant Protocols for Full-Mouth Rehabilitation",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "10:00 AM – 10:35 AM"
+  },
+
+
+  {
+    name: "Dr. Nourhan S. Emam",
+
+    image: "Norhan Emam.jpg",
+
+    topic:
+      "More Than a Prosthesis: The Art of Maxillofacial Rehabilitation",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "10:35 AM – 11:10 AM"
+  },
+
+
+  {
+    name: "Prof. Mohamed Al-Shahat",
+
+    image: "Mohmed Al-Sahat.jpg",
+
+    topic:
+      "Compromised Implant Sites: Management of Soft and Hard Tissue Defects",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "11:10 AM – 11:45 AM"
+  },
+
+
+  {
+    name: "Dr. Amira Farid",
+
+    image: "Amira farid.jpg",
+
+    topic:
+      "Temporomandibular Disorders Unlocked",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "11:45 AM – 12:20 PM"
+  },
+
+
+  {
+    name:
+      "Prof. Salah Hegazy & Dr. Ahmed AbdElsalam",
+
+    image:
+      "salah hegazy.jpg",
+
+    topic:
+      "Multidisciplinary Team for Management of Cleft Lip and Palate",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "12:20 PM – 12:55 PM"
+  },
+
+
+  {
+    name: "Dr. Aberrahman ElKholy",
+
+    image: "abdelrahman elkholy.jpg",
+
+    topic:
+      "Intelligent Diagnosis of Complex Endodontic Lesions",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "2:00 PM – 2:35 PM"
+  },
+
+
+  {
+    name: "Dr. Abdelhalim Faris",
+
+    image: "abdelhalim Faris.jpg",
+
+    topic:
+      "Digital Transformation in Dental Technology: Bridging Clinic and Lab",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 1",
+
+    time:
+      "2:45 PM – 3:20 PM"
+  },
+
+
+  /* =========================
+     THURSDAY - HALL 2
+     ========================= */
+
+  {
+    name: "Prof. Hamdi Hosni",
+
+    image: "hamdi hosni.jpg",
+
+    topic:
+      "Clinical Protocols and Guidelines for Successful Posterior Composite Restoration",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "10:00 AM – 10:35 AM"
+  },
+
+
+  {
+    name: "Dr. Asmaa Khater",
+
+    image: "asmaa khater.jpg",
+
+    topic:
+      "The Composite Dilemma: Myths and How to Fix It",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "10:35 AM – 11:10 AM"
+  },
+
+
+  {
+    name: "Dr. Islam Kassem",
+
+    image: "islam kasem.jpg",
+
+    topic:
+      "AI Assisted Facial Cosmetic Surgery",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "11:10 AM – 11:45 AM"
+  },
+
+
+  {
+    name: "Prof. Ahmed Abdelwahed",
+
+    image: "Ahmed abdelwahed.jpg",
+
+    topic:
+      "Sleep Apnea... Road Map",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "11:45 AM – 12:20 PM"
+  },
+
+
+  {
+    name: "Dr. Sohair Ezzat Attallah",
+
+    image: "sohair ezzat.jpg",
+
+    topic:
+      "Minimally Invasive Dentistry: From Disease Management to Tissue Preservation",
+
+    day:
+      "Thursday, 27 August",
+
+    hall:
+      "Hall 2",
+
+    time:
+      "2:45 PM – 3:20 PM"
   }
 
 ];
 
 
 /* =========================
-   CREATE CARDS
+   CREATE SPEAKER CARDS
    ========================= */
 
 const grid =
@@ -724,6 +1333,7 @@ speakers.forEach(
     const card =
       document.createElement("div");
 
+
     card.className =
       "speaker-card";
 
@@ -736,7 +1346,10 @@ speakers.forEach(
           src="${speaker.image}"
           alt="${speaker.name}"
           loading="lazy"
-          onerror="this.src='speaker-placeholder.jpg'"
+          onerror="
+            this.onerror=null;
+            this.src='speaker-placeholder.jpg';
+          "
         >
 
       </div>
@@ -744,17 +1357,70 @@ speakers.forEach(
 
       <div class="speaker-content">
 
+
         <h3>
+
           ${speaker.name}
+
         </h3>
 
+
         <div class="speaker-role">
+
           Distinguished Speaker
+
         </div>
 
-        <div class="speaker-number">
-          SPEAKER ${String(index + 1).padStart(2, "0")}
+
+        <div class="speaker-topic">
+
+          ${speaker.topic}
+
         </div>
+
+
+        <div class="speaker-meta">
+
+
+          <div>
+
+            <strong>
+              📅 Day:
+            </strong>
+
+            ${speaker.day}
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              🕐 Time:
+            </strong>
+
+            ${speaker.time}
+
+          </div>
+
+
+          <div class="speaker-hall">
+
+            📍 ${speaker.hall}
+
+          </div>
+
+
+        </div>
+
+
+        <div class="speaker-number">
+
+          SPEAKER
+          ${String(index + 1).padStart(2, "0")}
+
+        </div>
+
 
       </div>
 
