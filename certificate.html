@@ -52,8 +52,9 @@
 
       overflow: hidden;
       border: 3px solid #c9a227;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.15);
-  padding: 55px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+      padding: 55px;
+      display: none; /* مخفي لحين التحميل */
     }
 
 
@@ -61,124 +62,95 @@
        PARTICIPANT NAME
        ========================= */
 
-  .participant-name-area {
-  position: absolute;
+    .participant-name-area {
+      position: absolute;
+      left: 25%;
+      top: 39%;
+      width: 50%;
+      height: 14%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      z-index: 10;
+    }
 
-  left: 25%;
-  top: 39%;
-  width: 50%;
-  height: 14%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #fff;
-
-  z-index: 10;
-}
-
-.participant-name {
-  color: #102c52;
-
-  font-family:
-    "Brush Script MT",
-    "Segoe Script",
-    cursive;
-
-  font-size: clamp(32px, 4vw, 60px);
-
-  white-space: nowrap;
-  text-align: center;
-
-  line-height: 1;
-}
+    .participant-name {
+      color: #102c52;
+      font-family: "Brush Script MT", "Segoe Script", cursive;
+      font-size: clamp(32px, 4vw, 60px);
+      white-space: nowrap;
+      text-align: center;
+      line-height: 1;
+    }
 
 
     /* =========================
        QR CODE
        ========================= */
 
-.qr-area {
-  position: absolute;
+    .qr-area {
+      position: absolute;
+      left: 4.2%;
+      top: 61%;
+      width: 10.5%;
+      height: 17%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      z-index: 20;
+    }
 
-  left: 4.2%;
-  top: 61%;
+    #qrcode {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  width: 10.5%;
-  height: 17%;
+    #qrcode img,
+    #qrcode canvas {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
 
-  background: white;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 5px;
-
-  z-index: 20;
-}
-
-#qrcode {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#qrcode img,
-#qrcode canvas {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain;
-}
     /* =========================
        CERTIFICATE ID
        ========================= */
-.certificate-id-area {
-  position: absolute;
+    .certificate-id-area {
+      position: absolute;
+      left: 4.4%;
+      top: 77.5%;
+      width: 11%;
+      height: 4.5%;
+      background: #173b63;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 11;
+    }
 
-  left: 4.4%;
-  top: 77.5%;
+    .certificate-id {
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: clamp(8px, 0.9vw, 13px);
+      font-weight: bold;
+      text-align: center;
+      white-space: nowrap;
+    }
 
-  width: 11%;
-  height: 4.5%;
-
-  background: #173b63;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 11;
-}
-
-.certificate-id {
-  color: white;
-
-  font-family: Arial, sans-serif;
-
-  font-size: clamp(8px, 0.9vw, 13px);
-
-  font-weight: bold;
-
-  text-align: center;
-
-  white-space: nowrap;
-}
     /* =========================
        PRINT
        ========================= */
-
     @media print {
-
       body {
         padding: 0;
         background: white;
       }
-
       .certificate {
         width: 100vw;
         height: auto;
@@ -186,26 +158,19 @@
       }
     }
 
-
     /* =========================
        MOBILE
        ========================= */
-
     @media (max-width: 600px) {
-
       body {
         padding: 5px;
       }
-
       .certificate {
         width: 100%;
       }
-
     }
-
   </style>
 </head>
-
 
 <body>
 
@@ -213,286 +178,117 @@
     Loading certificate...
   </div>
 
-
   <div id="error" class="error" style="display:none;"></div>
-
 
   <div id="certificate" class="certificate">
 
-
     <!-- Dynamic Participant Name -->
-
     <div class="participant-name-area">
-
-      <div
-        id="participantName"
-        class="participant-name"
-      >
+      <div id="participantName" class="participant-name">
         Participant Name
       </div>
-
     </div>
-
 
     <!-- Dynamic QR -->
-
     <div class="qr-area">
-
       <div id="qrcode"></div>
-
     </div>
-
 
     <!-- Dynamic Certificate ID -->
-
     <div class="certificate-id-area">
-
-      <div
-        id="certificateId"
-        class="certificate-id"
-      >
+      <div id="certificateId" class="certificate-id">
         MDC-2026-0001
       </div>
-
     </div>
-
 
   </div>
 
-
   <script type="module">
-
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-
-    import {
-      getFirestore,
-      doc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-    /* =========================
-       FIREBASE
-       ========================= */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
     const firebaseConfig = {
-
-      apiKey:
-       "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
-
-      authDomain:
-        "menoufia-dental-congress.firebaseapp.com",
-
-      projectId:
-        "menoufia-dental-congress",
-
-      storageBucket:
-        "menoufia-dental-congress.firebasestorage.app",
-
-      messagingSenderId:
-        "20481129823",
-
-      appId:
-        "1:20481129823:web:24658314d19bcacf1dcaea"
-
+      apiKey: "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
+      authDomain: "menoufia-dental-congress.firebaseapp.com",
+      projectId: "menoufia-dental-congress",
+      storageBucket: "menoufia-dental-congress.firebasestorage.app",
+      messagingSenderId: "20481129823",
+      appId: "1:20481129823:web:24658314d19bcacf1dcaea"
     };
 
-
-    const app =
-      initializeApp(firebaseConfig);
-
-
-    const db =
-      getFirestore(app);
-
-
-    /* =========================
-       SHOW ERROR
-       ========================= */
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
     function showError(message) {
-
-      document
-        .getElementById("loading")
-        .style.display = "none";
-
-
-      const error =
-        document.getElementById("error");
-
-
+      document.getElementById("loading").style.display = "none";
+      const error = document.getElementById("error");
       error.textContent = message;
-
       error.style.display = "block";
-
     }
 
-
-    /* =========================
-       LOAD CERTIFICATE
-       ========================= */
-
     async function loadCertificate() {
-
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-
-
-      const certificateId =
-        params.get("id");
-
+      const params = new URLSearchParams(window.location.search);
+      const certificateId = params.get("id");
 
       if (!certificateId) {
-
-        showError(
-          "No certificate ID was provided."
-        );
-
+        showError("No certificate ID was provided.");
         return;
-
       }
 
-
       try {
-
-        const certificateRef =
-          doc(
-            db,
-            "certificates",
-            certificateId
-          );
-
-
-        const certificateSnap =
-          await getDoc(
-            certificateRef
-          );
-
+        const certificateRef = doc(db, "certificates", certificateId);
+        const certificateSnap = await getDoc(certificateRef);
 
         if (!certificateSnap.exists()) {
-
-          showError(
-            "Certificate not found."
-          );
-
+          showError("Certificate not found.");
           return;
-
         }
 
-const data = certificateSnap.data();
-        const rawName = data.fullName || "Participant";
-
-        /* =========================
-           NAME (مع إضافة DR/)
-           ========================= */
-        function formatDoctorName(name) {
-          const clean = name.trim();
-          // لو الاسم مكتوب مبيوقاً بـ Dr أو DR بأي شكل، لا نكرره ونوحده
-          if (/^dr[\/.\s]/i.test(clean)) {
-            return clean.replace(/^dr[\/.\s]+/i, "DR/ ");
-          }
-          return "DR/ " + clean;
-        }
-
-       let rawName = data.fullName || "Participant";
+        const data = certificateSnap.data();
+        let rawName = data.fullName || "Participant";
         
-        // تنظيف الاسم والتأكد من إضافة DR/ في البداية إذا لم تكن موجودة
+        // تنظيف الاسم وإضافة DR/ أو توحيد شكلها تلقائياً
         let cleanName = rawName.trim();
         if (!/^dr[\/.\s]/i.test(cleanName)) {
           cleanName = "DR/ " + cleanName;
         } else {
-          // توحيد شكل اللقب ليكون "DR/ " دائماً
           cleanName = cleanName.replace(/^dr[\/.\s]+/i, "DR/ ");
         }
 
-        document
-          .getElementById("participantName")
-          .textContent = cleanName;
+        document.getElementById("participantName").textContent = cleanName;
 
         /* =========================
            CERTIFICATE ID
            ========================= */
-
-        document
-          .getElementById("certificateId")
-          .textContent =
-          certificateId;
-
+        document.getElementById("certificateId").textContent = certificateId;
 
         /* =========================
            QR CODE
            ========================= */
-
-        const verificationUrl =
-          window.location.origin +
-          window.location.pathname +
-          "?id=" +
-          encodeURIComponent(
-            certificateId
-          );
-
-
-        const qrContainer =
-          document.getElementById(
-            "qrcode"
-          );
-
-
+        const verificationUrl = window.location.origin + window.location.pathname + "?id=" + encodeURIComponent(certificateId);
+        const qrContainer = document.getElementById("qrcode");
         qrContainer.innerHTML = "";
 
-
-        new QRCode(
-          qrContainer,
-          {
-            text: verificationUrl,
-            width: 150,
-            height: 150,
-            correctLevel:
-              QRCode.CorrectLevel.H
-          }
-        );
-
+        new QRCode(qrContainer, {
+          text: verificationUrl,
+          width: 150,
+          height: 150,
+          correctLevel: QRCode.CorrectLevel.H
+        });
 
         /* =========================
            SHOW CERTIFICATE
            ========================= */
-
-        document
-          .getElementById("loading")
-          .style.display =
-          "none";
-
-
-        document
-          .getElementById("certificate")
-          .style.display =
-          "block";
-
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("certificate").style.display = "block";
 
       } catch (error) {
-
-        console.error(
-          "Certificate error:",
-          error
-        );
-
-
-       showError(
-  "Error: " + error.code + " — " + error.message
-);
-
+        console.error("Certificate error:", error);
+        showError("Error: " + error.code + " — " + error.message);
       }
-
     }
 
-
     loadCertificate();
-
   </script>
 
 </body>
