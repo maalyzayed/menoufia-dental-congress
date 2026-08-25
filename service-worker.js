@@ -33,18 +33,29 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        const copy = response.clone();
+self.addEventListener('fetch', (event) => {
+  // تجاهل أي طلب ليس GET (مثل POST أو PUT أو DELETE)
+  if (event.request.method !== 'GET') {
+    return;
+  }
 
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, copy);
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      return cachedResponse || fetch(event.request).then((networkResponse) => {
+        // تأكد من أن الاستجابة سليمة قبل تخزينها
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
+
+        // نسخ الاستجابة لتخزينها
+        const responseToCache = networkResponse.clone();
+
+        caches.open('v1').then((cache) => {
+          cache.put(event.request, responseToCache);
         });
 
-        return response;
-      })
-      .catch(() => caches.match(event.request))
+        return networkResponse;
+      });
+    })
   );
 });
