@@ -200,25 +200,21 @@
         loading.innerHTML = "تم التحقق من المنظم. جاري جلب الحاضرين...";
         loadCheckedInParticipants();
       } else {
-        loading.innerHTML = "خطأ في صلاحيات الحساب (UID غير مطابق للمنظم).";
+        loading.innerHTML = "خطأ في صلاحيات الحساب (UID غير مطابق للمنظم). الـ UID الحالي هو: " + user.uid;
       }
     } else {
       loading.innerHTML = "يرجى تسجيل الدخول بحساب المنظم أولاً في Firebase.";
     }
   });
 
-  // دالة مساعدة لتنسيق الاسم بحيث يبدأ بـ DR/ دائمًا دون تكرار
   function formatDoctorName(rawName) {
     const cleanName = (rawName || "Participant").trim();
-    // التحقق مما إذا كان الاسم مسبوقاً بـ Dr أو DR أو dr بأي شكل لتجنب التكرار
     if (/^dr[\/.\s]/i.test(cleanName)) {
-      // توحيد شكل البداية ليكون "DR/ "
       return cleanName.replace(/^dr[\/.\s]+/i, "DR/ ");
     }
     return "DR/ " + cleanName;
   }
 
-  // جلب وعرض الحاضرين الذين عملوا Check-in
   async function loadCheckedInParticipants() {
     try {
       list.innerHTML = "";
@@ -258,7 +254,6 @@
     }
   }
 
-  // رسم صف خاص بكل مشارك حاضر
   function renderRow(participantId, data, certId) {
     const row = document.createElement("div");
     row.className = "participant";
@@ -268,7 +263,6 @@
 
     const name = document.createElement("div");
     name.className = "name";
-    // إضافة DR/ قبل عرض الاسم في القائمة
     name.textContent = formatDoctorName(data.fullName);
 
     const email = document.createElement("div");
@@ -306,7 +300,6 @@
     list.appendChild(row);
   }
 
-  // إنشاء شهادة لفرد واحد مع إضافة DR/ في القاعدة
   async function generateSingleCertificate(participantId, data, row, btn) {
     try {
       const certificatesSnap = await getDocs(collection(db, "certificates"));
@@ -342,7 +335,6 @@
     }
   }
 
-  // زر الإصدار التلقائي الجماعي لكل الحاضرين
   document.getElementById("generateAllBtn").addEventListener("click", async () => {
     const btn = document.getElementById("generateAllBtn");
     btn.disabled = true;
