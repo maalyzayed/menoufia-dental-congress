@@ -207,6 +207,17 @@
     }
   });
 
+  // دالة مساعدة لتنسيق الاسم بحيث يبدأ بـ DR/ دائمًا دون تكرار
+  function formatDoctorName(rawName) {
+    const cleanName = (rawName || "Participant").trim();
+    // التحقق مما إذا كان الاسم مسبوقاً بـ Dr أو DR أو dr بأي شكل لتجنب التكرار
+    if (/^dr[\/.\s]/i.test(cleanName)) {
+      // توحيد شكل البداية ليكون "DR/ "
+      return cleanName.replace(/^dr[\/.\s]+/i, "DR/ ");
+    }
+    return "DR/ " + cleanName;
+  }
+
   // جلب وعرض الحاضرين الذين عملوا Check-in
   async function loadCheckedInParticipants() {
     try {
@@ -214,7 +225,6 @@
       const participantsSnap = await getDocs(collection(db, "participants"));
       const certificatesSnap = await getDocs(collection(db, "certificates"));
       
-      // عمل خريطة (Map) بالشهادات الموجودة مسبقاً لتجنب التكرار
       const existingCerts = new Map();
       certificatesSnap.forEach(docSnap => {
         const data = docSnap.data();
@@ -229,7 +239,6 @@
       participantsSnap.forEach(participantDoc => {
         const data = participantDoc.data();
         
-        // الشرط الأساسي: أن يكون الحاضر عمل Check-in (attendance === true)
         if (data.attendance === true) {
           count++;
           const participantId = participantDoc.id;
@@ -259,7 +268,8 @@
 
     const name = document.createElement("div");
     name.className = "name";
-    name.textContent = data.fullName || "بدون اسم";
+    // إضافة DR/ قبل عرض الاسم في القائمة
+    name.textContent = formatDoctorName(data.fullName);
 
     const email = document.createElement("div");
     email.className = "email";
@@ -272,7 +282,6 @@
     actions.className = "actions-group";
 
     if (certId) {
-      // إذا كانت الشهادة موجودة مسبقاً
       const viewLink = document.createElement("a");
       viewLink.className = "view-btn";
       viewLink.textContent = "عرض الشهادة (" + certId + ")";
@@ -280,7 +289,6 @@
       viewLink.target = "_blank";
       actions.appendChild(viewLink);
     } else {
-      // إذا لم تُنشأ شهادته بعد
       const createBtn = document.createElement("button");
       createBtn.className = "view-btn";
       createBtn.style.background = "#027a48";
@@ -298,15 +306,17 @@
     list.appendChild(row);
   }
 
-  // إنشاء شهادة لفرد واحد
+  // إنشاء شهادة لفرد واحد مع إضافة DR/ في القاعدة
   async function generateSingleCertificate(participantId, data, row, btn) {
     try {
       const certificatesSnap = await getDocs(collection(db, "certificates"));
       const nextNum = certificatesSnap.size + 1;
       const certificateId = "MDC-2026-" + String(nextNum).padStart(4, "0");
 
+      const finalName = formatDoctorName(data.fullName);
+
       await setDoc(doc(db, "certificates", certificateId), {
-        fullName: data.fullName || "Participant",
+        fullName: finalName,
         participantId: participantId,
         email: data.email || "",
         institution: data.institution || "",
@@ -314,7 +324,6 @@
         createdAt: new Date().toISOString()
       });
 
-      // استبدال الزر برابط العرض فوراً
       const actions = row.querySelector(".actions-group");
       actions.innerHTML = "";
       
@@ -333,7 +342,7 @@
     }
   }
 
-  // زر الإصدار التلقائي الجماعي لكل الحاضرين الذين ليس لديهم شهادات
+  // زر الإصدار التلقائي الجماعي لكل الحاضرين
   document.getElementById("generateAllBtn").addEventListener("click", async () => {
     const btn = document.getElementById("generateAllBtn");
     btn.disabled = true;
@@ -356,13 +365,13 @@
         const data = participantDoc.data();
         const participantId = participantDoc.id;
 
-        // فقط من قاموا بعمل Check-in وليس لديهم شهادة
         if (data.attendance === true && !existingCerts.has(participantId)) {
           totalCertsCount++;
           const certificateId = "MDC-2026-" + String(totalCertsCount).padStart(4, "0");
+          const finalName = formatDoctorName(data.fullName);
 
           await setDoc(doc(db, "certificates", certificateId), {
-            fullName: data.fullName || "Participant",
+            fullName: finalName,
             participantId: participantId,
             email: data.email || "",
             institution: data.institution || "",
@@ -376,10 +385,9 @@
       }
 
       statusBox.className = "status success";
-      statusBox.textContent = `تم بنجاح! تم إنشاء ${createdCount} شهادة جديدة للحاضرين الذين لم تكن لهم شهادات.`;
+      statusBox.textContent = `تم بنجاح! تم إنشاء ${createdCount} شهادة جديدة مضافاً إليها لقب DR/ للحاضرين.`;
       statusBox.style.display = "block";
 
-      // إعادة تحميل القائمة لتحديث الأزرار
       setTimeout(() => {
         loadCheckedInParticipants();
         btn.disabled = false;
