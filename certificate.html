@@ -59,26 +59,26 @@
 
 
     /* =========================
-       PARTICIPANT NAME
-       ========================= */
+        PARTICIPANT NAME
+        ========================= */
 
     .participant-name-area {
       position: absolute;
-      left: 25%;
-      top: 39%;
-      width: 50%;
-      height: 14%;
+      left: 20%;
+      top: 39.5%;
+      width: 60%;
+      height: 12%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #fff;
+      background: transparent; /* أزلنا الخلفية البيضاء لتجنب تغطية التصميم */
       z-index: 10;
     }
 
     .participant-name {
       color: #102c52;
       font-family: "Brush Script MT", "Segoe Script", cursive;
-      font-size: clamp(32px, 4vw, 60px);
+      font-size: clamp(28px, 3.8vw, 55px);
       white-space: nowrap;
       text-align: center;
       line-height: 1;
@@ -86,20 +86,20 @@
 
 
     /* =========================
-       QR CODE
-       ========================= */
+        QR CODE
+        ========================= */
 
     .qr-area {
       position: absolute;
-      left: 4.2%;
-      top: 61%;
-      width: 10.5%;
-      height: 17%;
+      left: 5.5%; /* تعديل الموضع ليناسب المساحة المتاحة */
+      top: 66%;   /* نزلت قليلاً لتجنب التداخل مع شارة التاريخ */
+      width: 9.5%;
+      height: 15%;
       background: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 5px;
+      padding: 4px;
       z-index: 20;
     }
 
@@ -119,14 +119,14 @@
     }
 
     /* =========================
-       CERTIFICATE ID
-       ========================= */
+        CERTIFICATE ID
+        ========================= */
     .certificate-id-area {
       position: absolute;
-      left: 4.4%;
-      top: 77.5%;
-      width: 11%;
-      height: 4.5%;
+      left: 5.5%;
+      top: 81.5%; /* تم تعديله ليناسب مكان QR الجديد */
+      width: 9.5%;
+      height: 4%;
       background: #173b63;
       display: flex;
       align-items: center;
@@ -137,15 +137,15 @@
     .certificate-id {
       color: white;
       font-family: Arial, sans-serif;
-      font-size: clamp(8px, 0.9vw, 13px);
+      font-size: clamp(8px, 0.8vw, 12px);
       font-weight: bold;
       text-align: center;
       white-space: nowrap;
     }
 
     /* =========================
-       PRINT
-       ========================= */
+        PRINT
+        ========================= */
     @media print {
       body {
         padding: 0;
@@ -159,8 +159,8 @@
     }
 
     /* =========================
-       MOBILE
-       ========================= */
+        MOBILE
+        ========================= */
     @media (max-width: 600px) {
       body {
         padding: 5px;
@@ -247,7 +247,6 @@
         const data = certificateSnap.data();
         let rawName = data.fullName || "Participant";
         
-        // تنظيف الاسم وإضافة DR/ أو توحيد شكلها تلقائياً
         let cleanName = rawName.trim();
         if (!/^dr[\/.\s]/i.test(cleanName)) {
           cleanName = "DR/ " + cleanName;
