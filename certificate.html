@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+  <script>
+  // كود ذكي لإجبار الصفحة على تحديث نفسها تلقائياً مرة واحدة عند رفع أي تعديل جديد
+  const currentVersion = "2.1"; // غياري الرقم ده لـ 2.2 لو عملتي تعديل تاني بعد كده
+  const savedVersion = localStorage.getItem("cert_page_version");
+  if (savedVersion !== currentVersion) {
+    localStorage.setItem("cert_page_version", currentVersion);
+    window.location.reload(true);
+  }
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
