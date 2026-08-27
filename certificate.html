@@ -70,16 +70,16 @@
     .cert-name {
       color: #102c52;
       font-family: 'Great Vibes', cursive, Arial, sans-serif;
-      font-size: 25px;
+      font-size: 50px;
       font-weight: bold;
       white-space: nowrap;
     }
 
-    /* مكان الـ QR Code: تم رفعه قليلاً ليستقر في المكان الصحيح فوق الزخرفة السفلى */
+    /* مكان الـ QR Code المستقر والمضبوط تماماً */
     .cert-qr-container {
       position: absolute !important;
-      left: 5.4%;
-      top: 74.5%; /* تم التعديل للارتفاع المثالي */
+      left: 6.2%;
+      top: 68.5%;
       width: 8%;
       height: 12%;
       background: white;
@@ -91,14 +91,14 @@
     .cert-qr-container img, .cert-qr-container canvas {
       width: 100% !important;
       height: 100% !important;
-    }
+/    }
 
     /* رقم الشهادة تحت الـ QR مباشرة */
     .cert-id-container {
       position: absolute !important;
-      left: 5.4%;
-      top: 91%; /* تم تعديلها لتلائم الارتفاع الجديد للـ QR */
-      width: 10%;
+      left: 6.2%;
+      top: 81%;
+      width: 8%;
       height: 3.5%;
       background: #173b63;
       display: flex;
@@ -109,7 +109,7 @@
     .cert-id-text {
       color: white;
       font-family: Arial, sans-serif;
-      font-size: 8px;
+      font-size: 10px;
       font-weight: bold;
     }
 
@@ -193,7 +193,10 @@
       }
 
       const data = docSnap.data();
-      const fullName = data.fullName || "Participant";
+      const rawName = data.fullName || "Participant";
+      
+      // إضافة DR/ قبل الاسم تلقائياً إذا لم تكن موجودة بالفعل
+      const fullName = rawName.startsWith("DR/") || rawName.startsWith("Dr/") ? rawName : `DR/ ${rawName}`;
 
       // تعبئة البيانات
       document.getElementById("renderName").textContent = fullName;
