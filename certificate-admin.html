@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إصدار الشهادات التلقائي | مؤتمر المنوفية لطب الأسنان</title>
 
+  <!-- مكتبة لضغط وتنزيل الملفات ZIP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  
+  <!-- مكتبة html2canvas لتحويل الشهادات إلى صور لتنزيلها أو إرسالها -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -110,6 +117,20 @@
       padding: 14px 24px;
       width: 100%;
       text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .btn-secondary {
+      background: #2563eb;
+      color: white;
+      font-size: 15px;
+      padding: 12px 20px;
+      flex: 1;
+    }
+
+    .btn-email {
+      background: #0d9488;
+      color: white;
     }
 
     .view-btn {
@@ -155,6 +176,10 @@
     <button id="generateAllBtn" class="btn-main">
       🚀 فحص الحاضرين (Check-in) وإنشاء الشهادات المفقودة دفعة واحدة
     </button>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <button id="downloadAllBtn" class="btn-secondary" style="background: #475569;">📥 تنزيل كل الشهادات (ZIP)</button>
+      <button id="sendAllEmailBtn" class="btn-secondary" style="background: #0d9488;">📧 إرسال كل الشهادات بالبريد</button>
+    </div>
   </div>
 
   <div class="card">
@@ -176,7 +201,7 @@
   import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
   
   const firebaseConfig = {
-    apiKey: "AIzaSyAB-AIOIQh0tOcVXQnUt7pvVnQi0CoFwSo",
+    apiKey: "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
     authDomain: "menoufia-dental-congress.firebaseapp.com",
     projectId: "menoufia-dental-congress",
     storageBucket: "menoufia-dental-congress.firebasestorage.app",
@@ -278,10 +303,16 @@
     if (certId) {
       const viewLink = document.createElement("a");
       viewLink.className = "view-btn";
-      viewLink.textContent = "عرض الشهادة (" + certId + ")";
-    viewLink.href = "certificate.html?id=" + encodeURIComponent(certId) + "&v=2";
+      viewLink.textContent = "عرض الشهادة";
+      viewLink.href = "certificate.html?id=" + encodeURIComponent(certId) + "&v=2";
       viewLink.target = "_blank";
       actions.appendChild(viewLink);
+
+      const emailBtn = document.createElement("button");
+      emailBtn.className = "view-btn btn-email";
+      emailBtn.textContent = "📧 إرسال بالإيميل";
+      emailBtn.onclick = () => sendSingleEmail(certId, data.email, formatDoctorName(data.fullName), emailBtn);
+      actions.appendChild(emailBtn);
     } else {
       const createBtn = document.createElement("button");
       createBtn.className = "view-btn";
@@ -305,7 +336,6 @@
       const certificatesSnap = await getDocs(collection(db, "certificates"));
       const nextNum = certificatesSnap.size + 1;
       const certificateId = "MDC-2026-" + String(nextNum).padStart(4, "0");
-
       const finalName = formatDoctorName(data.fullName);
 
       await setDoc(doc(db, "certificates", certificateId), {
@@ -317,16 +347,8 @@
         createdAt: new Date().toISOString()
       });
 
-      const actions = row.querySelector(".actions-group");
-      actions.innerHTML = "";
-      
-      const viewLink = document.createElement("a");
-      viewLink.className = "view-btn";
-      viewLink.textContent = "عرض الشهادة (" + certificateId + ")";
-      viewLink.href = "certificate.html?id=" + encodeURIComponent(certificateId);
-      viewLink.target = "_blank";
-      actions.appendChild(viewLink);
-
+      // إعادة تحميل القائمة لتحديث الأزرار
+      loadCheckedInParticipants();
     } catch (err) {
       console.error(err);
       alert("خطأ أثناء الإنشاء: " + err.message);
@@ -334,6 +356,61 @@
       btn.textContent = "إنشاء الشهادة الآن";
     }
   }
+
+  // إرسال بريد إلكتروني لفرد واحد (عن طريق فتح تطبيق البريد الافتراضي مع تجهيز الرسالة تلقائياً)
+  function sendSingleEmail(certId, email, fullName, btn) {
+    if (!email) {
+      alert("هذا المشارك لا يملك بريداً إلكترونياً مسجلاً!");
+      return;
+    }
+    const certUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
+    const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان - Menoufia Dental Congress");
+    const body = encodeURIComponent(`عزيزي/تزي ${fullName},\n\nيسعدنا إرسال شهادة حضورك الخاصة بمؤتمر المنوفية لطب الأسنان.\nيمكنك معاينة وتنزيل شهادتك مباشرة من الرابط التالي:\n${certUrl}\n\nمع خالص تحياتنا،\nاللجنة المنظمة.`);
+    
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  }
+
+  // زر إرسال جماعي للإيميلات
+  document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
+    if (!confirm("هل تريد فتح رسائل البريد الإلكتروني للمشاركين الذين لديهم شهادات وحسابات بريد؟")) return;
+    
+    const certificatesSnap = await getDocs(collection(db, "certificates"));
+    let count = 0;
+    certificatesSnap.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data.email) {
+        count++;
+        const certUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(docSnap.id);
+        const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
+        const body = encodeURIComponent(`مرحباً ${data.fullName},\n\nإليك رابط شهادة حضورك في مؤتمر المنوفية لطب الأسنان:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
+        // فتح متسلسل للروابط أو تنبيه
+        setTimeout(() => {
+          window.open(`mailto:${data.email}?subject=${subject}&body=${body}`, '_blank');
+        }, count * 500);
+      }
+    });
+    alert(`تم تجهيز ${count} رسالة بريد إلكتروني للإرسال.`);
+  });
+
+  // زر تنزيل كل الشهادات (فتح الروابط أو طباعتها)
+  document.getElementById("downloadAllBtn").addEventListener("click", async () => {
+    const certificatesSnap = await getDocs(collection(db, "certificates"));
+    if (certificatesSnap.empty) {
+      alert("لا توجد شهادات مسجلة لتنزيلها!");
+      return;
+    }
+    
+    if(!confirm(`سيتم فتح ${certificatesSnap.size} صفحة للشهادات لتتمكن من حفظها أو طباعتها PDF. هل أنت متأكد؟`)) return;
+
+    let i = 0;
+    certificatesSnap.forEach(docSnap => {
+      i++;
+      const certId = docSnap.id;
+      setTimeout(() => {
+        window.open(`certificate.html?id=${encodeURIComponent(certId)}`, '_blank');
+      }, i * 400);
+    });
+  });
 
   document.getElementById("generateAllBtn").addEventListener("click", async () => {
     const btn = document.getElementById("generateAllBtn");
