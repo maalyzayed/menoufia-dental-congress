@@ -6,8 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إصدار الشهادات التلقائي | مؤتمر المنوفية لطب الأسنان</title>
 
-  <!-- مكتبة html2canvas لتحويل الشهادات وصورها لتنزيلها مباشرة -->
+  <!-- مكتبة html2canvas لتحويل الشهادات إلى صور -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- مكتبة JSZip لضغط الصور في ملف ZIP واحد -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- مكتبة FileSaver لحفظ ملف الـ ZIP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
   <style>
     * { box-sizing: border-box; }
@@ -99,7 +103,7 @@
       🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة
     </button>
     <div class="top-actions">
-      <button id="downloadAllBtn" class="btn-top">📥 تنزيل كل الشهادات مباشرة (ZIP/صور)</button>
+      <button id="downloadAllZipBtn" class="btn-top">📦 تنزيل كل الشهادات كملف مضغوط (ZIP)</button>
       <button id="sendAllEmailBtn" class="btn-email-all">📧 إرسال عبر الإيميل للجميع</button>
     </div>
   </div>
@@ -113,7 +117,7 @@
 
 </div>
 
-<!-- صندوق خفي لتوليد الشهادات وتنزيلها تلقائياً دون إزعاج المستخدم -->
+<!-- صندوق خفي لتوليد الشهادات برمجياً وضغطها -->
 <div id="hiddenCertificateContainer" style="position: absolute; left: -9999px; top: -9999px;">
   <div id="renderCert" style="position: relative; width: 1536px; height: 1024px; background-image: url('certificate-template.jpg?v=2'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; padding: 55px;">
     <div style="position: absolute; left: 20%; top: 39.5%; width: 60%; height: 12%; display: flex; align-items: center; justify-content: center;">
@@ -246,7 +250,7 @@
       downloadSingleBtn.onclick = async () => {
         downloadSingleBtn.disabled = true;
         downloadSingleBtn.textContent = "جاري الحفظ...";
-        await downloadOneCertificate(certId, formatDoctorName(data.fullName));
+        await generateAndDownloadSingle(certId, formatDoctorName(data.fullName));
         downloadSingleBtn.disabled = false;
         downloadSingleBtn.textContent = "📥 تنزيل";
       };
@@ -302,8 +306,16 @@
     list.appendChild(row);
   }
 
-  // دالة لتنزيل شهادة فردية مباشرة كصورة
-  async function downloadOneCertificate(certId, fullName) {
+  // دالة لتوليد شهادة فردية كصورة وتنزيلها
+  async function generateAndDownloadSingle(certId, fullName) {
+    const canvas = await renderCertificateCanvas(certId, fullName);
+    canvas.toBlob(blob => {
+      saveAs(blob, `Certificate-${certId}.png`);
+    });
+  }
+
+  // دالة أساسية لرسم وتجهيز الشهادة في الخلفية
+  async function renderCertificateCanvas(certId, fullName) {
     const renderDiv = document.getElementById("renderCert");
     document.getElementById("renderName").textContent = fullName;
     document.getElementById("renderId").textContent = certId;
@@ -313,43 +325,57 @@
     const verificationUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
     new QRCode(qrDiv, { text: verificationUrl, width: 150, height: 150, correctLevel: QRCode.CorrectLevel.H });
 
-    // انتظار قصير لتأكيد رسم الـ QR Code
     await new Promise(r => setTimeout(r, 200));
-
-    const canvas = await html2canvas(renderDiv, { scale: 2, useCORS: true });
-    const link = document.createElement("a");
-    link.download = `Certificate-${certId}.png`;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+    return await html2canvas(renderDiv, { scale: 2, useCORS: true });
   }
 
-  // زر تنزيل كل الشهادات دفعة واحدة مباشرة إلى الجهاز
-  document.getElementById("downloadAllBtn").addEventListener("click", async () => {
-    const btn = document.getElementById("downloadAllBtn");
+  // زر تنزيل كل الشهادات كملف مضغوط (ZIP) دفعة واحدة
+  document.getElementById("downloadAllZipBtn").addEventListener("click", async () => {
+    const btn = document.getElementById("downloadAllZipBtn");
     const certificatesSnap = await getDocs(collection(db, "certificates"));
+    
     if (certificatesSnap.empty) {
       alert("لا توجد شهادات مسجلة بعد!");
       return;
     }
-    if(!confirm(`سيتم بدء تنزيل ${certificatesSnap.size} شهادة مباشرة إلى جهازك تباعاً. هل تريد المتابعة؟`)) return;
 
     btn.disabled = true;
-    let index = 0;
+    btn.textContent = "⏳ جاري إعداد وضغط الشهادات، قد يستغرق ذلك بضع ثوانٍ...";
 
-    for (const docSnap of certificatesSnap.docs) {
-      index++;
-      btn.textContent = `جاري تنزيل الشهادة ${index} من ${certificatesSnap.size}...`;
-      const certId = docSnap.id;
-      const fullName = docSnap.data().fullName || "Participant";
+    try {
+      const zip = new JSZip();
+      let index = 0;
+
+      for (const docSnap of certificatesSnap.docs) {
+        index++;
+        btn.textContent = `جاري معالجة الشهادة ${index} من ${certificatesSnap.size}...`;
+        
+        const certId = docSnap.id;
+        const fullName = docSnap.data().fullName || "Participant";
+        
+        const canvas = await renderCertificateCanvas(certId, fullName);
+        
+        // تحويل الـ canvas إلى Base64 PNG لإضافته داخل ملف الـ ZIP
+        const imgData = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
+        zip.file(`Certificate-${certId}.png`, imgData, { base64: true });
+      }
+
+      btn.textContent = "📦 جاري ضغط الملفات وتنزيل الـ ZIP...";
       
-      await downloadOneCertificate(certId, fullName);
-      // فترة راحة بسيطة بين التنزيلات حتى لا يعلق المتصفح
-      await new Promise(r => setTimeout(r, 600));
-    }
+      // توليد ملف الـ ZIP وتنزيله تلقائياً
+      const content = await zip.generateAsync({ type: "blob" });
+      saveAs(content, "Menoufia-Dental-Congress-Certificates.zip");
 
-    btn.disabled = false;
-    btn.textContent = "📥 تنزيل كل الشهادات مباشرة (ZIP/صور)";
-    alert("تم الانتهاء من تنزيل جميع الشهادات بنجاح!");
+      btn.disabled = false;
+      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
+      alert("تم تنزيل ملف الـ ZIP بنجاح ويحتوي على كافة الشهادات!");
+
+    } catch (error) {
+      console.error(error);
+      alert("حدث خطأ أثناء إنشاء ملف الـ ZIP: " + error.message);
+      btn.disabled = false;
+      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
+    }
   });
 
   // زر إرسال جماعي للإيميلات
