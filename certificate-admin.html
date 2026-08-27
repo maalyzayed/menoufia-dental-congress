@@ -6,18 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إصدار الشهادات التلقائي | مؤتمر المنوفية لطب الأسنان</title>
 
-  <!-- مكتبة لضغط وتنزيل الملفات ZIP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  
-  <!-- مكتبة html2canvas لتحويل الشهادات إلى صور لتنزيلها أو إرسالها -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -26,13 +16,7 @@
       color: #222;
       padding: 30px 15px;
     }
-
-    .container {
-      width: 100%;
-      max-width: 1000px;
-      margin: auto;
-    }
-
+    .container { width: 100%; max-width: 1000px; margin: auto; }
     .header {
       background: #173b63;
       color: white;
@@ -41,16 +25,8 @@
       text-align: center;
       margin-bottom: 25px;
     }
-
-    .header h1 {
-      margin: 0 0 8px;
-    }
-
-    .header p {
-      margin: 0;
-      opacity: 0.85;
-    }
-
+    .header h1 { margin: 0 0 8px; }
+    .header p { margin: 0; opacity: 0.85; }
     .card {
       background: white;
       padding: 25px;
@@ -58,12 +34,7 @@
       box-shadow: 0 8px 30px rgba(0,0,0,0.08);
       margin-bottom: 20px;
     }
-
-    .card h2 {
-      color: #173b63;
-      margin-top: 0;
-    }
-
+    .card h2 { color: #173b63; margin-top: 0; }
     .participant {
       border: 1px solid #e0e5eb;
       border-radius: 12px;
@@ -75,91 +46,39 @@
       gap: 15px;
       flex-wrap: wrap;
     }
-
-    .participant-info {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    .name {
-      font-size: 18px;
-      font-weight: bold;
-      color: #173b63;
-    }
-
-    .email {
-      color: #777;
-      margin-top: 5px;
-      font-size: 14px;
-    }
-
-    .actions-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
+    .participant-info { flex: 1; min-width: 250px; }
+    .name { font-size: 18px; font-weight: bold; color: #173b63; }
+    .email { color: #777; margin-top: 5px; font-size: 14px; }
+    .actions-group { display: flex; gap: 8px; flex-wrap: wrap; }
     button, .view-btn {
       border: none;
       border-radius: 9px;
-      padding: 11px 16px;
+      padding: 10px 14px;
       font-weight: bold;
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
-      font-size: 14px;
+      font-size: 13px;
     }
-
     .btn-main {
       background: #c9a227;
       color: white;
-      font-size: 16px;
+      font-size: 15px;
       padding: 14px 24px;
       width: 100%;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
-
-    .btn-secondary {
-      background: #2563eb;
-      color: white;
-      font-size: 15px;
-      padding: 12px 20px;
-      flex: 1;
-    }
-
-    .btn-email {
-      background: #0d9488;
-      color: white;
-    }
-
-    .view-btn {
-      background: #173b63;
-      color: white;
-    }
-
-    .status {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      display: none;
-    }
-
-    .success {
-      background: #ecfdf3;
-      color: #027a48;
-    }
-
-    .error {
-      background: #fff0f0;
-      color: #b42318;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 25px;
-      color: #777;
-    }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-top { background: #475569; color: white; flex: 1; padding: 12px; text-align: center; font-size: 14px; }
+    .btn-email-all { background: #0d9488; color: white; flex: 1; padding: 12px; text-align: center; font-size: 14px; }
+    .view-btn { background: #173b63; color: white; }
+    .btn-create { background: #027a48; color: white; }
+    .btn-email-single { background: #0d9488; color: white; }
+    .status { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; }
+    .success { background: #ecfdf3; color: #027a48; }
+    .error { background: #fff0f0; color: #b42318; }
+    .loading { text-align: center; padding: 25px; color: #777; }
   </style>
 </head>
 
@@ -168,27 +87,23 @@
 <div class="container">
 
   <div class="header">
-    <h1>🎓 إصدار شهادات الحاضرين أوتوماتيكياً</h1>
+    <h1>🎓 إصدار الشهادات التلقائي</h1>
     <p>Menoufia Dental Congress</p>
   </div>
 
   <div class="card" style="text-align: center;">
     <button id="generateAllBtn" class="btn-main">
-      🚀 فحص الحاضرين (Check-in) وإنشاء الشهادات المفقودة دفعة واحدة
+      🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة
     </button>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-      <button id="downloadAllBtn" class="btn-secondary" style="background: #475569;">📥 تنزيل كل الشهادات (ZIP)</button>
-      <button id="sendAllEmailBtn" class="btn-secondary" style="background: #0d9488;">📧 إرسال كل الشهادات بالبريد</button>
+    <div class="top-actions">
+      <button id="downloadAllBtn" class="btn-top">📥 تنزيل / عرض كل الشهادات</button>
+      <button id="sendAllEmailBtn" class="btn-email-all">📧 إرسال عبر الإيميل للجميع</button>
     </div>
   </div>
 
   <div class="card">
     <h2>قائمة المشاركين الحاضرين</h2>
-
-    <div id="loading" class="loading">
-      جاري تحميل بيانات الحاضرين من قاعدة البيانات...
-    </div>
-
+    <div id="loading" class="loading">جاري تحميل بيانات الحاضرين...</div>
     <div id="participantsList"></div>
     <div id="status" class="status"></div>
   </div>
@@ -212,7 +127,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = initializeAuth(app, { persistence: browserLocalPersistence });
   const db = getFirestore(app);
-
   const ORGANIZER_UID = "fS56FR5b2vdd632fpUZWXbJFWwj1";
 
   const loading = document.getElementById("loading");
@@ -222,13 +136,13 @@
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (user.uid === ORGANIZER_UID) {
-        loading.innerHTML = "تم التحقق من المنظم. جاري جلب الحاضرين...";
+        loading.innerHTML = "تم التحقق. جاري جلب الحاضرين...";
         loadCheckedInParticipants();
       } else {
-        loading.innerHTML = "خطأ في صلاحيات الحساب (UID غير مطابق للمنظم). الـ UID الحالي هو: " + user.uid;
+        loading.innerHTML = "خطأ: حساب المنظم غير مطبق (UID: " + user.uid + ")";
       }
     } else {
-      loading.innerHTML = "يرجى تسجيل الدخول بحساب المنظم أولاً في Firebase.";
+      loading.innerHTML = "يرجى تسجيل الدخول بحساب المنظم في Firebase أولاً.";
     }
   });
 
@@ -259,20 +173,17 @@
 
       participantsSnap.forEach(participantDoc => {
         const data = participantDoc.data();
-        
         if (data.attendance === true) {
           count++;
           const participantId = participantDoc.id;
           const certId = existingCerts.get(participantId);
-
           renderRow(participantId, data, certId);
         }
       });
 
       if (count === 0) {
-        list.innerHTML = "<p style='text-align: center; color: #777;'>لا يوجد أي مشارك قام بتسجيل الحضور (Check-in) حتى الآن.</p>";
+        list.innerHTML = "<p style='text-align: center; color: #777;'>لا يوجد أي مشارك قام بتسجيل الحضور (Check-in).</p>";
       }
-
     } catch (error) {
       console.error(error);
       loading.textContent = "حدث خطأ أثناء الجلب: " + error.message;
@@ -301,27 +212,57 @@
     actions.className = "actions-group";
 
     if (certId) {
+      // زر عرض الشهادة
       const viewLink = document.createElement("a");
       viewLink.className = "view-btn";
       viewLink.textContent = "عرض الشهادة";
-      viewLink.href = "certificate.html?id=" + encodeURIComponent(certId) + "&v=2";
+      viewLink.href = "certificate.html?id=" + encodeURIComponent(certId);
       viewLink.target = "_blank";
       actions.appendChild(viewLink);
 
+      // زر إرسال إيميل فردي
       const emailBtn = document.createElement("button");
-      emailBtn.className = "view-btn btn-email";
-      emailBtn.textContent = "📧 إرسال بالإيميل";
-      emailBtn.onclick = () => sendSingleEmail(certId, data.email, formatDoctorName(data.fullName), emailBtn);
+      emailBtn.className = "view-btn btn-email-single";
+      emailBtn.textContent = "📧 إرسال إيميل";
+      emailBtn.onclick = () => {
+        if (!data.email) {
+          alert("هذا المستخدم ليس لديه بريد إلكتروني مسجل.");
+          return;
+        }
+        const certUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
+        const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
+        const body = encodeURIComponent(`مرحباً ${formatDoctorName(data.fullName)},\n\nيسعدنا إرسال شهادة حضورك الخاصة بمؤتمر المنوفية لطب الأسنان.\nيمكنك معاينة وتنزيل شهادتك عبر الرابط التالي:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
+        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${data.email}&su=${subject}&body=${body}`, '_blank');
+      };
       actions.appendChild(emailBtn);
     } else {
+      // زر إنشاء الشهادة إذا لم تكن موجودة
       const createBtn = document.createElement("button");
-      createBtn.className = "view-btn";
-      createBtn.style.background = "#027a48";
-      createBtn.textContent = "إنشاء الشهادة الآن";
+      createBtn.className = "view-btn btn-create";
+      createBtn.textContent = "إنشاء الشهادة";
       createBtn.onclick = async () => {
         createBtn.disabled = true;
         createBtn.textContent = "جاري الإنشاء...";
-        await generateSingleCertificate(participantId, data, row, createBtn);
+        try {
+          const certificatesSnap = await getDocs(collection(db, "certificates"));
+          const nextNum = certificatesSnap.size + 1;
+          const certificateId = "MDC-2026-" + String(nextNum).padStart(4, "0");
+          const finalName = formatDoctorName(data.fullName);
+
+          await setDoc(doc(db, "certificates", certificateId), {
+            fullName: finalName,
+            participantId: participantId,
+            email: data.email || "",
+            institution: data.institution || "",
+            certificateId: certificateId,
+            createdAt: new Date().toISOString()
+          });
+          loadCheckedInParticipants();
+        } catch (err) {
+          alert("خطأ: " + err.message);
+          createBtn.disabled = false;
+          createBtn.textContent = "إنشاء الشهادة";
+        }
       };
       actions.appendChild(createBtn);
     }
@@ -331,49 +272,9 @@
     list.appendChild(row);
   }
 
-  async function generateSingleCertificate(participantId, data, row, btn) {
-    try {
-      const certificatesSnap = await getDocs(collection(db, "certificates"));
-      const nextNum = certificatesSnap.size + 1;
-      const certificateId = "MDC-2026-" + String(nextNum).padStart(4, "0");
-      const finalName = formatDoctorName(data.fullName);
-
-      await setDoc(doc(db, "certificates", certificateId), {
-        fullName: finalName,
-        participantId: participantId,
-        email: data.email || "",
-        institution: data.institution || "",
-        certificateId: certificateId,
-        createdAt: new Date().toISOString()
-      });
-
-      // إعادة تحميل القائمة لتحديث الأزرار
-      loadCheckedInParticipants();
-    } catch (err) {
-      console.error(err);
-      alert("خطأ أثناء الإنشاء: " + err.message);
-      btn.disabled = false;
-      btn.textContent = "إنشاء الشهادة الآن";
-    }
-  }
-
-  // إرسال بريد إلكتروني لفرد واحد (عن طريق فتح تطبيق البريد الافتراضي مع تجهيز الرسالة تلقائياً)
-  function sendSingleEmail(certId, email, fullName, btn) {
-    if (!email) {
-      alert("هذا المشارك لا يملك بريداً إلكترونياً مسجلاً!");
-      return;
-    }
-    const certUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
-    const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان - Menoufia Dental Congress");
-    const body = encodeURIComponent(`عزيزي/تزي ${fullName},\n\nيسعدنا إرسال شهادة حضورك الخاصة بمؤتمر المنوفية لطب الأسنان.\nيمكنك معاينة وتنزيل شهادتك مباشرة من الرابط التالي:\n${certUrl}\n\nمع خالص تحياتنا،\nاللجنة المنظمة.`);
-    
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-  }
-
-  // زر إرسال جماعي للإيميلات
+  // زر إرسال جماعي للإيميلات عبر Gmail Web
   document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
-    if (!confirm("هل تريد فتح رسائل البريد الإلكتروني للمشاركين الذين لديهم شهادات وحسابات بريد؟")) return;
-    
+    if (!confirm("هل تريد فتح رسائل البريد الإلكتروني للمشاركين الحاضرين؟")) return;
     const certificatesSnap = await getDocs(collection(db, "certificates"));
     let count = 0;
     certificatesSnap.forEach(docSnap => {
@@ -383,25 +284,22 @@
         const certUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(docSnap.id);
         const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
         const body = encodeURIComponent(`مرحباً ${data.fullName},\n\nإليك رابط شهادة حضورك في مؤتمر المنوفية لطب الأسنان:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
-        // فتح متسلسل للروابط أو تنبيه
         setTimeout(() => {
-          window.open(`mailto:${data.email}?subject=${subject}&body=${body}`, '_blank');
-        }, count * 500);
+          window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${data.email}&su=${subject}&body=${body}`, '_blank');
+        }, count * 600);
       }
     });
-    alert(`تم تجهيز ${count} رسالة بريد إلكتروني للإرسال.`);
+    alert(`تم فتح تبويبات الإرسال لـ ${count} مشارك.`);
   });
 
-  // زر تنزيل كل الشهادات (فتح الروابط أو طباعتها)
+  // زر تنزيل/عرض كل الشهادات دفعة واحدة
   document.getElementById("downloadAllBtn").addEventListener("click", async () => {
     const certificatesSnap = await getDocs(collection(db, "certificates"));
     if (certificatesSnap.empty) {
-      alert("لا توجد شهادات مسجلة لتنزيلها!");
+      alert("لا توجد شهادات مسجلة بعد!");
       return;
     }
-    
-    if(!confirm(`سيتم فتح ${certificatesSnap.size} صفحة للشهادات لتتمكن من حفظها أو طباعتها PDF. هل أنت متأكد؟`)) return;
-
+    if(!confirm(`سيتم فتح ${certificatesSnap.size} صفحة للشهادات لتتمكن من حفظها. هل أنت متأكد؟`)) return;
     let i = 0;
     certificatesSnap.forEach(docSnap => {
       i++;
@@ -412,10 +310,11 @@
     });
   });
 
+  // زر إنشاء الشهادات المفقودة دفعة واحدة
   document.getElementById("generateAllBtn").addEventListener("click", async () => {
     const btn = document.getElementById("generateAllBtn");
     btn.disabled = true;
-    btn.textContent = "جاري الفحص وإنشاء الشهادات المفقودة...";
+    btn.textContent = "جاري الفحص وإنشاء الشهادات...";
 
     try {
       const participantsSnap = await getDocs(collection(db, "participants"));
@@ -454,13 +353,13 @@
       }
 
       statusBox.className = "status success";
-      statusBox.textContent = `تم بنجاح! تم إنشاء ${createdCount} شهادة جديدة مضافاً إليها لقب DR/ للحاضرين.`;
+      statusBox.textContent = `تم بنجاح إنشاء ${createdCount} شهادة جديدة.`;
       statusBox.style.display = "block";
 
       setTimeout(() => {
         loadCheckedInParticipants();
         btn.disabled = false;
-        btn.textContent = "🚀 فحص الحاضرين (Check-in) وإنشاء الشهادات المفقودة دفعة واحدة";
+        btn.textContent = "🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة";
       }, 1500);
 
     } catch (error) {
@@ -469,7 +368,7 @@
       statusBox.textContent = "حدث خطأ: " + error.message;
       statusBox.style.display = "block";
       btn.disabled = false;
-      btn.textContent = "🚀 فحص الحاضرين (Check-in) وإنشاء الشهادات المفقودة دفعة واحدة";
+      btn.textContent = "🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة";
     }
   });
 </script>
