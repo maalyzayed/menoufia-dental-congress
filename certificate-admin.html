@@ -42,6 +42,20 @@
       margin-bottom: 20px;
     }
     .card h2 { color: #173b63; margin-top: 0; }
+    
+    /* تنسيق صندوق البحث */
+    .search-box {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus { border-color: #173b63; }
+
     .participant {
       border: 1px solid #e0e5eb;
       border-radius: 12px;
@@ -110,6 +124,9 @@
 
   <div class="card">
     <h2>قائمة المشاركين الحاضرين</h2>
+    <!-- خانة البحث -->
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 ابحث بالاسم أو البريد الإلكتروني...">
+    
     <div id="loading" class="loading">جاري تحميل بيانات الحاضرين...</div>
     <div id="participantsList"></div>
     <div id="status" class="status"></div>
@@ -155,6 +172,9 @@
   const loading = document.getElementById("loading");
   const list = document.getElementById("participantsList");
   const statusBox = document.getElementById("status");
+  const searchInput = document.getElementById("searchInput");
+
+  let allParticipantsData = []; // لتخزين البيانات والبحث فيها بسلاسة
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -179,7 +199,6 @@
 
   async function loadCheckedInParticipants() {
     try {
-      list.innerHTML = "";
       const participantsSnap = await getDocs(collection(db, "participants"));
       const certificatesSnap = await getDocs(collection(db, "certificates"));
       
@@ -191,27 +210,51 @@
         }
       });
 
-      loading.style.display = "none";
-      let count = 0;
-
+      allParticipantsData = [];
       participantsSnap.forEach(participantDoc => {
         const data = participantDoc.data();
         if (data.attendance === true) {
-          count++;
-          const participantId = participantDoc.id;
-          const certId = existingCerts.get(participantId);
-          renderRow(participantId, data, certId);
+          allParticipantsData.push({
+            participantId: participantDoc.id,
+            data: data,
+            certId: existingCerts.get(participantDoc.id)
+          });
         }
       });
 
-      if (count === 0) {
-        list.innerHTML = "<p style='text-align: center; color: #777;'>لا يوجد أي مشارك قام بتسجيل الحضور (Check-in).</p>";
-      }
+      loading.style.display = "none";
+      renderFilteredList("");
+
     } catch (error) {
       console.error(error);
       loading.textContent = "حدث خطأ أثناء الجلب: " + error.message;
     }
   }
+
+  function renderFilteredList(query) {
+    list.innerHTML = "";
+    const lowerQuery = query.toLowerCase().trim();
+
+    const filtered = allParticipantsData.filter(item => {
+      const name = (item.data.fullName || "").toLowerCase();
+      const email = (item.data.email || "").toLowerCase();
+      return name.includes(lowerQuery) || email.includes(lowerQuery);
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = "<p style='text-align: center; color: #777;'>لا توجد نتائج مطابقة للبحث.</p>";
+      return;
+    }
+
+    filtered.forEach(item => {
+      renderRow(item.participantId, item.data, item.certId);
+    });
+  }
+
+  // تفعيل البحث عند الكتابة
+  searchInput.addEventListener("input", (e) => {
+    renderFilteredList(e.target.value);
+  });
 
   function renderRow(participantId, data, certId) {
     const row = document.createElement("div");
@@ -242,7 +285,6 @@
       viewLink.target = "_blank";
       actions.appendChild(viewLink);
 
-      // زر تنزيل فردي مباشر
       const downloadSingleBtn = document.createElement("button");
       downloadSingleBtn.className = "view-btn";
       downloadSingleBtn.style.background = "#c9a227";
@@ -306,7 +348,6 @@
     list.appendChild(row);
   }
 
-  // دالة لتوليد شهادة فردية كصورة وتنزيلها
   async function generateAndDownloadSingle(certId, fullName) {
     const canvas = await renderCertificateCanvas(certId, fullName);
     canvas.toBlob(blob => {
@@ -314,7 +355,6 @@
     });
   }
 
-  // دالة أساسية لرسم وتجهيز الشهادة في الخلفية
   async function renderCertificateCanvas(certId, fullName) {
     const renderDiv = document.getElementById("renderCert");
     document.getElementById("renderName").textContent = fullName;
@@ -329,7 +369,6 @@
     return await html2canvas(renderDiv, { scale: 2, useCORS: true });
   }
 
-  // زر تنزيل كل الشهادات كملف مضغوط (ZIP) دفعة واحدة
   document.getElementById("downloadAllZipBtn").addEventListener("click", async () => {
     const btn = document.getElementById("downloadAllZipBtn");
     const certificatesSnap = await getDocs(collection(db, "certificates"));
@@ -354,21 +393,17 @@
         const fullName = docSnap.data().fullName || "Participant";
         
         const canvas = await renderCertificateCanvas(certId, fullName);
-        
-        // تحويل الـ canvas إلى Base64 PNG لإضافته داخل ملف الـ ZIP
         const imgData = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
         zip.file(`Certificate-${certId}.png`, imgData, { base64: true });
       }
 
       btn.textContent = "📦 جاري ضغط الملفات وتنزيل الـ ZIP...";
-      
-      // توليد ملف الـ ZIP وتنزيله تلقائياً
       const content = await zip.generateAsync({ type: "blob" });
       saveAs(content, "Menoufia-Dental-Congress-Certificates.zip");
 
       btn.disabled = false;
       btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
-      alert("تم تنزيل ملف الـ ZIP بنجاح ويحتوي على كافة الشهادات!");
+      alert("تم تنزيل ملف الـ ZIP بنجاح!");
 
     } catch (error) {
       console.error(error);
@@ -378,7 +413,6 @@
     }
   });
 
-  // زر إرسال جماعي للإيميلات
   document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
     if (!confirm("هل تريد فتح رسائل البريد الإلكتروني للمشاركين الحاضرين؟")) return;
     const certificatesSnap = await getDocs(collection(db, "certificates"));
@@ -398,7 +432,6 @@
     alert(`تم فتح تبويبات الإرسال لـ ${count} مشارك.`);
   });
 
-  // زر إنشاء الشهادات المفقودة دفعة واحدة
   document.getElementById("generateAllBtn").addEventListener("click", async () => {
     const btn = document.getElementById("generateAllBtn");
     btn.disabled = true;
