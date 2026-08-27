@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>معاينة الشهادة | مؤتمر المنوفية لطب الأسنان</title>
   
+  <!-- استيراد خط أنيق ومناسب للشهادات من Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
   <!-- مكتبة html2canvas لتحويل الشهادة إلى صورة -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <!-- مكتبة FileSaver لحفظ الصورة -->
@@ -53,11 +56,11 @@
       background-repeat: no-repeat;
     }
 
-    /* مكان الاسم: تم رفعه للأعلى ليتموضع داخل الإطار المخصص تماماً */
+    /* مكان الاسم داخل الإطار تماماً */
     .cert-name-container {
       position: absolute !important;
       left: 20%;
-      top: 36.5%; /* تم الرفع من 38.5% إلى 36.5% */
+      top: 36.5%;
       width: 60%;
       height: 12%;
       display: flex;
@@ -66,16 +69,17 @@
     }
     .cert-name {
       color: #102c52;
-      font-family: 'Brush Script MT', 'Segoe Script', cursive;
-      font-size: 44px;
+      font-family: 'Great Vibes', cursive, Arial, sans-serif;
+      font-size: 50px; /* حجم متناسق وبارز للخط الجديد */
+      font-weight: bold;
       white-space: nowrap;
     }
 
-    /* مكان وتصغير حجم الـ QR Code: تم إنزاله للأسفل ليبتعد عن الدائرة الذهبية */
+    /* مكان الـ QR Code: تم تعديله ليكون في المنتصف تماماً بين الدائرة والزخرفة السفلى */
     .cert-qr-container {
       position: absolute !important;
       left: 6.2%;
-      top: 73.5%; /* تم الإنزال من 71.5% إلى 73.5% */
+      top: 71.5%; /* تم رفعه قليلاً لكي يستقر في مكانه الصحيح تماماً */
       width: 8%;
       height: 12%;
       background: white;
@@ -93,7 +97,7 @@
     .cert-id-container {
       position: absolute !important;
       left: 6.2%;
-      top: 86%; /* تم الإنزال بالتناسب مع الـ QR */
+      top: 84%; /* تم تعديلها لتلائم الارتفاع الجديد للـ QR */
       width: 8%;
       height: 3.5%;
       background: #173b63;
