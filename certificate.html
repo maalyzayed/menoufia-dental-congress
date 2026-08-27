@@ -12,65 +12,71 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-  /* حاوية الشهادة */
-  #renderCert {
-    position: relative; 
-    width: 1536px; 
-    height: 1024px; 
-    background-image: url('certificate-template.jpg?v=3'); 
-    background-size: 100% 100%; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-    padding: 55px;
+  /* الحاوية الأساسية للشهادة ويجب أن تكون relative */
+  .certificate-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
   }
 
-  /* مكان الاسم (تم تعديل الـ top عشان ينزل جوه الإطار تماماً) */
+  #renderCert {
+    position: relative !important;
+    width: 100%;
+    aspect-ratio: 1536 / 1024;
+    background-image: url('certificate-template.jpg?v=3');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* مكان الاسم داخل الشهادة */
   .cert-name-container {
-    position: absolute; 
-    left: 20%; 
-    top: 41.5%; /* نزلتها من 39.5% لـ 41.5% */
-    width: 60%; 
-    height: 12%; 
-    display: flex; 
-    align-items: center; 
+    position: absolute !important;
+    left: 20%;
+    top: 41.5%;
+    width: 60%;
+    height: 12%;
+    display: flex;
+    align-items: center;
     justify-content: center;
   }
   .cert-name {
-    color: #102c52; 
-    font-family: 'Brush Script MT', 'Segoe Script', cursive; 
-    font-size: 52px; 
+    color: #102c52;
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-size: 45px;
     white-space: nowrap;
   }
 
-  /* مكان الـ QR Code (تم تعديل الـ top عشان ينزل تحت الدائرة الذهبية) */
+  /* مكان الـ QR Code في الزاوية الشمال */
   .cert-qr-container {
-    position: absolute; 
-    left: 5.5%; 
-    top: 69%; /* نزلتها من 66% لـ 69% */
-    width: 9.5%; 
-    height: 15%; 
-    background: white; 
-    display: flex; 
-    align-items: center; 
+    position: absolute !important;
+    left: 5.5%;
+    top: 69%;
+    width: 9.5%;
+    height: 15%;
+    background: white;
+    display: flex;
+    align-items: center;
     justify-content: center;
   }
 
-  /* مكان رقم الشهادة تحت الـ QR */
+  /* رقم الشهادة تحت الـ QR */
   .cert-id-container {
-    position: absolute; 
-    left: 5.5%; 
-    top: 84.5%; /* نزلتها بالتناسب مع الـ QR */
-    width: 9.5%; 
-    height: 4%; 
-    background: #173b63; 
-    display: flex; 
-    align-items: center; 
+    position: absolute !important;
+    left: 5.5%;
+    top: 84.5%;
+    width: 9.5%;
+    height: 4%;
+    background: #173b63;
+    display: flex;
+    align-items: center;
     justify-content: center;
   }
   .cert-id-text {
-    color: white; 
-    font-family: Arial, sans-serif; 
-    font-size: 11px; 
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
     font-weight: bold;
   }
 </style>
