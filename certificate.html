@@ -53,11 +53,11 @@
       background-repeat: no-repeat;
     }
 
-    /* مكان الاسم داخل الشهادة (مضبوط تماماً داخل الإطار) */
+    /* مكان الاسم: تم رفعه للأعلى ليتموضع داخل الإطار المخصص تماماً */
     .cert-name-container {
       position: absolute !important;
       left: 20%;
-      top: 38.5%;
+      top: 36.5%; /* تم الرفع من 38.5% إلى 36.5% */
       width: 60%;
       height: 12%;
       display: flex;
@@ -71,11 +71,11 @@
       white-space: nowrap;
     }
 
-    /* مكان وتصغير حجم الـ QR Code ليناسب الزاوية أسفل الدائرة الذهبية */
+    /* مكان وتصغير حجم الـ QR Code: تم إنزاله للأسفل ليبتعد عن الدائرة الذهبية */
     .cert-qr-container {
       position: absolute !important;
       left: 6.2%;
-      top: 71.5%;
+      top: 73.5%; /* تم الإنزال من 71.5% إلى 73.5% */
       width: 8%;
       height: 12%;
       background: white;
@@ -89,11 +89,11 @@
       height: 100% !important;
     }
 
-    /* رقم الشهادة تحت الـ QR مباشرة بدون أي تداخل */
+    /* رقم الشهادة تحت الـ QR مباشرة */
     .cert-id-container {
       position: absolute !important;
       left: 6.2%;
-      top: 84%;
+      top: 86%; /* تم الإنزال بالتناسب مع الـ QR */
       width: 8%;
       height: 3.5%;
       background: #173b63;
