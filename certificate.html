@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,8 @@
 
   <!-- QR Code Library -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <!-- مكتبة التحويل إلى صورة html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     * {
@@ -19,6 +21,7 @@
       min-height: 100vh;
       background: #eef3f8;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 25px;
@@ -40,27 +43,29 @@
       text-align: center;
     }
 
+    .certificate-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      max-width: 1200px;
+      width: 100%;
+    }
+
     .certificate {
       position: relative;
-      width: min(100%, 1200px);
+      width: 100%;
       aspect-ratio: 1536 / 1024;
-
       background-image: url("certificate-template.jpg?v=2");
       background-size: 100% 100%;
       background-position: center;
       background-repeat: no-repeat;
-
       overflow: hidden;
       border: 3px solid #c9a227;
       box-shadow: 0 15px 50px rgba(0,0,0,0.15);
       padding: 55px;
-      display: none; /* مخفي لحين التحميل */
+      display: none;
     }
-
-
-    /* =========================
-        PARTICIPANT NAME
-        ========================= */
 
     .participant-name-area {
       position: absolute;
@@ -71,7 +76,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent; /* أزلنا الخلفية البيضاء لتجنب تغطية التصميم */
+      background: transparent;
       z-index: 10;
     }
 
@@ -84,15 +89,10 @@
       line-height: 1;
     }
 
-
-    /* =========================
-        QR CODE
-        ========================= */
-
     .qr-area {
       position: absolute;
-      left: 5.5%; /* تعديل الموضع ليناسب المساحة المتاحة */
-      top: 66%;   /* نزلت قليلاً لتجنب التداخل مع شارة التاريخ */
+      left: 5.5%;
+      top: 66%;
       width: 9.5%;
       height: 15%;
       background: white;
@@ -118,13 +118,10 @@
       object-fit: contain;
     }
 
-    /* =========================
-        CERTIFICATE ID
-        ========================= */
     .certificate-id-area {
       position: absolute;
       left: 5.5%;
-      top: 81.5%; /* تم تعديله ليناسب مكان QR الجديد */
+      top: 81.5%;
       width: 9.5%;
       height: 4%;
       background: #173b63;
@@ -143,30 +140,35 @@
       white-space: nowrap;
     }
 
-    /* =========================
-        PRINT
-        ========================= */
+    .download-btn {
+      background: #c9a227;
+      color: white;
+      padding: 12px 30px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    .download-btn:hover {
+      background: #b08d20;
+    }
+
     @media print {
       body {
         padding: 0;
         background: white;
       }
+      .download-btn {
+        display: none !important;
+      }
       .certificate {
         width: 100vw;
         height: auto;
         box-shadow: none;
-      }
-    }
-
-    /* =========================
-        MOBILE
-        ========================= */
-    @media (max-width: 600px) {
-      body {
-        padding: 5px;
-      }
-      .certificate {
-        width: 100%;
       }
     }
   </style>
@@ -180,27 +182,20 @@
 
   <div id="error" class="error" style="display:none;"></div>
 
-  <div id="certificate" class="certificate">
-
-    <!-- Dynamic Participant Name -->
-    <div class="participant-name-area">
-      <div id="participantName" class="participant-name">
-        Participant Name
+  <div class="certificate-wrapper">
+    <div id="certificate" class="certificate">
+      <div class="participant-name-area">
+        <div id="participantName" class="participant-name">Participant Name</div>
+      </div>
+      <div class="qr-area">
+        <div id="qrcode"></div>
+      </div>
+      <div class="certificate-id-area">
+        <div id="certificateId" class="certificate-id">MDC-2026-0001</div>
       </div>
     </div>
 
-    <!-- Dynamic QR -->
-    <div class="qr-area">
-      <div id="qrcode"></div>
-    </div>
-
-    <!-- Dynamic Certificate ID -->
-    <div class="certificate-id-area">
-      <div id="certificateId" class="certificate-id">
-        MDC-2026-0001
-      </div>
-    </div>
-
+    <button id="downloadBtn" class="download-btn">📥 تنزيل الشهادة كصورة (PNG)</button>
   </div>
 
   <script type="module">
@@ -255,15 +250,8 @@
         }
 
         document.getElementById("participantName").textContent = cleanName;
-
-        /* =========================
-           CERTIFICATE ID
-           ========================= */
         document.getElementById("certificateId").textContent = certificateId;
 
-        /* =========================
-           QR CODE
-           ========================= */
         const verificationUrl = window.location.origin + window.location.pathname + "?id=" + encodeURIComponent(certificateId);
         const qrContainer = document.getElementById("qrcode");
         qrContainer.innerHTML = "";
@@ -275,17 +263,35 @@
           correctLevel: QRCode.CorrectLevel.H
         });
 
-        /* =========================
-           SHOW CERTIFICATE
-           ========================= */
         document.getElementById("loading").style.display = "none";
         document.getElementById("certificate").style.display = "block";
+        document.getElementById("downloadBtn").style.display = "block";
 
       } catch (error) {
         console.error("Certificate error:", error);
         showError("Error: " + error.code + " — " + error.message);
       }
     }
+
+    // تفعيل زر التنزيل كصورة عالية الجودة
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const certElement = document.getElementById("certificate");
+      const certId = document.getElementById("certificateId").textContent;
+      
+      document.getElementById("downloadBtn").textContent = "جاري التحميل...";
+      
+      html2canvas(certElement, { scale: 2, useCORS: true }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = `Certificate-${certId}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        document.getElementById("downloadBtn").textContent = "📥 تنزيل الشهادة كصورة (PNG)";
+      }).catch(err => {
+        console.error(err);
+        alert("حدث خطأ أثناء تنزيل الشهادة.");
+        document.getElementById("downloadBtn").textContent = "📥 تنزيل الشهادة كصورة (PNG)";
+      });
+    });
 
     loadCertificate();
   </script>
