@@ -3,7 +3,7 @@
 <head>
   <script>
   // كود ذكي لإجبار الصفحة على تحديث نفسها تلقائياً مرة واحدة عند رفع أي تعديل جديد
-  const currentVersion = "2.1"; // غياري الرقم ده لـ 2.2 لو عملتي تعديل تاني بعد كده
+  const currentVersion = "2.2"; // تم التحديث لتجاوز الكاش تماماً
   const savedVersion = localStorage.getItem("cert_page_version");
   if (savedVersion !== currentVersion) {
     localStorage.setItem("cert_page_version", currentVersion);
@@ -103,7 +103,7 @@
     .cert-qr-container img, .cert-qr-container canvas {
       width: 100% !important;
       height: 100% !important;
-/    }
+    }
 
     /* رقم الشهادة تحت الـ QR مباشرة */
     .cert-id-container {
@@ -207,14 +207,11 @@
       const data = docSnap.data();
       const rawName = data.fullName || "Participant";
       
-      // إضافة DR/ قبل الاسم تلقائياً إذا لم تكن موجودة بالفعل
       const fullName = rawName.startsWith("DR/") || rawName.startsWith("Dr/") ? rawName : `DR/ ${rawName}`;
 
-      // تعبئة البيانات
       document.getElementById("renderName").textContent = fullName;
       document.getElementById("renderId").textContent = certId;
 
-      // إنشاء الـ QR Code
       const qrDiv = document.getElementById("renderQr");
       qrDiv.innerHTML = "";
       const verificationUrl = window.location.href;
@@ -225,7 +222,6 @@
         correctLevel: QRCode.CorrectLevel.H
       });
 
-      // إظهار الشهادة وزر التحميل
       loadingEl.style.display = "none";
       certWrapperEl.style.display = "block";
       downloadBtn.style.display = "inline-block";
