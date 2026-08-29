@@ -1,4 +1,4 @@
-const CACHE_NAME = "menoufia-dental-congress-v2";
+const CACHE_NAME = "menoufia-dental-congress-v3";
 
 const FILES_TO_CACHE = [
   "/menoufia-dental-congress/",
@@ -9,6 +9,7 @@ const FILES_TO_CACHE = [
   "/menoufia-dental-congress/manifest.json"
 ];
 
+// تثبيت النسخة الجديدة
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -16,43 +17,92 @@ self.addEventListener("install", (event) => {
     })
   );
 
+  // تفعيل الـ Service Worker الجديد فورًا
   self.skipWaiting();
 });
 
+// حذف أي Cache قديم
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
+    caches.keys().then((keys) => {
+      return Promise.all(
         keys
           .filter((key) => key !== CACHE_NAME)
           .map((key) => caches.delete(key))
-      )
-    )
+      );
+    }).then(() => {
+      return self.clients.claim();
+    })
   );
-
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
-  // تجاهل أي طلب ليس GET (مثل POST أو PUT أو DELETE)
-  if (event.request.method !== 'GET') {
+// التعامل مع الطلبات
+self.addEventListener("fetch", (event) => {
+
+  // نتعامل فقط مع GET
+  if (event.request.method !== "GET") {
     return;
   }
 
+  const requestUrl = new URL(event.request.url);
+
+  // ==========================================
+  // صفحات HTML وملفات الشهادات
+  // نحاول دائمًا جلب أحدث نسخة من الإنترنت
+  // ==========================================
+  if (
+    requestUrl.pathname.endsWith(".html") ||
+    requestUrl.pathname.endsWith("/")
+  ) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+
+          // تحديث النسخة الموجودة في Cache
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+
+          return networkResponse;
+        })
+        .catch(() => {
+          // لو مفيش إنترنت، استخدم النسخة الموجودة
+          return caches.match(event.request);
+        })
+    );
+
+    return;
+  }
+
+  // ==========================================
+  // باقي الملفات:
+  // الصور - CSS - JS - manifest
+  // ==========================================
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request).then((networkResponse) => {
-        // تأكد من أن الاستجابة سليمة قبل تخزينها
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      return fetch(event.request).then((networkResponse) => {
+
+        if (
+          networkResponse &&
+          networkResponse.status === 200 &&
+          networkResponse.type === "basic"
+        ) {
+
+          const responseClone = networkResponse.clone();
+
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
         }
-
-        // نسخ الاستجابة لتخزينها
-        const responseToCache = networkResponse.clone();
-
-        caches.open('v2').then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
 
         return networkResponse;
       });
