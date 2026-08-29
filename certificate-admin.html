@@ -306,7 +306,7 @@
           alert("هذا المستخدم ليس لديه بريد إلكتروني مسجل.");
           return;
         }
-       const certUrl = "https://maalyzayed.github.io/menoufia-dental-congress/c.html?id=" + encodeURIComponent(certId);
+       const certUrl = "https://maalyzayed.github.io/menoufia-dental-congress/certificate.html?id=" + encodeURIComponent(certId);
         const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
         const body = encodeURIComponent(`مرحباً ${formatDoctorName(data.fullName)},\n\nيسعدنا إرسال شهادة حضورك الخاصة بمؤتمر المنوفية لطب الأسنان.\nيمكنك معاينة وتنزيل شهادتك عبر الرابط التالي:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
         window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${data.email}&su=${subject}&body=${body}`, '_blank');
