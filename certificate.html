@@ -22,6 +22,9 @@
   <!-- FileSaver -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
+  <!-- jsPDF لإنشاء PDF بجودة عالية -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <!-- QR Code -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
@@ -143,7 +146,7 @@
         لمكانه في الصورة الثانية
       */
 
-      left: 25.5%;
+      left: 23.5%;
 
       top: 38.5%;
 
@@ -167,18 +170,19 @@
     .cert-name {
 
       color: #102c52;
-font-family:
-  'Cormorant Garamond',
-  Georgia,
-  serif;
-font-style: italic;
-font-weight: 600;
+
+      font-family:
+        'Great Vibes',
+        cursive,
+        Arial,
+        sans-serif;
+
       /*
         حجم الاسم يتناسب
         مع حجم الشهادة
       */
 
-      font-size: 2.6cqw;
+      font-size: 3.9cqw;
 
       font-weight: bold;
 
@@ -508,7 +512,7 @@ font-weight: 600;
     class="download-btn"
   >
 
-    📥 تنزيل الشهادة كصورة (PNG)
+    📄 تنزيل الشهادة PDF بجودة عالية
 
   </button>
 
@@ -833,7 +837,7 @@ font-weight: 600;
 
 
   /* =====================================
-     تحميل الشهادة كصورة PNG
+     تحميل الشهادة كملف PDF بجودة عالية
      ===================================== */
 
   downloadBtn.addEventListener(
@@ -842,114 +846,85 @@ font-weight: 600;
 
     async () => {
 
-
-      /* تعطيل الزر */
-
-      downloadBtn.disabled =
-        true;
-
-
-      downloadBtn.textContent =
-        "جاري حفظ الصورة...";
-
+      downloadBtn.disabled = true;
+      downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة عالية...";
 
       try {
 
+        /* انتظار تحميل الخطوط والصورة قبل التصوير */
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        }
 
-        /* =================================
-           تحويل الشهادة إلى Canvas
-           ================================= */
-
-        const canvas =
-          await html2canvas(
-
-            document.getElementById(
-              "renderCert"
-            ),
-
-            {
-
-              /*
-                جودة عالية
-              */
-
-              scale: 2,
-
-              useCORS: true
-
-            }
-
-          );
-
-
-
-        /* =================================
-           حفظ الصورة
-           ================================= */
-
-        canvas.toBlob(
-
-          blob => {
-
-
-            saveAs(
-
-              blob,
-
-              `Certificate-${
-                new URLSearchParams(
-                  window.location.search
-                ).get("id")
-                || "Certificate"
-              }.png`
-
-            );
-
-
-            /* إعادة تفعيل الزر */
-
-            downloadBtn.disabled =
-              false;
-
-
-            downloadBtn.textContent =
-              "📥 تنزيل الشهادة كصورة (PNG)";
-
-
+        /* تحويل الشهادة إلى Canvas بدقة أعلى */
+        const canvas = await html2canvas(
+          document.getElementById("renderCert"),
+          {
+            scale: 3,
+            useCORS: true,
+            allowTaint: false,
+            backgroundColor: "#ffffff",
+            imageTimeout: 15000,
+            logging: false
           }
-
         );
 
+        /*
+          الشهادة 1448 × 1086 = نسبة 4:3
+          نستخدم مقاس صفحة PDF مخصص بنفس النسبة،
+          بدل ضغطها على A4 بنسبة مختلفة.
+        */
+        const pdfWidth = 297;
+        const pdfHeight = pdfWidth * (1086 / 1448);
 
-      }
+        const { jsPDF } = window.jspdf;
 
+        const pdf = new jsPDF({
+          orientation: "landscape",
+          unit: "mm",
+          format: [pdfWidth, pdfHeight],
+          compress: false
+        });
 
-      catch (err) {
+        /* PNG داخل الـPDF يحافظ على تفاصيل النص وQR بدون ضغط JPEG */
+        const imgData = canvas.toDataURL("image/png");
 
+        pdf.addImage(
+          imgData,
+          "PNG",
+          0,
+          0,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          "NONE"
+        );
+
+        const certId =
+          new URLSearchParams(window.location.search).get("id") ||
+          "Certificate";
+
+        pdf.save(`Certificate-${certId}.pdf`);
+
+      } catch (err) {
+
+        console.error("PDF error:", err);
 
         alert(
-
-          "خطأ في التنزيل: " +
+          "خطأ في إنشاء ملف PDF: " +
           err.message
-
         );
 
+      } finally {
 
-        downloadBtn.disabled =
-          false;
-
-
-        downloadBtn.textContent =
-          "📥 تنزيل الشهادة كصورة (PNG)";
+        downloadBtn.disabled = false;
+        downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة عالية";
 
       }
-
 
     }
 
   );
-
-
 </script>
 
 
