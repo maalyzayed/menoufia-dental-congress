@@ -243,15 +243,29 @@
     }
   }
 
-  function renderFilteredList(query) {
-    list.innerHTML = "";
-    const lowerQuery = query.toLowerCase().trim();
+ async function renderCertificateCanvas(certId, fullName) {
+    const renderDiv = document.getElementById("renderCert");
+    document.getElementById("renderName").textContent = fullName;
+    document.getElementById("renderId").textContent = certId;
+    
+    const qrDiv = document.getElementById("renderQr");
+    qrDiv.innerHTML = "";
+    const verificationUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
+    new QRCode(qrDiv, { text: verificationUrl, width: 300, height: 300, correctLevel: QRCode.CorrectLevel.H });
 
-    const filtered = allParticipantsData.filter(item => {
-      const name = (item.data.fullName || "").toLowerCase();
-      const email = (item.data.email || "").toLowerCase();
-      return name.includes(lowerQuery) || email.includes(lowerQuery);
+    // الانتظار قليلاً للتأكد من تحميل الـ QR وتطبيق الخطوط
+    await new Promise(r => setTimeout(r, 400));
+
+    // رفع الـ scale إلى 3 أو 4 لضمان جودة فائقة (HD)
+    return await html2canvas(renderDiv, {
+      scale: 3, 
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: 0
     });
+  }
 
     if (filtered.length === 0) {
       list.innerHTML = "<p style='text-align: center; color: #777;'>لا توجد نتائج مطابقة للبحث.</p>";
