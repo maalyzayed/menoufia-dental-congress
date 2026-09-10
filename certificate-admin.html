@@ -437,38 +437,93 @@
 pdf.addImage(imgData, 'JPEG', 0, 0, 1400, 1000);
     pdf.save(`Certificate-${certId}.pdf`);
   }
-async function renderCertificateCanvas(certId, fullName) {
-    const renderDiv = document.getElementById("renderCert");
-    document.getElementById("renderName").textContent = fullName;
-    document.getElementById("renderId").textContent = certId;
+async function generateAndDownloadSingle(certId, fullName) {
+    const { jsPDF } = window.jspdf;
     
-    const qrDiv = document.getElementById("renderQr");
-    qrDiv.innerHTML = "";
-    const verificationUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
-    new QRCode(qrDiv, { text: verificationUrl, width: 300, height: 300, correctLevel: QRCode.CorrectLevel.H });
-
-    await new Promise(r => setTimeout(r, 600));
-
-    // التقاط الصورة عبر html2canvas مع تفعيل إعدادات تحسين النقاء
-    const canvas = await html2canvas(renderDiv, {
-      scale: 2, 
-      useCORS: true,
-      allowTaint: true,
-      logging: false
+    // إنشاء مستند PDF أفقي عالي الدقة (A4 Landscape بالأبعاد النقطية)
+    const doc = new jsPDF({
+      orientation: "landscape",
+      unit: "mm",
+      format: "a4"
     });
 
-    // إنشاء canvas مؤقت لتنعيم الصورة وإزالة البكسلة الحادة
-    const smoothCanvas = document.createElement('canvas');
-    const ctx = smoothCanvas.getContext('2d');
-    smoothCanvas.width = canvas.width;
-    smoothCanvas.height = canvas.height;
-    
-    // تفعيل خاصية التنعيم العالي في المتصفح
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-    
-    ctx.drawImage(canvas, 0, 0);
-    return smoothCanvas;
+    // مقاسات صفحة A4 الأفقية هي تقريباً 297 × 210 مم
+    const width = 297;
+    const height = 210;
+
+    // 1. رسم إطار الشهادة الخارجي والداخلي
+    doc.setDrawColor(23, 59, 99); // لون أزرق غامق
+    doc.setLineWidth(1.5);
+    doc.rect(10, 10, width - 20, height - 20); // الإطار الخارجي
+
+    doc.setDrawColor(201, 162, 39); // لون ذهبي
+    doc.setLineWidth(0.5);
+    doc.rect(13, 13, width - 26, height - 26); // الإطار الداخلي
+
+    // 2. النصوص الثابتة (حادة جداً لأنها برمجية Vector)
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor(23, 59, 99);
+    doc.text("Menoufia University - Faculty of Dentistry", 20, 25);
+
+    doc.setFontSize(22);
+    doc.text("CERTIFICATE OF PARTICIPATION", width / 2, 45, { align: "center" });
+
+    doc.setFont("Helvetica", "normal");
+    doc.setFontSize(12);
+    doc.setTextColor(100, 100, 100);
+    doc.text("THIS IS TO CERTIFY THAT", width / 2, 60, { align: "center" });
+
+    // 3. اسم الدكتور (بخط كبير وواضح)
+    doc.setFont("Times", "italic");
+    doc.setFontSize(28);
+    doc.setTextColor(16, 44, 82);
+    doc.text(fullName, width / 2, 78, { align: "center" });
+
+    // خط تحت الاسم
+    doc.setDrawColor(201, 162, 39);
+    doc.setLineWidth(0.8);
+    doc.line(width / 2 - 60, 83, width / 2 + 60, 83);
+
+    // 4. تفاصيل المؤتمر
+    doc.setFont("Helvetica", "normal");
+    doc.setFontSize(13);
+    doc.setTextColor(50, 50, 50);
+    doc.text("Has Attended The", width / 2, 98, { align: "center" });
+
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(15);
+    doc.setTextColor(23, 59, 99);
+    doc.text("The 2nd Scientific Conference of the Faculty of Dentistry, Menoufia University", width / 2, 110, { align: "center" });
+
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(13);
+    doc.setTextColor(201, 162, 39);
+    doc.text("26-27 August 2026", width / 2, 123, { align: "center" });
+
+    // 5. التوقيعات في الأسفل
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(10);
+    doc.setTextColor(23, 59, 99);
+    doc.text("Conference President", 50, 175, { align: "center" });
+    doc.text("Conference Coordinator", 148.5, 175, { align: "center" });
+    doc.text("Conference Coordinator", 247, 175, { align: "center" });
+
+    doc.setFont("Helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Prof. Salah Abdelfatah Hegazy", 50, 182, { align: "center" });
+    doc.text("As.Prof. Mohamed Abd El Rahman", 148.5, 182, { align: "center" });
+    doc.text("As.Prof. Mostafa Swedan", 247, 182, { align: "center" });
+
+    // 6. رقم الشهادة في الأسفل
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(9);
+    doc.setTextColor(23, 59, 99);
+    doc.text(`Certificate ID: ${certId}`, 20, 195);
+
+    // حفظ ملف الـ PDF مباشرة
+    doc.save(`Certificate-${certId}.pdf`);
   }
 
   document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
