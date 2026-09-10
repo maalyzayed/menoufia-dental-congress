@@ -422,21 +422,7 @@
     list.appendChild(row);
   }
 
- async function generateAndDownloadSingle(certId, fullName) {
-    const canvas = await renderCertificateCanvas(certId, fullName);
-    const imgData = canvas.toDataURL("image/jpeg", 1.0); // استخدام أقصى جودة JPEG للـ PDF
-    
-    // استخدام مكتبة jsPDF المضمنة لديك
-    const { jsPDF } = window.jspdf;
-    // إنشاء PDF بأبعاد أفقية (Landscape) وبنفس نسبة أبعاد الشهادة
-   const pdf = new jsPDF({
-  orientation: "landscape",
-  unit: "px",
-  format: [1400, 1000]
-});
-pdf.addImage(imgData, 'JPEG', 0, 0, 1400, 1000);
-    pdf.save(`Certificate-${certId}.pdf`);
-  }
+ 
 async function generateAndDownloadSingle(certId, fullName) {
     const { jsPDF } = window.jspdf;
     
