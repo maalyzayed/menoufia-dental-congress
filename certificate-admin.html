@@ -115,6 +115,14 @@
       color: #777;
       margin-top: 5px;
       font-size: 14px;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .email-status {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #027a48;
     }
 
     .actions-group {
@@ -201,6 +209,11 @@
       background: #027a48;
     }
 
+    .btn-download-pdf {
+      background: #c9a227;
+      color: white;
+    }
+
     .status {
       margin-top: 15px;
       padding: 12px;
@@ -224,13 +237,19 @@
       color: #777;
     }
 
-    .email-status {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #027a48;
+    .info-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 15px;
+      line-height: 1.7;
+      font-size: 13px;
     }
 
     @media (max-width: 700px) {
+
       .participant {
         align-items: flex-start;
       }
@@ -250,314 +269,366 @@
       }
     }
   </style>
+
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="header">
-      <h1>🎓 إصدار الشهادات التلقائي</h1>
-      <p>Menoufia Dental Congress</p>
-    </div>
+  <!-- HEADER -->
 
-    <div class="card" style="text-align: center;">
+  <div class="header">
 
-      <button id="generateAllBtn" class="btn-main">
-        🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة
+    <h1>
+      🎓 إصدار الشهادات التلقائي
+    </h1>
+
+    <p>
+      Menoufia Dental Congress
+    </p>
+
+  </div>
+
+
+  <!-- ACTIONS -->
+
+  <div class="card" style="text-align: center;">
+
+    <button
+      id="generateAllBtn"
+      class="btn-main"
+    >
+      🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة
+    </button>
+
+
+    <div class="top-actions">
+
+      <button
+        id="downloadAllZipBtn"
+        class="btn-top"
+      >
+        📦 تنزيل كل الشهادات كملف مضغوط (ZIP)
       </button>
 
-      <div class="top-actions">
 
-        <button id="downloadAllZipBtn" class="btn-top">
-          📦 تنزيل كل الشهادات كملف مضغوط (ZIP)
-        </button>
-
-        <button id="sendAllEmailBtn" class="btn-email-all">
-          📧 إرسال الشهادات PDF بالإيميل للجميع
-        </button>
-
-      </div>
+      <button
+        id="sendAllEmailBtn"
+        class="btn-email-all"
+      >
+        📧 إرسال روابط الشهادات بالإيميل للجميع
+      </button>
 
     </div>
 
-    <div class="card">
 
-      <h2>قائمة المشاركين الحاضرين</h2>
+    <div class="info-box">
 
-      <input
-        type="text"
-        id="searchInput"
-        class="search-box"
-        placeholder="🔍 ابحث بالاسم أو البريد الإلكتروني..."
-      >
-
-      <div id="loading" class="loading">
-        جاري تحميل بيانات الحاضرين...
-      </div>
-
-      <div id="participantsList"></div>
-
-      <div id="status" class="status"></div>
+      ℹ️
+      الإرسال المجاني يعمل من خلال Gmail:
+      يتم فتح رسالة جاهزة لكل مشارك وبداخلها رابط شهادته.
+      لا يحتاج Firebase Blaze أو Cloud Functions.
 
     </div>
 
   </div>
 
 
-  <!--
-    =========================================================
-    شهادة مخفية تستخدم لتوليد PNG و PDF
-    =========================================================
-  -->
+  <!-- PARTICIPANTS -->
+
+  <div class="card">
+
+    <h2>
+      قائمة المشاركين الحاضرين
+    </h2>
+
+
+    <input
+      type="text"
+      id="searchInput"
+      class="search-box"
+      placeholder="🔍 ابحث بالاسم أو البريد الإلكتروني..."
+    >
+
+
+    <div
+      id="loading"
+      class="loading"
+    >
+      جاري تحميل بيانات الحاضرين...
+    </div>
+
+
+    <div
+      id="participantsList"
+    ></div>
+
+
+    <div
+      id="status"
+      class="status"
+    ></div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     HIDDEN CERTIFICATE
+===================================================== -->
+
+<div
+  id="hiddenCertificateContainer"
+  style="
+    position:absolute;
+    left:-9999px;
+    top:-9999px;
+    width:1800px;
+    height:1350px;
+  "
+>
 
   <div
-    id="hiddenCertificateContainer"
+    id="renderCert"
     style="
-      position:absolute;
-      left:-9999px;
-      top:-9999px;
+      position:relative;
       width:1800px;
       height:1350px;
+      background-image:url('certificate-template.jpg?v=2');
+      background-size:100% 100%;
+      background-position:center;
+      background-repeat:no-repeat;
+      padding:55px;
     "
   >
 
+    <!-- NAME -->
+
     <div
-      id="renderCert"
       style="
-        position:relative;
-        width:1800px;
-        height:1350px;
-        background-image:url('certificate-template.jpg?v=2');
-        background-size:100% 100%;
-        background-position:center;
-        background-repeat:no-repeat;
-        padding:55px;
+        position:absolute;
+        left:20%;
+        top:39.5%;
+        width:60%;
+        height:12%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
       "
     >
 
-      <!-- الاسم -->
-
       <div
+        id="renderName"
         style="
-          position:absolute;
-          left:20%;
-          top:39.5%;
-          width:60%;
-          height:12%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-        "
-      >
-
-        <div
-          id="renderName"
-          style="
-            color:#102c52;
-            font-family:'Brush Script MT','Segoe Script',cursive;
-            font-size:50px;
-            white-space:nowrap;
-          "
-        ></div>
-
-      </div>
-
-
-      <!-- QR -->
-
-      <div
-        id="renderQr"
-        style="
-          position:absolute;
-          left:5.5%;
-          top:66%;
-          width:9.5%;
-          height:15%;
-          background:white;
-          display:flex;
-          align-items:center;
-          justify-content:center;
+          color:#102c52;
+          font-family:'Brush Script MT','Segoe Script',cursive;
+          font-size:50px;
+          white-space:nowrap;
         "
       ></div>
 
+    </div>
 
-      <!-- Certificate ID -->
+
+    <!-- QR -->
+
+    <div
+      id="renderQr"
+      style="
+        position:absolute;
+        left:5.5%;
+        top:66%;
+        width:9.5%;
+        height:15%;
+        background:white;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      "
+    ></div>
+
+
+    <!-- CERTIFICATE ID -->
+
+    <div
+      style="
+        position:absolute;
+        left:5.5%;
+        top:81.5%;
+        width:9.5%;
+        height:4%;
+        background:#173b63;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      "
+    >
 
       <div
+        id="renderId"
         style="
-          position:absolute;
-          left:5.5%;
-          top:81.5%;
-          width:9.5%;
-          height:4%;
-          background:#173b63;
-          display:flex;
-          align-items:center;
-          justify-content:center;
+          color:white;
+          font-family:Arial,sans-serif;
+          font-size:11px;
+          font-weight:bold;
         "
-      >
-
-        <div
-          id="renderId"
-          style="
-            color:white;
-            font-family:Arial,sans-serif;
-            font-size:11px;
-            font-weight:bold;
-          "
-        ></div>
-
-      </div>
+      ></div>
 
     </div>
 
   </div>
 
-
-  <script type="module">
-
-    /*
-    =========================================================
-    Firebase
-    =========================================================
-    */
-
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+</div>
 
 
-    import {
-      initializeAuth,
-      browserLocalPersistence,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+  import {
+    initializeApp
+  }
+  from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 
-    import {
-      getFirestore,
-      collection,
-      getDocs,
-      doc,
-      setDoc,
-      updateDoc
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  import {
+    initializeAuth,
+    browserLocalPersistence,
+    onAuthStateChanged
+  }
+  from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
-    /*
-    =========================================================
-    Firebase Functions
-    =========================================================
-    */
-
-    import {
-      getFunctions,
-      httpsCallable
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-functions.js";
-
-
-    /*
-    =========================================================
-    Firebase Configuration
-    =========================================================
-    */
-
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
-
-      authDomain:
-        "menoufia-dental-congress.firebaseapp.com",
-
-      projectId:
-        "menoufia-dental-congress",
-
-      storageBucket:
-        "menoufia-dental-congress.firebasestorage.app",
-
-      messagingSenderId:
-        "20481129823",
-
-      appId:
-        "1:20481129823:web:24658314d19bcacf1dcaea"
-
-    };
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    updateDoc
+  }
+  from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-    /*
-    =========================================================
-    Initialize Firebase
-    =========================================================
-    */
+  /*
+  =========================================================
+  FIREBASE CONFIG
+  =========================================================
+  */
 
-    const app = initializeApp(firebaseConfig);
+  const firebaseConfig = {
 
-    const auth = initializeAuth(app, {
-      persistence: browserLocalPersistence
-    });
+    apiKey:
+      "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
 
-    const db = getFirestore(app);
+    authDomain:
+      "menoufia-dental-congress.firebaseapp.com",
 
+    projectId:
+      "menoufia-dental-congress",
 
-    /*
-    =========================================================
-    Firebase Functions
-    =========================================================
+    storageBucket:
+      "menoufia-dental-congress.firebasestorage.app",
 
-    لازم الـ Cloud Function تكون منشورة في نفس المنطقة.
-    */
+    messagingSenderId:
+      "20481129823",
 
-    const functions = getFunctions(app, "europe-west1");
+    appId:
+      "1:20481129823:web:24658314d19bcacf1dcaea"
 
-    const sendCertificateEmail =
-      httpsCallable(functions, "sendCertificateEmail");
-
-
-    /*
-    =========================================================
-    Organizer UID
-    =========================================================
-    */
-
-    const ORGANIZER_UID =
-      "fS56FR5b2vdd632fpUZWXbJFWwj1";
+  };
 
 
-    /*
-    =========================================================
-    Elements
-    =========================================================
-    */
+  /*
+  =========================================================
+  INITIALIZE FIREBASE
+  =========================================================
+  */
 
-    const loading =
-      document.getElementById("loading");
-
-    const list =
-      document.getElementById("participantsList");
-
-    const statusBox =
-      document.getElementById("status");
-
-    const searchInput =
-      document.getElementById("searchInput");
+  const app =
+    initializeApp(firebaseConfig);
 
 
-    let allParticipantsData = [];
+  const auth =
+    initializeAuth(
+      app,
+      {
+        persistence:
+          browserLocalPersistence
+      }
+    );
 
 
-    /*
-    =========================================================
-    Authentication
-    =========================================================
-    */
+  const db =
+    getFirestore(app);
 
-    onAuthStateChanged(auth, (user) => {
+
+  /*
+  =========================================================
+  ORGANIZER UID
+  =========================================================
+  */
+
+  const ORGANIZER_UID =
+    "fS56FR5b2vdd632fpUZWXbJFWwj1";
+
+
+  /*
+  =========================================================
+  ELEMENTS
+  =========================================================
+  */
+
+  const loading =
+    document.getElementById(
+      "loading"
+    );
+
+
+  const list =
+    document.getElementById(
+      "participantsList"
+    );
+
+
+  const statusBox =
+    document.getElementById(
+      "status"
+    );
+
+
+  const searchInput =
+    document.getElementById(
+      "searchInput"
+    );
+
+
+  let allParticipantsData = [];
+
+
+  /*
+  =========================================================
+  AUTHENTICATION
+  =========================================================
+  */
+
+  onAuthStateChanged(
+    auth,
+    (user) => {
 
       if (user) {
 
-        if (user.uid === ORGANIZER_UID) {
+        if (
+          user.uid ===
+          ORGANIZER_UID
+        ) {
 
           loading.innerHTML =
             "تم التحقق. جاري جلب الحاضرين...";
@@ -580,69 +651,86 @@
 
       }
 
-    });
+    }
+  );
 
 
-    /*
-    =========================================================
-    Format Doctor Name
-    =========================================================
-    */
+  /*
+  =========================================================
+  FORMAT DOCTOR NAME
+  =========================================================
+  */
 
-    function formatDoctorName(rawName) {
+  function formatDoctorName(
+    rawName
+  ) {
 
-      const cleanName =
-        (rawName || "Participant").trim();
-
-
-      if (/^dr[\/.\s]/i.test(cleanName)) {
-
-        return cleanName.replace(
-          /^dr[\/.\s]+/i,
-          "DR/ "
-        );
-
-      }
+    const cleanName =
+      (rawName || "Participant")
+      .trim();
 
 
-      return "DR/ " + cleanName;
+    if (
+      /^dr[\/.\s]/i.test(
+        cleanName
+      )
+    ) {
+
+      return cleanName.replace(
+        /^dr[\/.\s]+/i,
+        "DR/ "
+      );
 
     }
 
 
-    /*
-    =========================================================
-    Load Participants
-    =========================================================
-    */
+    return "DR/ " + cleanName;
 
-    async function loadCheckedInParticipants() {
-
-      try {
-
-        const participantsSnap =
-          await getDocs(
-            collection(db, "participants")
-          );
+  }
 
 
-        const certificatesSnap =
-          await getDocs(
-            collection(db, "certificates")
-          );
+  /*
+  =========================================================
+  LOAD PARTICIPANTS
+  =========================================================
+  */
+
+  async function loadCheckedInParticipants() {
+
+    try {
+
+      const participantsSnap =
+        await getDocs(
+          collection(
+            db,
+            "participants"
+          )
+        );
 
 
-        const existingCerts =
-          new Map();
+      const certificatesSnap =
+        await getDocs(
+          collection(
+            db,
+            "certificates"
+          )
+        );
 
 
-        certificatesSnap.forEach((docSnap) => {
+      const existingCerts =
+        new Map();
+
+
+      certificatesSnap.forEach(
+        (docSnap) => {
 
           const data =
             docSnap.data();
 
 
-          if (data.participantId) {
+          if (
+            data.participantId
+          ) {
 
             existingCerts.set(
               data.participantId,
@@ -651,19 +739,23 @@
 
           }
 
-        });
+        }
+      );
 
 
-        allParticipantsData = [];
+      allParticipantsData = [];
 
 
-        participantsSnap.forEach((participantDoc) => {
+      participantsSnap.forEach(
+        (participantDoc) => {
 
           const data =
             participantDoc.data();
 
 
-          if (data.attendance === true) {
+          if (
+            data.attendance === true
+          ) {
 
             allParticipantsData.push({
 
@@ -682,74 +774,97 @@
 
           }
 
-        });
+        }
+      );
 
 
-        loading.style.display = "none";
+      loading.style.display =
+        "none";
 
-        renderFilteredList("");
+
+      renderFilteredList("");
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      loading.textContent =
+        "حدث خطأ أثناء الجلب: " +
+        error.message;
+
+    }
+
+  }
 
 
-      } catch (error) {
+  /*
+  =========================================================
+  SEARCH
+  =========================================================
+  */
 
-        console.error(error);
+  function renderFilteredList(
+    query
+  ) {
 
-        loading.textContent =
-          "حدث خطأ أثناء الجلب: " +
-          error.message;
+    list.innerHTML = "";
 
-      }
+
+    const lowerQuery =
+      query
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+      allParticipantsData.filter(
+        (item) => {
+
+          const name =
+            (
+              item.data.fullName ||
+              ""
+            )
+            .toLowerCase();
+
+
+          const email =
+            (
+              item.data.email ||
+              ""
+            )
+            .toLowerCase();
+
+
+          return (
+            name.includes(
+              lowerQuery
+            ) ||
+            email.includes(
+              lowerQuery
+            )
+          );
+
+        }
+      );
+
+
+    if (
+      filtered.length === 0
+    ) {
+
+      list.innerHTML =
+        "<p style='text-align:center;color:#777;'>لا توجد نتائج مطابقة للبحث.</p>";
+
+      return;
 
     }
 
 
-    /*
-    =========================================================
-    Search
-    =========================================================
-    */
-
-    function renderFilteredList(query) {
-
-      list.innerHTML = "";
-
-
-      const lowerQuery =
-        query.toLowerCase().trim();
-
-
-      const filtered =
-        allParticipantsData.filter((item) => {
-
-          const name =
-            (item.data.fullName || "")
-              .toLowerCase();
-
-
-          const email =
-            (item.data.email || "")
-              .toLowerCase();
-
-
-          return (
-            name.includes(lowerQuery) ||
-            email.includes(lowerQuery)
-          );
-
-        });
-
-
-      if (filtered.length === 0) {
-
-        list.innerHTML =
-          "<p style='text-align:center;color:#777;'>لا توجد نتائج مطابقة للبحث.</p>";
-
-        return;
-
-      }
-
-
-      filtered.forEach((item) => {
+    filtered.forEach(
+      (item) => {
 
         renderRow(
           item.participantId,
@@ -757,377 +872,1368 @@
           item.certId
         );
 
-      });
+      }
+    );
+
+  }
+
+
+  searchInput.addEventListener(
+    "input",
+    (e) => {
+
+      renderFilteredList(
+        e.target.value
+      );
+
+    }
+  );
+
+
+  /*
+  =========================================================
+  RENDER PARTICIPANT
+  =========================================================
+  */
+
+  function renderRow(
+    participantId,
+    data,
+    certId
+  ) {
+
+    const row =
+      document.createElement(
+        "div"
+      );
+
+
+    row.className =
+      "participant";
+
+
+    /*
+    INFO
+    */
+
+    const info =
+      document.createElement(
+        "div"
+      );
+
+
+    info.className =
+      "participant-info";
+
+
+    const name =
+      document.createElement(
+        "div"
+      );
+
+
+    name.className =
+      "name";
+
+
+    name.textContent =
+      formatDoctorName(
+        data.fullName
+      );
+
+
+    const email =
+      document.createElement(
+        "div"
+      );
+
+
+    email.className =
+      "email";
+
+
+    email.textContent =
+      data.email ||
+      "بدون بريد إلكتروني";
+
+
+    info.appendChild(
+      name
+    );
+
+
+    info.appendChild(
+      email
+    );
+
+
+    /*
+    ACTIONS
+    */
+
+    const actions =
+      document.createElement(
+        "div"
+      );
+
+
+    actions.className =
+      "actions-group";
+
+
+    /*
+    =======================================================
+    CERTIFICATE EXISTS
+    =======================================================
+    */
+
+    if (certId) {
+
+      /*
+      VIEW
+      */
+
+      const viewLink =
+        document.createElement(
+          "a"
+        );
+
+
+      viewLink.className =
+        "view-btn";
+
+
+      viewLink.textContent =
+        "عرض الشهادة";
+
+
+      viewLink.href =
+        "certificate.html?id=" +
+        encodeURIComponent(
+          certId
+        );
+
+
+      viewLink.target =
+        "_blank";
+
+
+      actions.appendChild(
+        viewLink
+      );
+
+
+      /*
+      DOWNLOAD PNG
+      */
+
+      const downloadBtn =
+        document.createElement(
+          "button"
+        );
+
+
+      downloadBtn.className =
+        "view-btn btn-download-pdf";
+
+
+      downloadBtn.textContent =
+        "📥 تنزيل PNG";
+
+
+      downloadBtn.onclick =
+        async () => {
+
+          downloadBtn.disabled =
+            true;
+
+
+          downloadBtn.textContent =
+            "⏳ جاري الحفظ...";
+
+
+          try {
+
+            await generateAndDownloadSingle(
+              certId,
+              formatDoctorName(
+                data.fullName
+              )
+            );
+
+          }
+
+          catch (error) {
+
+            console.error(error);
+
+            alert(
+              "حدث خطأ أثناء تنزيل الشهادة:\n" +
+              error.message
+            );
+
+          }
+
+
+          downloadBtn.disabled =
+            false;
+
+
+          downloadBtn.textContent =
+            "📥 تنزيل PNG";
+
+        };
+
+
+      actions.appendChild(
+        downloadBtn
+      );
+
+
+      /*
+      =====================================================
+      DOWNLOAD PDF
+      =====================================================
+      */
+
+      const downloadPdfBtn =
+        document.createElement(
+          "button"
+        );
+
+
+      downloadPdfBtn.className =
+        "view-btn";
+
+
+      downloadPdfBtn.style.background =
+        "#7c3aed";
+
+
+      downloadPdfBtn.textContent =
+        "📄 تنزيل PDF";
+
+
+      downloadPdfBtn.onclick =
+        async () => {
+
+          downloadPdfBtn.disabled =
+            true;
+
+
+          downloadPdfBtn.textContent =
+            "⏳ جاري إنشاء PDF...";
+
+
+          try {
+
+            await generateAndDownloadPdf(
+              certId,
+              formatDoctorName(
+                data.fullName
+              )
+            );
+
+          }
+
+          catch (error) {
+
+            console.error(error);
+
+            alert(
+              "حدث خطأ أثناء إنشاء PDF:\n" +
+              error.message
+            );
+
+          }
+
+
+          downloadPdfBtn.disabled =
+            false;
+
+
+          downloadPdfBtn.textContent =
+            "📄 تنزيل PDF";
+
+        };
+
+
+      actions.appendChild(
+        downloadPdfBtn
+      );
+
+
+      /*
+      =====================================================
+      EMAIL
+      =====================================================
+      */
+
+      const emailBtn =
+        document.createElement(
+          "button"
+        );
+
+
+      emailBtn.className =
+        "view-btn btn-email-single";
+
+
+      emailBtn.textContent =
+        "📧 إرسال الإيميل";
+
+
+      emailBtn.onclick =
+        () => {
+
+          if (!data.email) {
+
+            alert(
+              "هذا المستخدم ليس لديه بريد إلكتروني مسجل."
+            );
+
+            return;
+
+          }
+
+
+          openGmailCompose(
+            certId,
+            formatDoctorName(
+              data.fullName
+            ),
+            data.email
+          );
+
+
+          /*
+          تسجيل وقت فتح رسالة Gmail
+          */
+
+          updateDoc(
+            doc(
+              db,
+              "certificates",
+              certId
+            ),
+            {
+
+              emailOpenedAt:
+                new Date().toISOString(),
+
+              emailOpenedTo:
+                data.email
+
+            }
+          )
+          .catch(
+            (err) => {
+
+              console.warn(
+                "تعذر تسجيل حالة الإيميل:",
+                err
+              );
+
+            }
+          );
+
+
+          emailBtn.classList.add(
+            "sent"
+          );
+
+
+          emailBtn.textContent =
+            "✅ تم فتح Gmail";
+
+        };
+
+
+      actions.appendChild(
+        emailBtn
+      );
+
+
+      /*
+      EMAIL STATUS
+      */
+
+      if (
+        data.emailSentAt
+      ) {
+
+        const emailStatus =
+          document.createElement(
+            "div"
+          );
+
+
+        emailStatus.className =
+          "email-status";
+
+
+        emailStatus.textContent =
+          "✓ تم التعامل مع البريد سابقًا";
+
+
+        info.appendChild(
+          emailStatus
+        );
+
+      }
+
+    }
+
+    else {
+
+      /*
+      =====================================================
+      CREATE CERTIFICATE
+      =====================================================
+      */
+
+      const createBtn =
+        document.createElement(
+          "button"
+        );
+
+
+      createBtn.className =
+        "view-btn btn-create";
+
+
+      createBtn.textContent =
+        "إنشاء الشهادة";
+
+
+      createBtn.onclick =
+        async () => {
+
+          createBtn.disabled =
+            true;
+
+
+          createBtn.textContent =
+            "جاري الإنشاء...";
+
+
+          try {
+
+            const certificatesSnap =
+              await getDocs(
+                collection(
+                  db,
+                  "certificates"
+                )
+              );
+
+
+            const nextNum =
+              certificatesSnap.size +
+              1;
+
+
+            const certificateId =
+              "MDC-2026-" +
+              String(
+                nextNum
+              )
+              .padStart(
+                4,
+                "0"
+              );
+
+
+            const finalName =
+              formatDoctorName(
+                data.fullName
+              );
+
+
+            await setDoc(
+              doc(
+                db,
+                "certificates",
+                certificateId
+              ),
+              {
+
+                fullName:
+                  finalName,
+
+                participantId:
+                  participantId,
+
+                email:
+                  data.email || "",
+
+                institution:
+                  data.institution || "",
+
+                certificateId:
+                  certificateId,
+
+                createdAt:
+                  new Date()
+                    .toISOString()
+
+              }
+            );
+
+
+            await loadCheckedInParticipants();
+
+          }
+
+          catch (err) {
+
+            console.error(err);
+
+            alert(
+              "خطأ: " +
+              err.message
+            );
+
+
+            createBtn.disabled =
+              false;
+
+
+            createBtn.textContent =
+              "إنشاء الشهادة";
+
+          }
+
+        };
+
+
+      actions.appendChild(
+        createBtn
+      );
 
     }
 
 
-    searchInput.addEventListener(
-      "input",
-      (e) => {
+    row.appendChild(
+      info
+    );
 
-        renderFilteredList(
-          e.target.value
+
+    row.appendChild(
+      actions
+    );
+
+
+    list.appendChild(
+      row
+    );
+
+  }
+
+
+  /*
+  =========================================================
+  OPEN GMAIL
+  =========================================================
+  */
+
+  function openGmailCompose(
+    certId,
+    fullName,
+    email
+  ) {
+
+    const certUrl =
+      new URL(
+        "certificate.html?id=" +
+        encodeURIComponent(
+          certId
+        ),
+        window.location.href
+      ).href;
+
+
+    const subject =
+      encodeURIComponent(
+        "Certificate of Attendance - Menoufia Dental Congress"
+      );
+
+
+    const body =
+      encodeURIComponent(
+        `Dear ${fullName},
+
+We are pleased to send you your Certificate of Attendance for the Menoufia Dental Congress.
+
+You can view and download your certificate using the following link:
+
+${certUrl}
+
+Certificate ID:
+${certId}
+
+Best regards,
+Menoufia Dental Congress Organizing Committee`
+      );
+
+
+    const gmailUrl =
+      "https://mail.google.com/mail/?view=cm&fs=1" +
+      "&to=" +
+      encodeURIComponent(
+        email
+      ) +
+      "&su=" +
+      subject +
+      "&body=" +
+      body;
+
+
+    window.open(
+      gmailUrl,
+      "_blank"
+    );
+
+  }
+
+
+  /*
+  =========================================================
+  GENERATE PNG
+  =========================================================
+  */
+
+  async function generateAndDownloadSingle(
+    certId,
+    fullName
+  ) {
+
+    const canvas =
+      await renderCertificateCanvas(
+        certId,
+        fullName
+      );
+
+
+    canvas.toBlob(
+      (blob) => {
+
+        if (!blob) {
+
+          alert(
+            "تعذر إنشاء صورة الشهادة."
+          );
+
+          return;
+
+        }
+
+
+        saveAs(
+          blob,
+          `Certificate-${certId}.png`
         );
+
+      },
+      "image/png"
+    );
+
+  }
+
+
+  /*
+  =========================================================
+  RENDER CERTIFICATE
+  =========================================================
+  */
+
+  async function renderCertificateCanvas(
+    certId,
+    fullName
+  ) {
+
+    const renderDiv =
+      document.getElementById(
+        "renderCert"
+      );
+
+
+    document.getElementById(
+      "renderName"
+    ).textContent =
+      fullName;
+
+
+    document.getElementById(
+      "renderId"
+    ).textContent =
+      certId;
+
+
+    /*
+    QR
+    */
+
+    const qrDiv =
+      document.getElementById(
+        "renderQr"
+      );
+
+
+    qrDiv.innerHTML =
+      "";
+
+
+    /*
+    رابط الشهادة
+    */
+
+    const verificationUrl =
+      new URL(
+        "certificate.html?id=" +
+        encodeURIComponent(
+          certId
+        ),
+        window.location.href
+      ).href;
+
+
+    new QRCode(
+      qrDiv,
+      {
+
+        text:
+          verificationUrl,
+
+        width:
+          150,
+
+        height:
+          150,
+
+        correctLevel:
+          QRCode.CorrectLevel.H
 
       }
     );
 
 
     /*
-    =========================================================
-    Render Participant Row
-    =========================================================
+    انتظار QR
     */
 
-    function renderRow(
-      participantId,
-      data,
-      certId
-    ) {
-
-      const row =
-        document.createElement("div");
-
-      row.className =
-        "participant";
+    await new Promise(
+      (resolve) =>
+        setTimeout(
+          resolve,
+          400
+        )
+    );
 
 
-      /*
-      Info
-      */
+    /*
+    Canvas
+    */
 
-      const info =
-        document.createElement("div");
+    return await html2canvas(
+      renderDiv,
+      {
 
-      info.className =
-        "participant-info";
+        scale:
+          3,
 
+        useCORS:
+          true,
 
-      const name =
-        document.createElement("div");
+        allowTaint:
+          false,
 
-      name.className =
-        "name";
+        backgroundColor:
+          null,
 
-      name.textContent =
-        formatDoctorName(
-          data.fullName
-        );
+        logging:
+          false
 
+      }
+    );
 
-      const email =
-        document.createElement("div");
-
-      email.className =
-        "email";
-
-      email.textContent =
-        data.email ||
-        "بدون بريد إلكتروني";
+  }
 
 
-      info.appendChild(name);
+  /*
+  =========================================================
+  CREATE PDF BASE64
+  =========================================================
+  */
 
-      info.appendChild(email);
+  async function createCertificatePdfBase64(
+    certId,
+    fullName
+  ) {
 
-
-      /*
-      Actions
-      */
-
-      const actions =
-        document.createElement("div");
-
-      actions.className =
-        "actions-group";
-
-
-      /*
-      =======================================================
-      Certificate Exists
-      =======================================================
-      */
-
-      if (certId) {
+    const canvas =
+      await renderCertificateCanvas(
+        certId,
+        fullName
+      );
 
 
-        /*
-        عرض الشهادة
-        */
-
-        const viewLink =
-          document.createElement("a");
-
-        viewLink.className =
-          "view-btn";
-
-        viewLink.textContent =
-          "عرض الشهادة";
-
-        viewLink.href =
-          "certificate.html?id=" +
-          encodeURIComponent(certId);
-
-        viewLink.target =
-          "_blank";
-
-        actions.appendChild(
-          viewLink
-        );
+    const {
+      jsPDF
+    } =
+      window.jspdf;
 
 
-        /*
-        تنزيل PNG
-        */
+    /*
+    المقاس الأصلي
+    1448 × 1086
+    */
 
-        const downloadSingleBtn =
-          document.createElement("button");
-
-        downloadSingleBtn.className =
-          "view-btn";
-
-        downloadSingleBtn.style.background =
-          "#c9a227";
-
-        downloadSingleBtn.textContent =
-          "📥 تنزيل";
-
-        downloadSingleBtn.onclick =
-          async () => {
-
-            downloadSingleBtn.disabled =
-              true;
-
-            downloadSingleBtn.textContent =
-              "جاري الحفظ...";
+    const pdfWidth =
+      297;
 
 
-            try {
+    const pdfHeight =
+      pdfWidth *
+      (
+        1086 /
+        1448
+      );
 
-              await generateAndDownloadSingle(
+
+    const pdf =
+      new jsPDF(
+        {
+
+          orientation:
+            "landscape",
+
+          unit:
+            "mm",
+
+          format:
+            [
+              pdfWidth,
+              pdfHeight
+            ],
+
+          compress:
+            false
+
+        }
+      );
+
+
+    const imgData =
+      canvas.toDataURL(
+        "image/png"
+      );
+
+
+    pdf.addImage(
+      imgData,
+      "PNG",
+      0,
+      0,
+      pdfWidth,
+      pdfHeight,
+      undefined,
+      "NONE"
+    );
+
+
+    return pdf;
+
+  }
+
+
+  /*
+  =========================================================
+  DOWNLOAD PDF
+  =========================================================
+  */
+
+  async function generateAndDownloadPdf(
+    certId,
+    fullName
+  ) {
+
+    const pdf =
+      await createCertificatePdfBase64(
+        certId,
+        fullName
+      );
+
+
+    pdf.save(
+      `Certificate-${certId}.pdf`
+    );
+
+  }
+
+
+  /*
+  =========================================================
+  DOWNLOAD ALL ZIP
+  =========================================================
+  */
+
+  document
+    .getElementById(
+      "downloadAllZipBtn"
+    )
+    .addEventListener(
+      "click",
+      async () => {
+
+        const btn =
+          document.getElementById(
+            "downloadAllZipBtn"
+          );
+
+
+        try {
+
+          const certificatesSnap =
+            await getDocs(
+              collection(
+                db,
+                "certificates"
+              )
+            );
+
+
+          if (
+            certificatesSnap.empty
+          ) {
+
+            alert(
+              "لا توجد شهادات مسجلة بعد!"
+            );
+
+            return;
+
+          }
+
+
+          btn.disabled =
+            true;
+
+
+          btn.textContent =
+            "⏳ جاري إعداد الشهادات...";
+
+
+          const zip =
+            new JSZip();
+
+
+          let index =
+            0;
+
+
+          for (
+            const docSnap
+            of certificatesSnap.docs
+          ) {
+
+            index++;
+
+
+            btn.textContent =
+              `جاري معالجة الشهادة ${index} من ${certificatesSnap.size}...`;
+
+
+            const certId =
+              docSnap.id;
+
+
+            const fullName =
+              docSnap.data().fullName ||
+              "Participant";
+
+
+            const canvas =
+              await renderCertificateCanvas(
                 certId,
-                formatDoctorName(
-                  data.fullName
+                fullName
+              );
+
+
+            const imgData =
+              canvas
+                .toDataURL(
+                  "image/png"
                 )
-              );
-
-            } catch (error) {
-
-              alert(
-                "حدث خطأ أثناء تنزيل الشهادة: " +
-                error.message
-              );
-
-            }
-
-
-            downloadSingleBtn.disabled =
-              false;
-
-            downloadSingleBtn.textContent =
-              "📥 تنزيل";
-
-          };
-
-
-        actions.appendChild(
-          downloadSingleBtn
-        );
-
-
-        /*
-        =====================================================
-        إرسال PDF بالإيميل
-        =====================================================
-        */
-
-        const emailBtn =
-          document.createElement("button");
-
-        emailBtn.className =
-          "view-btn btn-email-single";
-
-        emailBtn.textContent =
-          "📧 إرسال PDF";
-
-
-        emailBtn.onclick =
-          async () => {
-
-            if (!data.email) {
-
-              alert(
-                "هذا المستخدم ليس لديه بريد إلكتروني مسجل."
-              );
-
-              return;
-
-            }
-
-
-            emailBtn.disabled =
-              true;
-
-            emailBtn.textContent =
-              "⏳ جاري إنشاء PDF...";
-
-
-            try {
-
-              await sendCertificatePdfByEmail(
-
-                certId,
-
-                formatDoctorName(
-                  data.fullName
-                ),
-
-                data.email
-
-              );
-
-
-              /*
-              تسجيل حالة الإرسال في Firestore
-              */
-
-              try {
-
-                await updateDoc(
-                  doc(
-                    db,
-                    "certificates",
-                    certId
-                  ),
-                  {
-                    emailSentAt:
-                      new Date().toISOString(),
-
-                    emailSentTo:
-                      data.email
-                  }
+                .replace(
+                  /^data:image\/png;base64,/,
+                  ""
                 );
 
-              } catch (updateError) {
 
-                console.warn(
-                  "تعذر تسجيل حالة الإرسال:",
-                  updateError
-                );
-
+            zip.file(
+              `Certificate-${certId}.png`,
+              imgData,
+              {
+                base64:
+                  true
               }
+            );
+
+          }
 
 
-              emailBtn.classList.add(
-                "sent"
-              );
-
-              emailBtn.textContent =
-                "✅ تم الإرسال";
+          btn.textContent =
+            "📦 جاري ضغط الملفات...";
 
 
-              alert(
-                "تم إرسال شهادة PDF بنجاح إلى:\n" +
-                data.email
-              );
+          const content =
+            await zip.generateAsync(
+              {
+                type:
+                  "blob"
+              }
+            );
 
 
-            } catch (error) {
-
-              console.error(error);
-
-              alert(
-                "فشل إرسال الشهادة:\n" +
-                error.message
-              );
+          saveAs(
+            content,
+            "Menoufia-Dental-Congress-Certificates.zip"
+          );
 
 
-              emailBtn.disabled =
-                false;
-
-              emailBtn.textContent =
-                "📧 إرسال PDF";
-
-            }
-
-          };
-
-
-        actions.appendChild(
-          emailBtn
-        );
-
-
-        /*
-        حالة الإيميل السابقة
-        */
-
-        if (data.emailSentAt) {
-
-          const emailStatus =
-            document.createElement("div");
-
-          emailStatus.className =
-            "email-status";
-
-          emailStatus.textContent =
-            "✓ تم إرسال البريد سابقًا";
-
-          info.appendChild(
-            emailStatus
+          alert(
+            "تم تنزيل ملف ZIP بنجاح!"
           );
 
         }
 
+        catch (error) {
 
-      } else {
+          console.error(error);
 
+          alert(
+            "حدث خطأ أثناء إنشاء ZIP:\n" +
+            error.message
+          );
 
-        /*
-        =====================================================
-        إنشاء الشهادة
-        =====================================================
-        */
+        }
 
-        const createBtn =
-          document.createElement("button");
+        finally {
 
-        createBtn.className =
-          "view-btn btn-create";
-
-        createBtn.textContent =
-          "إنشاء الشهادة";
+          btn.disabled =
+            false;
 
 
-        createBtn.onclick =
-          async () => {
+          btn.textContent =
+            "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
 
-            createBtn.disabled =
-              true;
+        }
 
-            createBtn.textContent =
-              "جاري الإنشاء...";
+      }
+    );
 
 
-            try {
+  /*
+  =========================================================
+  SEND ALL EMAIL
+  =========================================================
+  */
 
-              const certificatesSnap =
-                await getDocs(
-                  collection(
-                    db,
-                    "certificates"
-                  )
+  document
+    .getElementById(
+      "sendAllEmailBtn"
+    )
+    .addEventListener(
+      "click",
+      async () => {
+
+        const btn =
+          document.getElementById(
+            "sendAllEmailBtn"
+          );
+
+
+        const confirmed =
+          confirm(
+            "سيتم فتح رسائل Gmail للمشاركين الذين لديهم بريد إلكتروني.\n\nهل تريد المتابعة؟"
+          );
+
+
+        if (!confirmed) {
+
+          return;
+
+        }
+
+
+        try {
+
+          const certificatesSnap =
+            await getDocs(
+              collection(
+                db,
+                "certificates"
+              )
+            );
+
+
+          if (
+            certificatesSnap.empty
+          ) {
+
+            alert(
+              "لا توجد شهادات مسجلة."
+            );
+
+            return;
+
+          }
+
+
+          btn.disabled =
+            true;
+
+
+          let count =
+            0;
+
+
+          let skipped =
+            0;
+
+
+          const total =
+            certificatesSnap.size;
+
+
+          let current =
+            0;
+
+
+          for (
+            const docSnap
+            of certificatesSnap.docs
+          ) {
+
+            current++;
+
+
+            const data =
+              docSnap.data();
+
+
+            const certId =
+              docSnap.id;
+
+
+            const fullName =
+              data.fullName ||
+              "Participant";
+
+
+            const email =
+              data.email ||
+              "";
+
+
+            if (!email) {
+
+              skipped++;
+
+              continue;
+
+            }
+
+
+            count++;
+
+
+            btn.textContent =
+              `📧 فتح رسالة ${count}...`;
+
+
+            openGmailCompose(
+              certId,
+              fullName,
+              email
+            );
+
+
+            /*
+            تأخير حتى لا يمنع المتصفح
+            فتح كل التبويبات دفعة واحدة
+            */
+
+            await new Promise(
+              (resolve) =>
+                setTimeout(
+                  resolve,
+                  900
+                )
+            );
+
+          }
+
+
+          alert(
+            "تم تجهيز رسائل Gmail.\n\n" +
+            "عدد المشاركين الذين لديهم بريد: " +
+            count +
+            "\n" +
+            "بدون بريد: " +
+            skipped +
+            "\n\n" +
+            "راجع الرسائل واضغط Send."
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(error);
+
+          alert(
+            "حدث خطأ أثناء تجهيز الإيميلات:\n" +
+            error.message
+          );
+
+        }
+
+        finally {
+
+          btn.disabled =
+            false;
+
+
+          btn.textContent =
+            "📧 إرسال روابط الشهادات بالإيميل للجميع";
+
+        }
+
+      }
+    );
+
+
+  /*
+  =========================================================
+  CREATE ALL MISSING CERTIFICATES
+  =========================================================
+  */
+
+  document
+    .getElementById(
+      "generateAllBtn"
+    )
+    .addEventListener(
+      "click",
+      async () => {
+
+        const btn =
+          document.getElementById(
+            "generateAllBtn"
+          );
+
+
+        btn.disabled =
+          true;
+
+
+        btn.textContent =
+          "جاري الفحص وإنشاء الشهادات...";
+
+
+        try {
+
+          const participantsSnap =
+            await getDocs(
+              collection(
+                db,
+                "participants"
+              )
+            );
+
+
+          const certificatesSnap =
+            await getDocs(
+              collection(
+                db,
+                "certificates"
+              )
+            );
+
+
+          /*
+          الشهادات الموجودة
+          */
+
+          const existingCerts =
+            new Map();
+
+
+          certificatesSnap.forEach(
+            (docSnap) => {
+
+              const d =
+                docSnap.data();
+
+
+              if (
+                d.participantId
+              ) {
+
+                existingCerts.set(
+                  d.participantId,
+                  docSnap.id
                 );
 
+              }
 
-              const nextNum =
-                certificatesSnap.size + 1;
+            }
+          );
+
+
+          let totalCertsCount =
+            certificatesSnap.size;
+
+
+          let createdCount =
+            0;
+
+
+          /*
+          إنشاء شهادات الحاضرين
+          */
+
+          for (
+            const participantDoc
+            of participantsSnap.docs
+          ) {
+
+            const data =
+              participantDoc.data();
+
+
+            const participantId =
+              participantDoc.id;
+
+
+            if (
+              data.attendance === true &&
+              !existingCerts.has(
+                participantId
+              )
+            ) {
+
+              totalCertsCount++;
 
 
               const certificateId =
                 "MDC-2026-" +
-                String(nextNum).padStart(
+                String(
+                  totalCertsCount
+                )
+                .padStart(
                   4,
                   "0"
                 );
@@ -1163,991 +2269,76 @@
                     certificateId,
 
                   createdAt:
-                    new Date().toISOString()
+                    new Date()
+                      .toISOString()
 
                 }
               );
 
 
-              await loadCheckedInParticipants();
-
-
-            } catch (err) {
-
-              alert(
-                "خطأ: " +
-                err.message
+              existingCerts.set(
+                participantId,
+                certificateId
               );
 
 
-              createBtn.disabled =
-                false;
-
-              createBtn.textContent =
-                "إنشاء الشهادة";
+              createdCount++;
 
             }
 
-          };
-
-
-        actions.appendChild(
-          createBtn
-        );
-
-      }
-
-
-      row.appendChild(info);
-
-      row.appendChild(actions);
-
-      list.appendChild(row);
-
-    }
-
-
-    /*
-    =========================================================
-    Generate PNG
-    =========================================================
-    */
-
-    async function generateAndDownloadSingle(
-      certId,
-      fullName
-    ) {
-
-      const canvas =
-        await renderCertificateCanvas(
-          certId,
-          fullName
-        );
-
-
-      canvas.toBlob(
-        (blob) => {
-
-          if (!blob) {
-
-            throw new Error(
-              "تعذر إنشاء صورة الشهادة."
-            );
-
           }
 
 
-          saveAs(
-            blob,
-            `Certificate-${certId}.png`
-          );
+          statusBox.className =
+            "status success";
 
-        },
-        "image/png"
-      );
 
-    }
+          statusBox.textContent =
+            `تم بنجاح إنشاء ${createdCount} شهادة جديدة.`;
 
 
-    /*
-    =========================================================
-    Render Certificate
-    =========================================================
-    */
+          statusBox.style.display =
+            "block";
 
-    async function renderCertificateCanvas(
-      certId,
-      fullName
-    ) {
 
-      const renderDiv =
-        document.getElementById(
-          "renderCert"
-        );
-
-
-      document.getElementById(
-        "renderName"
-      ).textContent =
-        fullName;
-
-
-      document.getElementById(
-        "renderId"
-      ).textContent =
-        certId;
-
-
-      /*
-      QR
-      */
-
-      const qrDiv =
-        document.getElementById(
-          "renderQr"
-        );
-
-
-      qrDiv.innerHTML = "";
-
-
-      /*
-      رابط التحقق الصحيح حتى لو الموقع
-      موجود داخل GitHub Pages subfolder
-      */
-
-      const verificationUrl =
-        new URL(
-          "certificate.html?id=" +
-          encodeURIComponent(certId),
-          window.location.href
-        ).href;
-
-
-      new QRCode(
-        qrDiv,
-        {
-          text:
-            verificationUrl,
-
-          width:
-            150,
-
-          height:
-            150,
-
-          correctLevel:
-            QRCode.CorrectLevel.H
-        }
-      );
-
-
-      /*
-      انتظار رسم QR
-      */
-
-      await new Promise(
-        (resolve) =>
-          setTimeout(resolve, 300)
-      );
-
-
-      /*
-      إنشاء Canvas بجودة عالية
-      */
-
-      return await html2canvas(
-        renderDiv,
-        {
-          scale: 3,
-
-          useCORS: true,
-
-          allowTaint: false,
-
-          backgroundColor:
-            null,
-
-          logging:
-            false
-        }
-      );
-
-    }
-
-
-    /*
-    =========================================================
-    إنشاء PDF Base64
-    =========================================================
-    */
-
-    async function createCertificatePdfBase64(
-      certId,
-      fullName
-    ) {
-
-      const canvas =
-        await renderCertificateCanvas(
-          certId,
-          fullName
-        );
-
-
-      const {
-        jsPDF
-      } = window.jspdf;
-
-
-      /*
-      نفس نسبة الشهادة الأصلية:
-      1448 × 1086
-      */
-
-      const pdfWidth =
-        297;
-
-
-      const pdfHeight =
-        pdfWidth *
-        (1086 / 1448);
-
-
-      const pdf =
-        new jsPDF(
-          {
-            orientation:
-              "landscape",
-
-            unit:
-              "mm",
-
-            format:
-              [
-                pdfWidth,
-                pdfHeight
-              ],
-
-            compress:
-              false
-          }
-        );
-
-
-      const imgData =
-        canvas.toDataURL(
-          "image/png"
-        );
-
-
-      pdf.addImage(
-        imgData,
-        "PNG",
-        0,
-        0,
-        pdfWidth,
-        pdfHeight,
-        undefined,
-        "NONE"
-      );
-
-
-      /*
-      استخراج Base64 فقط
-      */
-
-      const pdfDataUri =
-        pdf.output(
-          "datauristring"
-        );
-
-
-      const pdfBase64 =
-        pdfDataUri.split(",")[1];
-
-
-      return pdfBase64;
-
-    }
-
-
-    /*
-    =========================================================
-    إرسال PDF إلى Firebase Function
-    =========================================================
-    */
-
-    async function sendCertificatePdfByEmail(
-      certId,
-      fullName,
-      email
-    ) {
-
-      if (!email) {
-
-        throw new Error(
-          "لا يوجد بريد إلكتروني للمشارك."
-        );
-
-      }
-
-
-      /*
-      إنشاء PDF
-      */
-
-      const pdfBase64 =
-        await createCertificatePdfBase64(
-          certId,
-          fullName
-        );
-
-
-      /*
-      حماية من إرسال ملف ضخم جدًا
-      */
-
-      if (
-        !pdfBase64 ||
-        pdfBase64.length >
-        15000000
-      ) {
-
-        throw new Error(
-          "حجم ملف PDF كبير جدًا."
-        );
-
-      }
-
-
-      /*
-      استدعاء Cloud Function
-      */
-
-      const result =
-        await sendCertificateEmail(
-          {
-            to:
-              email,
-
-            fullName:
-              fullName,
-
-            certId:
-              certId,
-
-            pdfBase64:
-              pdfBase64
-          }
-        );
-
-
-      return result.data;
-
-    }
-
-
-    /*
-    =========================================================
-    تنزيل كل الشهادات ZIP
-    =========================================================
-    */
-
-    document
-      .getElementById(
-        "downloadAllZipBtn"
-      )
-      .addEventListener(
-        "click",
-        async () => {
-
-          const btn =
-            document.getElementById(
-              "downloadAllZipBtn"
-            );
-
-
-          try {
-
-            const certificatesSnap =
-              await getDocs(
-                collection(
-                  db,
-                  "certificates"
-                )
-              );
-
-
-            if (
-              certificatesSnap.empty
-            ) {
-
-              alert(
-                "لا توجد شهادات مسجلة بعد!"
-              );
-
-              return;
-
-            }
-
-
-            btn.disabled =
-              true;
-
-
-            btn.textContent =
-              "⏳ جاري إعداد الشهادات...";
-
-
-            const zip =
-              new JSZip();
-
-
-            let index =
-              0;
-
-
-            for (
-              const docSnap
-              of certificatesSnap.docs
-            ) {
-
-              index++;
-
-
-              btn.textContent =
-                `جاري معالجة الشهادة ${index} من ${certificatesSnap.size}...`;
-
-
-              const certId =
-                docSnap.id;
-
-
-              const fullName =
-                docSnap.data().fullName ||
-                "Participant";
-
-
-              const canvas =
-                await renderCertificateCanvas(
-                  certId,
-                  fullName
-                );
-
-
-              const imgData =
-                canvas
-                  .toDataURL(
-                    "image/png"
-                  )
-                  .replace(
-                    /^data:image\/png;base64,/,
-                    ""
-                  );
-
-
-              zip.file(
-                `Certificate-${certId}.png`,
-                imgData,
-                {
-                  base64:
-                    true
-                }
-              );
-
-            }
-
-
-            btn.textContent =
-              "📦 جاري ضغط الملفات...";
-
-
-            const content =
-              await zip.generateAsync(
-                {
-                  type:
-                    "blob"
-                }
-              );
-
-
-            saveAs(
-              content,
-              "Menoufia-Dental-Congress-Certificates.zip"
-            );
-
-
-            alert(
-              "تم تنزيل ملف ZIP بنجاح!"
-            );
-
-
-          } catch (error) {
-
-            console.error(error);
-
-            alert(
-              "حدث خطأ أثناء إنشاء ZIP:\n" +
-              error.message
-            );
-
-          } finally {
-
-            btn.disabled =
-              false;
-
-            btn.textContent =
-              "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
-
-          }
+          await loadCheckedInParticipants();
 
         }
-      );
+
+        catch (error) {
+
+          console.error(error);
 
 
-    /*
-    =========================================================
-    إرسال جميع الشهادات PDF بالإيميل
-    =========================================================
-    */
-
-    document
-      .getElementById(
-        "sendAllEmailBtn"
-      )
-      .addEventListener(
-        "click",
-        async () => {
-
-          const btn =
-            document.getElementById(
-              "sendAllEmailBtn"
-            );
+          statusBox.className =
+            "status error";
 
 
-          const confirmed =
-            confirm(
-              "هل تريد إرسال شهادات PDF كمرفقات إلى جميع المشاركين الذين لديهم بريد إلكتروني؟\n\nقد تستغرق العملية بعض الوقت."
-            );
+          statusBox.textContent =
+            "حدث خطأ: " +
+            error.message;
 
 
-          if (!confirmed) {
+          statusBox.style.display =
+            "block";
 
-            return;
+        }
 
-          }
-
+        finally {
 
           btn.disabled =
-            true;
+            false;
 
 
           btn.textContent =
-            "⏳ جاري تجهيز الشهادات...";
-
-
-          try {
-
-            const certificatesSnap =
-              await getDocs(
-                collection(
-                  db,
-                  "certificates"
-                )
-              );
-
-
-            if (
-              certificatesSnap.empty
-            ) {
-
-              alert(
-                "لا توجد شهادات مسجلة."
-              );
-
-              return;
-
-            }
-
-
-            let sentCount =
-              0;
-
-
-            let failedCount =
-              0;
-
-
-            let skippedCount =
-              0;
-
-
-            const total =
-              certificatesSnap.size;
-
-
-            let current =
-              0;
-
-
-            for (
-              const docSnap
-              of certificatesSnap.docs
-            ) {
-
-              current++;
-
-
-              const data =
-                docSnap.data();
-
-
-              const certId =
-                docSnap.id;
-
-
-              const fullName =
-                data.fullName ||
-                "Participant";
-
-
-              const email =
-                data.email ||
-                "";
-
-
-              /*
-              لا يوجد بريد
-              */
-
-              if (!email) {
-
-                skippedCount++;
-
-                continue;
-
-              }
-
-
-              btn.textContent =
-                `📧 إرسال ${current} من ${total}...`;
-
-
-              try {
-
-                await sendCertificatePdfByEmail(
-                  certId,
-                  fullName,
-                  email
-                );
-
-
-                /*
-                تسجيل الإرسال
-                */
-
-                try {
-
-                  await updateDoc(
-                    doc(
-                      db,
-                      "certificates",
-                      certId
-                    ),
-                    {
-
-                      emailSentAt:
-                        new Date().toISOString(),
-
-                      emailSentTo:
-                        email
-
-                    }
-                  );
-
-                } catch (updateError) {
-
-                  console.warn(
-                    "تعذر تحديث حالة الإرسال:",
-                    updateError
-                  );
-
-                }
-
-
-                sentCount++;
-
-
-              } catch (error) {
-
-                failedCount++;
-
-                console.error(
-                  "فشل إرسال " +
-                  certId,
-                  error
-                );
-
-              }
-
-
-              /*
-              تأخير بسيط بين الرسائل
-              */
-
-              await new Promise(
-                (resolve) =>
-                  setTimeout(
-                    resolve,
-                    700
-                  )
-              );
-
-            }
-
-
-            alert(
-              "انتهى إرسال الشهادات.\n\n" +
-              "تم الإرسال: " +
-              sentCount +
-              "\n" +
-              "فشل الإرسال: " +
-              failedCount +
-              "\n" +
-              "بدون بريد: " +
-              skippedCount
-            );
-
-
-            await loadCheckedInParticipants();
-
-
-          } catch (error) {
-
-            console.error(error);
-
-            alert(
-              "حدث خطأ أثناء الإرسال الجماعي:\n" +
-              error.message
-            );
-
-          } finally {
-
-            btn.disabled =
-              false;
-
-            btn.textContent =
-              "📧 إرسال الشهادات PDF بالإيميل للجميع";
-
-          }
+            "🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة";
 
         }
-      );
 
+      }
+    );
 
-    /*
-    =========================================================
-    إنشاء كل الشهادات المفقودة
-    =========================================================
-    */
-
-    document
-      .getElementById(
-        "generateAllBtn"
-      )
-      .addEventListener(
-        "click",
-        async () => {
-
-          const btn =
-            document.getElementById(
-              "generateAllBtn"
-            );
-
-
-          btn.disabled =
-            true;
-
-
-          btn.textContent =
-            "جاري الفحص وإنشاء الشهادات...";
-
-
-          try {
-
-            const participantsSnap =
-              await getDocs(
-                collection(
-                  db,
-                  "participants"
-                )
-              );
-
-
-            const certificatesSnap =
-              await getDocs(
-                collection(
-                  db,
-                  "certificates"
-                )
-              );
-
-
-            /*
-            الشهادات الموجودة
-            */
-
-            const existingCerts =
-              new Map();
-
-
-            certificatesSnap.forEach(
-              (docSnap) => {
-
-                const d =
-                  docSnap.data();
-
-
-                if (
-                  d.participantId
-                ) {
-
-                  existingCerts.set(
-                    d.participantId,
-                    docSnap.id
-                  );
-
-                }
-
-              }
-            );
-
-
-            let totalCertsCount =
-              certificatesSnap.size;
-
-
-            let createdCount =
-              0;
-
-
-            /*
-            المرور على الحاضرين
-            */
-
-            for (
-              const participantDoc
-              of participantsSnap.docs
-            ) {
-
-              const data =
-                participantDoc.data();
-
-
-              const participantId =
-                participantDoc.id;
-
-
-              /*
-              حاضر وليس لديه شهادة
-              */
-
-              if (
-                data.attendance === true &&
-                !existingCerts.has(
-                  participantId
-                )
-              ) {
-
-                totalCertsCount++;
-
-
-                const certificateId =
-                  "MDC-2026-" +
-                  String(
-                    totalCertsCount
-                  ).padStart(
-                    4,
-                    "0"
-                  );
-
-
-                const finalName =
-                  formatDoctorName(
-                    data.fullName
-                  );
-
-
-                await setDoc(
-                  doc(
-                    db,
-                    "certificates",
-                    certificateId
-                  ),
-                  {
-
-                    fullName:
-                      finalName,
-
-                    participantId:
-                      participantId,
-
-                    email:
-                      data.email || "",
-
-                    institution:
-                      data.institution || "",
-
-                    certificateId:
-                      certificateId,
-
-                    createdAt:
-                      new Date().toISOString()
-
-                  }
-                );
-
-
-                existingCerts.set(
-                  participantId,
-                  certificateId
-                );
-
-
-                createdCount++;
-
-              }
-
-            }
-
-
-            statusBox.className =
-              "status success";
-
-
-            statusBox.textContent =
-              `تم بنجاح إنشاء ${createdCount} شهادة جديدة.`;
-
-
-            statusBox.style.display =
-              "block";
-
-
-            await loadCheckedInParticipants();
-
-
-          } catch (error) {
-
-            console.error(error);
-
-
-            statusBox.className =
-              "status error";
-
-
-            statusBox.textContent =
-              "حدث خطأ: " +
-              error.message;
-
-
-            statusBox.style.display =
-              "block";
-
-          } finally {
-
-            btn.disabled =
-              false;
-
-
-            btn.textContent =
-              "🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة";
-
-          }
-
-        }
-      );
-
-  </script>
+</script>
 
 </body>
 </html>
