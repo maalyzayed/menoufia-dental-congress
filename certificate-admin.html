@@ -13,7 +13,10 @@
   <!-- خط الاسم -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
 
-  <!-- jsPDF لإنشاء PDF بجودة فائقة مباشرة -->
+  <!-- HTML2Canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- jsPDF لإنشاء PDF بجودة عالية -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <!-- QR Code -->
@@ -190,11 +193,8 @@
     </div>
   </div>
 
-  <button id="downloadBtn" class="download-btn">📄 تنزيل الشهادة PDF بجودة فائقة</button>
+  <button id="downloadBtn" class="download-btn">📄 تنزيل الشهادة PDF بجودة عالية</button>
 </div>
-
-<!-- عنصر مخفي لتوليد الـ QR بدقة عالية لتضمينه في الـ PDF -->
-<div id="hiddenQrContainer" style="display:none;"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
@@ -213,9 +213,6 @@
   const certWrapper = document.getElementById("certWrapper");
   const downloadBtn = document.getElementById("downloadBtn");
 
-  let participantName = "";
-  let certificateId = "";
-
   try {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
@@ -228,7 +225,6 @@
       throw new Error("No ID provided");
     }
 
-    certificateId = certId;
     statusBox.textContent = `جاري البحث عن الشهادة برقم: ${certId} ...`;
 
     const docRef = doc(db, "certificates", certId);
@@ -241,9 +237,9 @@
 
     const data = docSnap.data();
     const rawName = data.fullName || data.name || data.ParticipantName || "مشارك بدون اسم";
-    participantName = rawName.startsWith("DR/ ") || rawName.startsWith("Dr/ ") ? rawName : `DR/ ${rawName}`;
+    const fullName = rawName.startsWith("DR/ ") || rawName.startsWith("Dr/ ") ? rawName : `DR/ ${rawName}`;
 
-    document.getElementById("renderName").textContent = participantName;
+    document.getElementById("renderName").textContent = fullName;
     document.getElementById("renderId").textContent = certId;
 
     const qrDiv = document.getElementById("renderQr");
@@ -251,8 +247,8 @@
 
     new QRCode(qrDiv, {
       text: window.location.href,
-      width: 300,
-      height: 300,
+      width: 400,
+      height: 400,
       correctLevel: QRCode.CorrectLevel.H
     });
 
@@ -267,18 +263,69 @@
     }
   }
 
-  // توليد PDF مباشرة باستخدام jsPDF بدون html2canvas لضمان أقصى درجة وضوح ونقاء
+  // زر التحميل بجودة فائقة تناسب الطباعة والشاشات الكبيرة
   downloadBtn.addEventListener("click", async () => {
     downloadBtn.disabled = true;
     downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة فائقة...";
 
     try {
-      const { jsPDF } = window.jspdf;
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
 
-      // مقاس الشهادة بالعرض والارتفاع بالملم (نسبة 4:3)
+      // بناء نسخة مخفية بدقة ثابتة وعالية جداً لتفادي أي قيود تخص مقاس الشاشة
+      const originalCert = document.getElementById("renderCert");
+      const exportCert = originalCert.cloneNode(true);
+
+      // مضاعفة أبعاد العرض والارتفاع لضمان Ultra HD (2896 × 2172 بكسل)
+      const exportWidth = 2896;
+      const exportHeight = 2172;
+
+      exportCert.style.width = `${exportWidth}px`;
+      exportCert.style.height = `${exportHeight}px`;
+      exportCert.style.maxWidth = "none";
+      exportCert.style.minWidth = `${exportWidth}px`;
+      exportCert.style.aspectRatio = "1448 / 1086";
+      exportCert.style.position = "fixed";
+      exportCert.style.left = "-20000px";
+      exportCert.style.top = "0";
+      exportCert.style.margin = "0";
+      exportCert.style.zIndex = "-1";
+
+      // تعديل خط الاسم وموقع الأبعاد داخل النسخة الكبيرة لتناسب النسبة الجديدة بدقة متناهية
+      const nameEl = exportCert.querySelector('.cert-name');
+      if (nameEl) {
+        nameEl.style.fontSize = "55px"; 
+      }
+
+      document.body.appendChild(exportCert);
+
+      // انتظار تحميل صور QR و الخلفية بالكامل داخل النسخة الكبيرة
+      const images = Array.from(exportCert.querySelectorAll("img"));
+      await Promise.all(images.map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(res => { img.onload = res; img.onerror = res; });
+      }));
+
+      // استخدام html2canvas بدقة فائقة وعالية النقاء
+      const canvas = await html2canvas(exportCert, {
+        scale: 2, // لأن الأبعاد الأساسية مضاعفة بالفعل (2896px)، scale 2 تعطي دقة مذهلة 4K صافية
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: "#ffffff",
+        logging: false,
+        width: exportWidth,
+        height: exportHeight,
+        windowWidth: exportWidth,
+        windowHeight: exportHeight
+      });
+
+      document.body.removeChild(exportCert);
+
       const pdfWidth = 297;
-      const pdfHeight = 222.75; // 297 * (1086 / 1448)
+      const pdfHeight = 210; // A4 Landscape exact ratio or custom ratio (pdfWidth * (1086 / 1448))
 
+      const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "mm",
@@ -286,92 +333,29 @@
         compress: false
       });
 
-      // 1. تحميل صورة الخلفية وتحويلها إلى Base64 بدقتها الأصلية الكاملة
-      const imgUrl = 'certificate-template.jpg?v=6';
-      const imgBase64 = await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = 1448;
-          canvas.height = 1086;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, 1448, 1086);
-          resolve(canvas.toDataURL('image/jpeg', 1.0));
-        };
-        img.onerror = reject;
-        img.src = imgUrl;
-      });
+      const imgData = canvas.toDataURL("image/png", 1.0);
 
-      // رسم الخلفية بدقة كاملة تملأ الصفحة
-      pdf.addImage(imgBase64, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+      pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        0,
+        pdfWidth,
+        pdfHeight,
+        undefined,
+        "NONE"
+      );
 
-      // 2. توليد QR Code بدقة عالية جداً كصورة مؤقتة لاستخدامها في الـ PDF
-      const tempQrDiv = document.createElement('div');
-      new QRCode(tempQrDiv, {
-        text: window.location.href,
-        width: 600,
-        height: 600,
-        correctLevel: QRCode.CorrectLevel.H
-      });
-      
-      const qrCanvas = tempQrDiv.querySelector('canvas') || tempQrDiv.querySelector('img');
-      let qrDataUrl = '';
-      if (qrCanvas.tagName === 'CANVAS') {
-        qrDataUrl = qrCanvas.toDataURL('image/png');
-      } else {
-        qrDataUrl = qrCanvas.src;
-      }
-
-      // إحداثيات QR Code بناءً على نسب التصميم الأصلي (left: 4.3%, top: 74.2%, width: 8%, height: 10.5%)
-      const qrX = pdfWidth * 0.043;
-      const qrY = pdfHeight * 0.742;
-      const qrW = pdfWidth * 0.08;
-      const qrH = pdfHeight * 0.105;
-
-      // رسم خلفية بيضاء تحت الـ QR لتجنب الشفافية
-      pdf.setFillColor(255, 255, 255);
-      pdf.rect(qrX, qrY, qrW, qrH, 'F');
-      pdf.addImage(qrDataUrl, 'PNG', qrX, qrY, qrW, qrH);
-
-      // 3. رسم رقم الشهادة أسفل الـ QR (left: 4.3%, top: 87%, width: 8%, height: 3.5%)
-      const idX = pdfWidth * 0.043;
-      const idY = pdfHeight * 0.87;
-      const idW = pdfWidth * 0.08;
-      const idH = pdfHeight * 0.035;
-
-      pdf.setFillColor(23, 59, 99); // لون الخلفية الزرقاء الداكنة #173b63
-      pdf.rect(idX, idY, idW, idH, 'F');
-
-      pdf.setTextColor(255, 255, 255);
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(10);
-      pdf.text(certificateId, idX + (idW / 2), idY + (idH / 2) + 1.2, { align: "center" });
-
-      // 4. كتابة اسم المشارك في المنتصف بدقة متناهية وحِدة تامة
-      // مكان الاسم مطبق على نسب التصميم (left: 25.5%, top: 38.5%, width: 52%, height: 10%)
-      const nameBoxX = pdfWidth * 0.255;
-      const nameBoxY = pdfHeight * 0.385;
-      const nameBoxW = pdfWidth * 0.52;
-      const nameBoxH = pdfHeight * 0.10;
-
-      pdf.setTextColor(16, 44, 82); // #102c52
-      pdf.setFont("times", "italic");
-      pdf.setFontSize(26); // حجم خط واضح وحاد جداً
-      
-      const textX = nameBoxX + (nameBoxW / 2);
-      const textY = nameBoxY + (nameBoxH / 2) + 3;
-      pdf.text(participantName, textX, textY, { align: "center" });
-
-      // حفظ الملف النهائي بجودة نقية ومثالية
-      pdf.save(`Certificate-${certificateId}.pdf`);
+      const certId = new URLSearchParams(window.location.search).get("id") || "Certificate";
+      pdf.save(`Menoufia-Dental-Certificate-${certId}.pdf`);
 
     } catch (err) {
       console.error("PDF error:", err);
       alert("خطأ في إنشاء ملف PDF: " + err.message);
     } finally {
+      downloadBtn.disabled.value = false;
       downloadBtn.disabled = false;
-      downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة فائقة";
+      downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة عالية";
     }
   });
 </script>
