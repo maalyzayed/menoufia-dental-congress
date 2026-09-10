@@ -109,17 +109,16 @@
        تصميم الشهادة الأساسي
        ================================ */
 
-   #renderCert {
+ #renderCert {
     position: relative !important;
-    width: 1448px;
-    height: 1086px;
+    width: 100%;
+    aspect-ratio: 1448 / 1086;
 
     background-image: url('certificate-template.jpg?v=6');
-    background-size: 1448px 1086px;
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
 }
-
 
     /* ================================
        الاسم
@@ -849,7 +848,7 @@ font-weight: 600;
         const canvas = await html2canvas(
           document.getElementById("renderCert"),
           {
-            scale: 3,
+            scale: 4,
             useCORS: true,
             allowTaint: false,
             backgroundColor: "#ffffff",
