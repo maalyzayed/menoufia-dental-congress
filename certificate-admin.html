@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إصدار الشهادات التلقائي | مؤتمر المنوفية لطب الأسنان</title>
 
-  <!-- مكتبة html2canvas لتحويل الشهادات إلى صور -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <!-- مكتبة JSZip لضغط الصور في ملف ZIP واحد -->
-
+  <!-- مكتبة JSZip لضغط الملفات في ZIP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
   <!-- مكتبة FileSaver لحفظ ملف الـ ZIP -->
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <!-- مكتبة jsPDF لإنشاء ملفات PDF بدقة Vector حادة -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- مكتبة QR Code -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
   <style>
     * { box-sizing: border-box; }
@@ -48,8 +43,6 @@
       margin-bottom: 20px;
     }
     .card h2 { color: #173b63; margin-top: 0; }
-    
-    /* تنسيق صندوق البحث */
     .search-box {
       width: 100%;
       padding: 12px 16px;
@@ -61,7 +54,6 @@
       transition: border-color 0.2s;
     }
     .search-box:focus { border-color: #173b63; }
-
     .participant {
       border: 1px solid #e0e5eb;
       border-radius: 12px;
@@ -107,13 +99,10 @@
     .error { background: #fff0f0; color: #b42318; }
     .loading { text-align: center; padding: 25px; color: #777; }
   </style>
-
 </head>
-
 <body>
 
 <div class="container">
-
   <div class="header">
     <h1>🎓 إصدار الشهادات التلقائي</h1>
     <p>Menoufia Dental Congress</p>
@@ -124,97 +113,19 @@
       🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة
     </button>
     <div class="top-actions">
-      <button id="downloadAllZipBtn" class="btn-top">📦 تنزيل كل الشهادات كملف مضغوط (ZIP)</button>
+      <button id="downloadAllZipBtn" class="btn-top">📦 تنزيل كل الشهادات كملف مضغوط (PDF.ZIP)</button>
       <button id="sendAllEmailBtn" class="btn-email-all">📧 إرسال عبر الإيميل للجميع</button>
     </div>
   </div>
 
   <div class="card">
     <h2>قائمة المشاركين الحاضرين</h2>
-    <!-- خانة البحث -->
     <input type="text" id="searchInput" class="search-box" placeholder="🔍 ابحث بالاسم أو البريد الإلكتروني...">
-
-<div id="loading" class="loading">جاري تحميل بيانات الحاضرين...</div>
-<div id="participantsList"></div>
-<div id="status" class="status"></div>
-
-  </div>
-
-</div>
-
-<!-- صندوق خفي لتوليد الشهادات برمجياً وضغطها بجودة Vector نقية -->
-<div id="hiddenCertificateContainer" style="position: absolute; left: -9999px; top: -9999px;">
-  <div id="renderCert" style="position: relative; width: 1400px; height: 1000px; background: #ffffff; border: 15px solid #173b63; padding: 50px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;">
-    
-    <!-- إطار داخلي جمالي -->
-    <div style="position: absolute; top: 25px; left: 25px; right: 25px; bottom: 25px; border: 3px solid #c9a227; pointer-events: none;"></div>
-
-    <!-- رأس الشهادة -->
-    <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2;">
-      <div style="font-size: 28px; font-weight: bold; color: #173b63; font-family: Arial, sans-serif;">
-        Menoufia University<br>Faculty of Dentistry
-      </div>
-      <div style="font-size: 32px; font-weight: bold; color: #173b63; font-family: Arial, sans-serif; text-align: center;">
-        CERTIFICATE OF PARTICIPATION
-      </div>
-    </div>
-
-    <!-- محتوى الشهادة (الاسم) -->
-    <div style="text-align: center; z-index: 2; margin: 20px 0;">
-      <div style="font-size: 22px; color: #555; margin-bottom: 15px; font-family: Arial, sans-serif;">THIS IS TO CERTIFY THAT</div>
-      
-      <!-- إطار اسم الدكتور -->
-      <div style="display: inline-block; border-bottom: 3px solid #c9a227; padding: 0 40px 10px 40px; min-width: 600px;">
-        <div id="renderName" style="color: #173b63; font-family: 'Brush Script MT', 'Segoe Script', cursive; font-size: 65px; white-space: nowrap; font-weight: bold;"></div>
-      </div>
-      
-      <div style="font-size: 24px; color: #333; margin-top: 20px; font-family: Arial, sans-serif;">Has Attended The</div>
-      <div style="font-size: 36px; font-weight: bold; color: #173b63; margin-top: 10px; font-family: Arial, sans-serif;">
-        The 2nd Scientific Conference of the Faculty of Dentistry, Menoufia University
-      </div>
-      <div style="font-size: 26px; color: #c9a227; font-weight: bold; margin-top: 10px; font-family: Arial, sans-serif;">
-        📅 26-27 August 2026
-      </div>
-    </div>
-
-    <!-- التوقيعات والـ QR في الأسفل -->
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; z-index: 2; border-top: 2px solid #e0e5eb; pt: 20px;">
-      
-      <!-- خانة الـ QR -->
-      <div style="display: flex; align-items: center; gap: 15px;">
-        <div id="renderQr" style="width: 90px; height: 90px; background: white; padding: 5px; border: 1px solid #ccc;"></div>
-        <div>
-          <div style="font-size: 12px; color: #555; font-weight: bold;">Certificate ID:</div>
-          <div id="renderId" style="font-size: 13px; color: #173b63; font-weight: bold;"></div>
-        </div>
-      </div>
-
-      <!-- التوقيعات -->
-      <div style="display: flex; gap: 40px; text-align: center;">
-        <div>
-          <div style="font-size: 14px; font-weight: bold; color: #173b63;">Conference President</div>
-          <div style="font-size: 13px; color: #555; margin-top: 5px;">Prof. Salah Abdelfatah Hegazy</div>
-        </div>
-        <div>
-          <div style="font-size: 14px; font-weight: bold; color: #173b63;">Conference Coordinator</div>
-          <div style="font-size: 13px; color: #555; margin-top: 5px;">As.Prof. Mohamed Abd El Rahman</div>
-        </div>
-        <div>
-          <div style="font-size: 14px; font-weight: bold; color: #173b63;">Conference Coordinator</div>
-          <div style="font-size: 13px; color: #555; margin-top: 5px;">As.Prof. Mostafa Swedan</div>
-        </div>
-      </div>
-
-    </div>
-
+    <div id="loading" class="loading">جاري تحميل بيانات الحاضرين...</div>
+    <div id="participantsList"></div>
+    <div id="status" class="status"></div>
   </div>
 </div>
-
-<!-- مكتبة QR Code -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
@@ -240,7 +151,7 @@
   const statusBox = document.getElementById("status");
   const searchInput = document.getElementById("searchInput");
 
-  let allParticipantsData = []; // لتخزين البيانات والبحث فيها بسلاسة
+  let allParticipantsData = [];
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -297,22 +208,14 @@
     }
   }
 
-   function renderFilteredList(query) {
-
+  function renderFilteredList(query) {
     list.innerHTML = "";
-
     const lowerQuery = query.toLowerCase().trim();
 
-
-
     const filtered = allParticipantsData.filter(item => {
-
       const name = (item.data.fullName || "").toLowerCase();
-
       const email = (item.data.email || "").toLowerCase();
-
       return name.includes(lowerQuery) || email.includes(lowerQuery);
-
     });
 
     if (filtered.length === 0) {
@@ -325,7 +228,6 @@
     });
   }
 
-  // تفعيل البحث عند الكتابة
   searchInput.addEventListener("input", (e) => {
     renderFilteredList(e.target.value);
   });
@@ -352,23 +254,16 @@
     actions.className = "actions-group";
 
     if (certId) {
-      const viewLink = document.createElement("a");
-      viewLink.className = "view-btn";
-      viewLink.textContent = "عرض الشهادة";
-      viewLink.href = "certificate.html?id=" + encodeURIComponent(certId);
-      viewLink.target = "_blank";
-      actions.appendChild(viewLink);
-
       const downloadSingleBtn = document.createElement("button");
       downloadSingleBtn.className = "view-btn";
       downloadSingleBtn.style.background = "#c9a227";
-      downloadSingleBtn.textContent = "📥 تنزيل";
+      downloadSingleBtn.textContent = "📥 تنزيل PDF";
       downloadSingleBtn.onclick = async () => {
         downloadSingleBtn.disabled = true;
         downloadSingleBtn.textContent = "جاري الحفظ...";
-        await generateAndDownloadSingle(certId, formatDoctorName(data.fullName));
+        await generateAndDownloadPDF(certId, formatDoctorName(data.fullName));
         downloadSingleBtn.disabled = false;
-        downloadSingleBtn.textContent = "📥 تنزيل";
+        downloadSingleBtn.textContent = "📥 تنزيل PDF";
       };
       actions.appendChild(downloadSingleBtn);
 
@@ -380,7 +275,7 @@
           alert("هذا المستخدم ليس لديه بريد إلكتروني مسجل.");
           return;
         }
-       const certUrl = "https://maalyzayed.github.io/menoufia-dental-congress/certificate.html?id=" + encodeURIComponent(certId);
+        const certUrl = "https://maalyzayed.github.io/menoufia-dental-congress/certificate.html?id=" + encodeURIComponent(certId);
         const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
         const body = encodeURIComponent(`مرحباً ${formatDoctorName(data.fullName)},\n\nيسعدنا إرسال شهادة حضورك الخاصة بمؤتمر المنوفية لطب الأسنان.\nيمكنك معاينة وتنزيل شهادتك عبر الرابط التالي:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
         window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${data.email}&su=${subject}&body=${body}`, '_blank');
@@ -422,31 +317,28 @@
     list.appendChild(row);
   }
 
- 
-async function generateAndDownloadSingle(certId, fullName) {
+  // دالة إنشاء ملف الـ PDF بدقة Vector نقية 100% بدون أي بكسلة
+  function generateAndDownloadPDF(certId, fullName) {
     const { jsPDF } = window.jspdf;
-    
-    // إنشاء مستند PDF أفقي عالي الدقة (A4 Landscape بالأبعاد النقطية)
     const doc = new jsPDF({
       orientation: "landscape",
       unit: "mm",
       format: "a4"
     });
 
-    // مقاسات صفحة A4 الأفقية هي تقريباً 297 × 210 مم
     const width = 297;
     const height = 210;
 
-    // 1. رسم إطار الشهادة الخارجي والداخلي
-    doc.setDrawColor(23, 59, 99); // لون أزرق غامق
+    // إطارات الشهادة
+    doc.setDrawColor(23, 59, 99);
     doc.setLineWidth(1.5);
-    doc.rect(10, 10, width - 20, height - 20); // الإطار الخارجي
+    doc.rect(10, 10, width - 20, height - 20);
 
-    doc.setDrawColor(201, 162, 39); // لون ذهبي
+    doc.setDrawColor(201, 162, 39);
     doc.setLineWidth(0.5);
-    doc.rect(13, 13, width - 26, height - 26); // الإطار الداخلي
+    doc.rect(13, 13, width - 26, height - 26);
 
-    // 2. النصوص الثابتة (حادة جداً لأنها برمجية Vector)
+    // النصوص الأساسية
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(23, 59, 99);
@@ -460,18 +352,16 @@ async function generateAndDownloadSingle(certId, fullName) {
     doc.setTextColor(100, 100, 100);
     doc.text("THIS IS TO CERTIFY THAT", width / 2, 60, { align: "center" });
 
-    // 3. اسم الدكتور (بخط كبير وواضح)
+    // اسم المشارك بخط واضح ونقي
     doc.setFont("Times", "italic");
     doc.setFontSize(28);
     doc.setTextColor(16, 44, 82);
     doc.text(fullName, width / 2, 78, { align: "center" });
 
-    // خط تحت الاسم
     doc.setDrawColor(201, 162, 39);
     doc.setLineWidth(0.8);
     doc.line(width / 2 - 60, 83, width / 2 + 60, 83);
 
-    // 4. تفاصيل المؤتمر
     doc.setFont("Helvetica", "normal");
     doc.setFontSize(13);
     doc.setTextColor(50, 50, 50);
@@ -487,7 +377,7 @@ async function generateAndDownloadSingle(certId, fullName) {
     doc.setTextColor(201, 162, 39);
     doc.text("26-27 August 2026", width / 2, 123, { align: "center" });
 
-    // 5. التوقيعات في الأسفل
+    // التوقيعات
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(10);
     doc.setTextColor(23, 59, 99);
@@ -502,15 +392,125 @@ async function generateAndDownloadSingle(certId, fullName) {
     doc.text("As.Prof. Mohamed Abd El Rahman", 148.5, 182, { align: "center" });
     doc.text("As.Prof. Mostafa Swedan", 247, 182, { align: "center" });
 
-    // 6. رقم الشهادة في الأسفل
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(9);
     doc.setTextColor(23, 59, 99);
     doc.text(`Certificate ID: ${certId}`, 20, 195);
 
-    // حفظ ملف الـ PDF مباشرة
     doc.save(`Certificate-${certId}.pdf`);
   }
+
+  // تنزيل الكل كملف ZIP يحتوي على ملفات PDF
+  document.getElementById("downloadAllZipBtn").addEventListener("click", async () => {
+    const btn = document.getElementById("downloadAllZipBtn");
+    const certificatesSnap = await getDocs(collection(db, "certificates"));
+    
+    if (certificatesSnap.empty) {
+      alert("لا توجد شهادات مسجلة بعد!");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "⏳ جاري إعداد وضغط الشهادات كـ PDF...";
+
+    try {
+      const zip = new JSZip();
+      let index = 0;
+      const { jsPDF } = window.jspdf;
+
+      for (const docSnap of certificatesSnap.docs) {
+        index++;
+        btn.textContent = `جاري معالجة الشهادة ${index} من ${certificatesSnap.size}...`;
+        
+        const certId = docSnap.id;
+        const fullName = docSnap.data().fullName || "Participant";
+        
+        const doc = new jsPDF({
+          orientation: "landscape",
+          unit: "mm",
+          format: "a4"
+        });
+
+        const width = 297;
+        const height = 210;
+
+        doc.setDrawColor(23, 59, 99);
+        doc.setLineWidth(1.5);
+        doc.rect(10, 10, width - 20, height - 20);
+        doc.setDrawColor(201, 162, 39);
+        doc.setLineWidth(0.5);
+        doc.rect(13, 13, width - 26, height - 26);
+
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(16);
+        doc.setTextColor(23, 59, 99);
+        doc.text("Menoufia University - Faculty of Dentistry", 20, 25);
+        doc.setFontSize(22);
+        doc.text("CERTIFICATE OF PARTICIPATION", width / 2, 45, { align: "center" });
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text("THIS IS TO CERTIFY THAT", width / 2, 60, { align: "center" });
+
+        doc.setFont("Times", "italic");
+        doc.setFontSize(28);
+        doc.setTextColor(16, 44, 82);
+        doc.text(fullName, width / 2, 78, { align: "center" });
+        doc.setDrawColor(201, 162, 39);
+        doc.setLineWidth(0.8);
+        doc.line(width / 2 - 60, 83, width / 2 + 60, 83);
+
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(13);
+        doc.setTextColor(50, 50, 50);
+        doc.text("Has Attended The", width / 2, 98, { align: "center" });
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(15);
+        doc.setTextColor(23, 59, 99);
+        doc.text("The 2nd Scientific Conference of the Faculty of Dentistry, Menoufia University", width / 2, 110, { align: "center" });
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(13);
+        doc.setTextColor(201, 162, 39);
+        doc.text("26-27 August 2026", width / 2, 123, { align: "center" });
+
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(10);
+        doc.setTextColor(23, 59, 99);
+        doc.text("Conference President", 50, 175, { align: "center" });
+        doc.text("Conference Coordinator", 148.5, 175, { align: "center" });
+        doc.text("Conference Coordinator", 247, 175, { align: "center" });
+
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(100, 100, 100);
+        doc.text("Prof. Salah Abdelfatah Hegazy", 50, 182, { align: "center" });
+        doc.text("As.Prof. Mohamed Abd El Rahman", 148.5, 182, { align: "center" });
+        doc.text("As.Prof. Mostafa Swedan", 247, 182, { align: "center" });
+
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(9);
+        doc.setTextColor(23, 59, 99);
+        doc.text(`Certificate ID: ${certId}`, 20, 195);
+
+        const pdfOutput = doc.output('arraybuffer');
+        zip.file(`Certificate-${certId}.pdf`, pdfOutput);
+      }
+
+      btn.textContent = "📦 جاري ضغط الملفات وتنزيل الـ ZIP...";
+      const content = await zip.generateAsync({ type: "blob" });
+      saveAs(content, "Menoufia-Dental-Congress-Certificates-PDF.zip");
+
+      btn.disabled = false;
+      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
+      alert("تم تنزيل ملف الـ ZIP بنجاح!");
+
+    } catch (error) {
+      console.error(error);
+      alert("حدث خطأ أثناء إنشاء ملف الـ ZIP: " + error.message);
+      btn.disabled = false;
+      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
+    }
+  });
 
   document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
     if (!confirm("هل تريد فتح رسائل البريد الإلكتروني للمشاركين الحاضرين؟")) return;
@@ -520,7 +520,7 @@ async function generateAndDownloadSingle(certId, fullName) {
       const data = docSnap.data();
       if (data.email) {
         count++;
-        const certUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(docSnap.id);
+        const certUrl = "https://maalyzayed.github.io/menoufia-dental-congress/certificate.html?id=" + encodeURIComponent(docSnap.id);
         const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
         const body = encodeURIComponent(`مرحباً ${data.fullName},\n\nإليك رابط شهادة حضورك في مؤتمر المنوفية لطب الأسنان:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
         setTimeout(() => {
