@@ -4,8 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- منع استخدام النسخة القديمة -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -13,13 +11,10 @@
   <title>معاينة الشهادة | مؤتمر المنوفية لطب الأسنان</title>
 
   <!-- خط الاسم -->
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
 
   <!-- HTML2Canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <!-- FileSaver -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
   <!-- jsPDF لإنشاء PDF بجودة عالية -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -89,9 +84,8 @@
       color: #102c52;
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-style: italic;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 2.2cqw;
-      font-weight: bold;
       white-space: nowrap;
       line-height: 1;
       max-width: 100%;
@@ -176,24 +170,8 @@
     }
 
     @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      .container {
-        width: 100%;
-      }
-      .certificate-wrapper {
-        border-radius: 6px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      }
-      .download-btn {
-        width: 100%;
-        font-size: 15px;
-        padding: 13px 15px;
-      }
-      .status-box {
-        font-size: 15px;
-      }
+      body { padding: 10px; }
+      .download-btn { width: 100%; font-size: 15px; padding: 13px 15px; }
     }
   </style>
 </head>
@@ -201,36 +179,23 @@
 <body>
 
 <div class="container">
-  <!-- رسالة الحالة -->
-  <div id="statusBox" class="status-box">
-    جاري الاتصال بقاعدة البيانات وتحميل الشهادة...
-  </div>
+  <div id="statusBox" class="status-box">جاري الاتصال بقاعدة البيانات وتحميل الشهادة...</div>
 
-  <!-- الشهادة -->
   <div class="certificate-wrapper" id="certWrapper">
     <div id="renderCert">
-      <!-- الاسم -->
       <div class="cert-name-container">
         <div id="renderName" class="cert-name"></div>
       </div>
-
-      <!-- QR Code -->
       <div class="cert-qr-container" id="renderQr"></div>
-
-      <!-- رقم الشهادة -->
       <div class="cert-id-container">
         <div id="renderId" class="cert-id-text"></div>
       </div>
     </div>
   </div>
 
-  <!-- زر التحميل -->
-  <button id="downloadBtn" class="download-btn">
-    📄 تنزيل الشهادة PDF بجودة عالية
-  </button>
+  <button id="downloadBtn" class="download-btn">📄 تنزيل الشهادة PDF بجودة عالية</button>
 </div>
 
-<!-- JavaScript -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -272,7 +237,6 @@
 
     const data = docSnap.data();
     const rawName = data.fullName || data.name || data.ParticipantName || "مشارك بدون اسم";
-
     const fullName = rawName.startsWith("DR/ ") || rawName.startsWith("Dr/ ") ? rawName : `DR/ ${rawName}`;
 
     document.getElementById("renderName").textContent = fullName;
@@ -283,8 +247,8 @@
 
     new QRCode(qrDiv, {
       text: window.location.href,
-      width: 300,
-      height: 300,
+      width: 400,
+      height: 400,
       correctLevel: QRCode.CorrectLevel.H
     });
 
@@ -293,74 +257,75 @@
     downloadBtn.style.display = "inline-block";
 
   } catch (err) {
-    console.error("تفاصيل الخطأ:", err);
+    console.error("خطأ:", err);
     if (!statusBox.textContent.includes("خطأ:")) {
       statusBox.textContent = "حدث خطأ برمجي أثناء الاتصال: " + err.message;
     }
   }
 
-  // تحميل الشهادة كملف PDF بجودة عالية وثابتة
+  // زر التحميل بجودة فائقة تناسب الطباعة والشاشات الكبيرة
   downloadBtn.addEventListener("click", async () => {
     downloadBtn.disabled = true;
-    downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة عالية...";
+    downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة فائقة...";
 
     try {
       if (document.fonts && document.fonts.ready) {
         await document.fonts.ready;
       }
 
-      // إنشاء نسخة مخفية ومثبتة الأبعاد بدقة Template الأصلية (1448x1086)
+      // بناء نسخة مخفية بدقة ثابتة وعالية جداً لتفادي أي قيود تخص مقاس الشاشة
       const originalCert = document.getElementById("renderCert");
       const exportCert = originalCert.cloneNode(true);
 
-      exportCert.style.width = "1448px";
-      exportCert.style.height = "1086px";
+      // مضاعفة أبعاد العرض والارتفاع لضمان Ultra HD (2896 × 2172 بكسل)
+      const exportWidth = 2896;
+      const exportHeight = 2172;
+
+      exportCert.style.width = `${exportWidth}px`;
+      exportCert.style.height = `${exportHeight}px`;
       exportCert.style.maxWidth = "none";
-      exportCert.style.minWidth = "1448px";
+      exportCert.style.minWidth = `${exportWidth}px`;
       exportCert.style.aspectRatio = "1448 / 1086";
       exportCert.style.position = "fixed";
-      exportCert.style.left = "-10000px";
+      exportCert.style.left = "-20000px";
       exportCert.style.top = "0";
       exportCert.style.margin = "0";
       exportCert.style.zIndex = "-1";
 
+      // تعديل خط الاسم وموقع الأبعاد داخل النسخة الكبيرة لتناسب النسبة الجديدة بدقة متناهية
+      const nameEl = exportCert.querySelector('.cert-name');
+      if (nameEl) {
+        nameEl.style.fontSize = "55px"; 
+      }
+
       document.body.appendChild(exportCert);
 
-      // التأكد من تحميل كافة الصور داخل النسخة المصدرة
-      const exportImages = Array.from(exportCert.querySelectorAll("img"));
-      await Promise.all(
-        exportImages.map(img => {
-          if (img.complete) return Promise.resolve();
-          return new Promise(resolve => {
-            img.onload = resolve;
-            img.onerror = resolve;
-          });
-        })
-      );
+      // انتظار تحميل صور QR و الخلفية بالكامل داخل النسخة الكبيرة
+      const images = Array.from(exportCert.querySelectorAll("img"));
+      await Promise.all(images.map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(res => { img.onload = res; img.onerror = res; });
+      }));
 
-      // ضبط html2canvas بدقة عالية جداً ومنع التشويش
+      // استخدام html2canvas بدقة فائقة وعالية النقاء
       const canvas = await html2canvas(exportCert, {
-        scale: 3, // دقة ممتازة تحافظ على وضوح الخطوط والـ QR دون زيادة مبالغة في حجم الملف
+        scale: 2, // لأن الأبعاد الأساسية مضاعفة بالفعل (2896px)، scale 2 تعطي دقة مذهلة 4K صافية
         useCORS: true,
         allowTaint: false,
         backgroundColor: "#ffffff",
-        imageTimeout: 30000,
         logging: false,
-        width: 1448,
-        height: 1086,
-        windowWidth: 1448,
-        windowHeight: 1086,
-        scrollX: 0,
-        scrollY: 0
+        width: exportWidth,
+        height: exportHeight,
+        windowWidth: exportWidth,
+        windowHeight: exportHeight
       });
 
       document.body.removeChild(exportCert);
 
       const pdfWidth = 297;
-      const pdfHeight = pdfWidth * (1086 / 1448);
+      const pdfHeight = 210; // A4 Landscape exact ratio or custom ratio (pdfWidth * (1086 / 1448))
 
       const { jsPDF } = window.jspdf;
-
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "mm",
@@ -368,7 +333,6 @@
         compress: false
       });
 
-      // استخدام PNG حصرياً لمنع أي ضغط (Compression Artifacts) يقلل الجودة
       const imgData = canvas.toDataURL("image/png", 1.0);
 
       pdf.addImage(
@@ -383,12 +347,13 @@
       );
 
       const certId = new URLSearchParams(window.location.search).get("id") || "Certificate";
-      pdf.save(`Certificate-${certId}.pdf`);
+      pdf.save(`Menoufia-Dental-Certificate-${certId}.pdf`);
 
     } catch (err) {
       console.error("PDF error:", err);
       alert("خطأ في إنشاء ملف PDF: " + err.message);
     } finally {
+      downloadBtn.disabled.value = false;
       downloadBtn.disabled = false;
       downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة عالية";
     }
