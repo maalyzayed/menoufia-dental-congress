@@ -2,3758 +2,509 @@
 
 <html lang="ar" dir="rtl">
 
-
-
 <head>
-
-
-
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إصدار الشهادات التلقائي | مؤتمر المنوفية لطب الأسنان</title>
 
-
-
-  <!-- منع استخدام النسخة القديمة -->
-
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-
-  <meta http-equiv="Pragma" content="no-cache">
-
-  <meta http-equiv="Expires" content="0">
-
-
-
-  <title>معاينة الشهادة | مؤتمر المنوفية لطب الأسنان</title>
-
-
-
-  <!-- خط الاسم -->
-
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-
-
-
-  <!-- HTML2Canvas -->
+  <!-- مكتبة html2canvas لتحويل الشهادات إلى صور -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+  <!-- مكتبة JSZip لضغط الصور في ملف ZIP واحد -->
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-  <!-- FileSaver -->
+  <!-- مكتبة FileSaver لحفظ ملف الـ ZIP -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-
-
-  <!-- jsPDF لإنشاء PDF بجودة عالية -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-
-
-  <!-- QR Code -->
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
-
-
-
-
   <style>
-
-
-
-    * {
-
-      box-sizing: border-box;
-
-    }
-
-
-
-
-
-    /* ================================
-
-       الصفحة
-
-       ================================ */
-
-
-
+    * { box-sizing: border-box; }
     body {
-
       margin: 0;
-
       min-height: 100vh;
-
-
-
       font-family: Arial, sans-serif;
-
-
-
       background: #f4f7fb;
-
-
-
-      display: flex;
-
-      flex-direction: column;
-
-
-
-      align-items: center;
-
-      justify-content: center;
-
-
-
-      padding: 20px;
-
+      color: #222;
+      padding: 30px 15px;
     }
-
-
-
-
-
-    /* ================================
-
-       الحاوية
-
-       ================================ */
-
-
-
-    .container {
-
-
-
-      width: 100%;
-
-
-
-      max-width: 900px;
-
-
-
-      text-align: center;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       الشهادة
-
-       ================================ */
-
-
-
-    .certificate-wrapper {
-
-
-
-      position: relative;
-
-
-
-      width: 100%;
-
-
-
-      background: white;
-
-
-
-      border-radius: 12px;
-
-
-
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-
-
-
-      overflow: hidden;
-
-
-
-      margin-bottom: 20px;
-
-
-
-      display: none;
-
-
-
-      /*
-
-        مهم جدًا:
-
-        يجعل حجم الخط يعتمد على عرض الشهادة
-
-      */
-
-
-
-      container-type: inline-size;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       تصميم الشهادة الأساسي
-
-       ================================ */
-
-
-
- #renderCert {
-
-    position: relative !important;
-
-    width: 100%;
-
-    aspect-ratio: 1448 / 1086;
-
-
-
-    background-image: url('certificate-template.jpg?v=6');
-
-    background-size: 100% 100%;
-
-    background-position: center;
-
-    background-repeat: no-repeat;
-
-}
-
-
-
-    /* ================================
-
-       الاسم
-
-       ================================ */
-
-
-
-    .cert-name-container {
-
-
-
-      position: absolute !important;
-
-
-
-      /*
-
-        مكان الاسم مطابق تقريبًا
-
-        لمكانه في الصورة الثانية
-
-      */
-
-
-
-      left: 25.5%;
-
-
-
-      top: 38.5%;
-
-
-
-      width: 52%;
-
-
-
-      height: 10%;
-
-
-
-      display: flex;
-
-
-
-      align-items: center;
-
-
-
-      justify-content: center;
-
-
-
-      overflow: hidden;
-
-
-
-      z-index: 5;
-
-
-
-    }
-
-
-
-
-
-    .cert-name {
-
-
-
-      color: #102c52;
-
-
-
-   font-family:
-
-  'Cormorant Garamond',
-
-  Georgia,
-
-  serif;
-
-font-style: italic;
-
-font-weight: 600;
-
-
-
-      /*
-
-        حجم الاسم يتناسب
-
-        مع حجم الشهادة
-
-      */
-
-
-
-      font-size: 2.2cqw;
-
-
-
-      font-weight: bold;
-
-
-
-      white-space: nowrap;
-
-
-
-      line-height: 1;
-
-
-
-      max-width: 100%;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       QR Code
-
-       ================================ */
-
-
-
-    .cert-qr-container {
-
-
-
-      position: absolute !important;
-
-
-
-      /*
-
-        مكان QR في أسفل يسار الشهادة
-
-      */
-
-
-
-      left: 4.3%;
-
-
-
-      top: 74.2%;
-
-
-
-      /*
-
-        حجم QR
-
-      */
-
-
-
-      width: 8%;
-
-
-
-      height: 10.5%;
-
-
-
-      background: white;
-
-
-
-      display: flex;
-
-
-
-      align-items: center;
-
-
-
-      justify-content: center;
-
-
-
-      z-index: 10;
-
-
-
-      overflow: hidden;
-
-
-
-    }
-
-
-
-
-
-    .cert-qr-container img,
-
-    .cert-qr-container canvas {
-
-
-
-      width: 100% !important;
-
-
-
-      height: 100% !important;
-
-
-
-      display: block;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       رقم الشهادة
-
-       ================================ */
-
-
-
-    .cert-id-container {
-
-
-
-      position: absolute !important;
-
-
-
-      /*
-
-        رقم الشهادة أسفل QR
-
-      */
-
-
-
-      left: 4.3%;
-
-
-
-      top: 87%;
-
-
-
-      width: 8%;
-
-
-
-      height: 3.5%;
-
-
-
+    .container { width: 100%; max-width: 1000px; margin: auto; }
+    .header {
       background: #173b63;
-
-
-
-      display: flex;
-
-
-
-      align-items: center;
-
-
-
-      justify-content: center;
-
-
-
-      z-index: 10;
-
-
-
-      overflow: hidden;
-
-
-
-    }
-
-
-
-
-
-    .cert-id-text {
-
-
-
       color: white;
-
-
-
-      /*
-
-        حجم رقم الشهادة
-
-        يتناسب مع الشهادة
-
-      */
-
-
-
-      font-size: 0.85cqw;
-
-
-
-      font-weight: bold;
-
-
-
-      font-family: Arial, sans-serif;
-
-
-
-      white-space: nowrap;
-
-
-
-      line-height: 1;
-
-
-
+      padding: 25px;
+      border-radius: 18px;
+      text-align: center;
+      margin-bottom: 25px;
     }
-
-
-
-
-
-    /* ================================
-
-       زر التحميل
-
-       ================================ */
-
-
-
-    .download-btn {
-
-
-
-      background: #c9a227;
-
-
-
-      color: white;
-
-
-
-      border: none;
-
-
-
-      padding: 14px 28px;
-
-
-
-      font-size: 16px;
-
-
-
-      font-weight: bold;
-
-
-
-      border-radius: 10px;
-
-
-
-      cursor: pointer;
-
-
-
-      box-shadow:
-
-        0 4px 15px rgba(201, 162, 39, 0.3);
-
-
-
-      display: none;
-
-
-
-      margin-top: 15px;
-
-
-
-    }
-
-
-
-
-
-    .download-btn:hover {
-
-
-
-      background: #b08d1f;
-
-
-
-    }
-
-
-
-
-
-    .download-btn:disabled {
-
-
-
-      opacity: 0.7;
-
-
-
-      cursor: wait;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       رسالة الحالة
-
-       ================================ */
-
-
-
-    .status-box {
-
-
-
-      font-size: 18px;
-
-
-
-      color: #d9534f;
-
-
-
-      background: #fdf7f7;
-
-
-
-      border: 1px solid #ebccd1;
-
-
-
-      padding: 15px;
-
-
-
-      border-radius: 8px;
-
-
-
+    .header h1 { margin: 0 0 8px; }
+    .header p { margin: 0; opacity: 0.85; }
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
       margin-bottom: 20px;
+    }
+    .card h2 { color: #173b63; margin-top: 0; }
+    
+    /* تنسيق صندوق البحث */
+    .search-box {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus { border-color: #173b63; }
 
-
-
+    .participant {
+      border: 1px solid #e0e5eb;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .participant-info { flex: 1; min-width: 250px; }
+    .name { font-size: 18px; font-weight: bold; color: #173b63; }
+    .email { color: #777; margin-top: 5px; font-size: 14px; }
+    .actions-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, .view-btn {
+      border: none;
+      border-radius: 9px;
+      padding: 10px 14px;
       font-weight: bold;
-
-
-
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 13px;
     }
-
-
-
-
-
-    /* ================================
-
-       الموبايل
-
-       ================================ */
-
-
-
-    @media (max-width: 600px) {
-
-
-
-      body {
-
-
-
-        padding: 10px;
-
-
-
-      }
-
-
-
-
-
-      .container {
-
-
-
-        width: 100%;
-
-
-
-      }
-
-
-
-
-
-      .certificate-wrapper {
-
-
-
-        border-radius: 6px;
-
-
-
-        box-shadow:
-
-          0 4px 15px rgba(0,0,0,0.1);
-
-
-
-      }
-
-
-
-
-
-      .download-btn {
-
-
-
-        width: 100%;
-
-
-
-        font-size: 15px;
-
-
-
-        padding: 13px 15px;
-
-
-
-      }
-
-
-
-
-
-      .status-box {
-
-
-
-        font-size: 15px;
-
-
-
-      }
-
-
-
+    .btn-main {
+      background: #c9a227;
+      color: white;
+      font-size: 15px;
+      padding: 14px 24px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 12px;
     }
-
-
-
-
-
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-top { background: #475569; color: white; flex: 1; padding: 12px; text-align: center; font-size: 14px; }
+    .btn-email-all { background: #0d9488; color: white; flex: 1; padding: 12px; text-align: center; font-size: 14px; }
+    .view-btn { background: #173b63; color: white; }
+    .btn-create { background: #027a48; color: white; }
+    .btn-email-single { background: #0d9488; color: white; }
+    .status { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; }
+    .success { background: #ecfdf3; color: #027a48; }
+    .error { background: #fff0f0; color: #b42318; }
+    .loading { text-align: center; padding: 25px; color: #777; }
   </style>
-
-
 
 </head>
 
-
-
-
-
 <body>
-
-
-
-
 
 <div class="container">
 
-
-
-
-
-  <!-- رسالة الحالة -->
-
-
-
-  <div id="statusBox" class="status-box">
-
-
-
-    جاري الاتصال بقاعدة البيانات وتحميل الشهادة...
-
-
-
+  <div class="header">
+    <h1>🎓 إصدار الشهادات التلقائي</h1>
+    <p>Menoufia Dental Congress</p>
   </div>
 
-
-
-
-
-  <!-- ================================
-
-       الشهادة
-
-       ================================ -->
-
-
-
-  <div
-
-    class="certificate-wrapper"
-
-    id="certWrapper"
-
-  >
-
-
-
-
-
-    <div id="renderCert">
-
-
-
-
-
-      <!-- ================================
-
-           الاسم
-
-           ================================ -->
-
-
-
-      <div class="cert-name-container">
-
-
-
-        <div
-
-          id="renderName"
-
-          class="cert-name"
-
-        ></div>
-
-
-
-      </div>
-
-
-
-
-
-      <!-- ================================
-
-           QR Code
-
-           ================================ -->
-
-
-
-      <div
-
-        class="cert-qr-container"
-
-        id="renderQr"
-
-      ></div>
-
-
-
-
-
-      <!-- ================================
-
-           رقم الشهادة
-
-           ================================ -->
-
-
-
-      <div class="cert-id-container">
-
-
-
-        <div
-
-          id="renderId"
-
-          class="cert-id-text"
-
-        ></div>
-
-
-
-      </div>
-
-
-
-
-
+  <div class="card" style="text-align: center;">
+    <button id="generateAllBtn" class="btn-main">
+      🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة
+    </button>
+    <div class="top-actions">
+      <button id="downloadAllZipBtn" class="btn-top">📦 تنزيل كل الشهادات كملف مضغوط (ZIP)</button>
+      <button id="sendAllEmailBtn" class="btn-email-all">📧 إرسال عبر الإيميل للجميع</button>
     </div>
-
-
-
-
-
   </div>
 
+  <div class="card">
+    <h2>قائمة المشاركين الحاضرين</h2>
+    <!-- خانة البحث -->
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 ابحث بالاسم أو البريد الإلكتروني...">
 
+<div id="loading" class="loading">جاري تحميل بيانات الحاضرين...</div>
+<div id="participantsList"></div>
+<div id="status" class="status"></div>
 
-
-
-  <!-- ================================
-
-       زر التحميل
-
-       ================================ -->
-
-
-
-  <button
-
-    id="downloadBtn"
-
-    class="download-btn"
-
-  >
-
-
-
-    📄 تنزيل الشهادة PDF بجودة عالية
-
-
-
-  </button>
-
-
-
-
+  </div>
 
 </div>
 
-
-
-
-
-
-
-<!-- ================================
-
-     JavaScript
-
-     ================================ -->
-
-
-
-<script type="module">
-
-
-
-
-
-  /* =====================================
-
-     Firebase
-
-     ===================================== */
-
-
-
-  import {
-
-
-
-    initializeApp
-
-
-
-  } from
-
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-
-
-
-
-  import {
-
-
-
-    getFirestore,
-
-
-
-    doc,
-
-
-
-    getDoc
-
-
-
-  } from
-
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-
-
-
-
-
-  /* =====================================
-
-     Firebase Configuration
-
-     ===================================== */
-
-
-
-  const firebaseConfig = {
-
-
-
-    apiKey:
-
-      "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
-
-
-
-    authDomain:
-
-      "menoufia-dental-congress.firebaseapp.com",
-
-
-
-    projectId:
-
-      "menoufia-dental-congress",
-
-
-
-    storageBucket:
-
-      "menoufia-dental-congress.firebasestorage.app",
-
-
-
-    messagingSenderId:
-
-      "20481129823",
-
-
-
-    appId:
-
-      "1:20481129823:web:24658314d19bcacf1dcaea"
-
-
-
-  };
-
-
-
-
-
-
-
-  /* =====================================
-
-     عناصر الصفحة
-
-     ===================================== */
-
-
-
-  const statusBox =
-
-    document.getElementById("statusBox");
-
-
-
-
-
-  const certWrapper =
-
-    document.getElementById("certWrapper");
-
-
-
-
-
-  const downloadBtn =
-
-    document.getElementById("downloadBtn");
-
-
-
-
-
-
-
-  /* =====================================
-
-     تحميل الشهادة
-
-     ===================================== */
-
-
-
-  try {
-
-
-
-
-
-    /* إنشاء Firebase */
-
-
-
-    const app =
-
-      initializeApp(firebaseConfig);
-
-
-
-
-
-    const db =
-
-      getFirestore(app);
-
-
-
-
-
-
-
-    /* =====================================
-
-       قراءة رقم الشهادة من الرابط
-
-       ===================================== */
-
-
-
-    const urlParams =
-
-      new URLSearchParams(
-
-        window.location.search
-
-      );
-
-
-
-
-
-    const certId =
-
-      urlParams.get("id");
-
-
-
-
-
-
-
-    /* التأكد من وجود الرقم */
-
-
-
-    if (!certId) {
-
-
-
-      statusBox.textContent =
-
-        "خطأ: لم يتم كتابة رقم الشهادة في الرابط (مثلاً: ?id=رقم_الشهادة)";
-
-
-
-      throw new Error(
-
-        "No ID provided"
-
-      );
-
-
-
-    }
-
-
-
-
-
-
-
-    /* رسالة البحث */
-
-
-
-    statusBox.textContent =
-
-      `جاري البحث عن الشهادة برقم: ${certId} ...`;
-
-
-
-
-
-
-
-    /* =====================================
-
-       الحصول على بيانات الشهادة
-
-       ===================================== */
-
-
-
-    const docRef =
-
-      doc(
-
-        db,
-
-        "certificates",
-
-        certId
-
-      );
-
-
-
-
-
-    const docSnap =
-
-      await getDoc(docRef);
-
-
-
-
-
-
-
-    /* التأكد من وجود الشهادة */
-
-
-
-    if (!docSnap.exists()) {
-
-
-
-      statusBox.textContent =
-
-        `خطأ: رقم الشهادة (${certId}) غير موجود داخل قاعدة بيانات Firebase.`;
-
-
-
-      throw new Error(
-
-        "Document not found"
-
-      );
-
-
-
-    }
-
-
-
-
-
-
-
-    /* بيانات الشهادة */
-
-
-
-    const data =
-
-      docSnap.data();
-
-
-
-
-
-
-
-    /* =====================================
-
-       اسم المشارك
-
-       ===================================== */
-
-
-
-    const rawName =
-
-
-
-      data.fullName ||
-
-
-
-      data.name ||
-
-
-
-      data.ParticipantName ||
-
-
-
-      "مشارك بدون اسم";
-
-
-
-
-
-
-
-    /*
-
-      إضافة DR/
-
-      إذا لم يكن موجودًا
-
-    */
-
-
-
-    const fullName =
-
-
-
-      rawName.startsWith("DR/ ") ||
-
-
-
-      rawName.startsWith("Dr/ ")
-
-
-
-        ? rawName
-
-
-
-        : `DR/ ${rawName}`;
-
-
-
-
-
-
-
-    /* عرض الاسم */
-
-
-
-    document.getElementById(
-
-      "renderName"
-
-    ).textContent = fullName;
-
-
-
-
-
-
-
-    /* =====================================
-
-       عرض رقم الشهادة
-
-       ===================================== */
-
-
-
-    document.getElementById(
-
-      "renderId"
-
-    ).textContent = certId;
-
-
-
-
-
-
-
-    /* =====================================
-
-       QR Code
-
-       ===================================== */
-
-
-
-    const qrDiv =
-
-      document.getElementById(
-
-        "renderQr"
-
-      );
-
-
-
-
-
-    /* تنظيف QR القديم */
-
-
-
-    qrDiv.innerHTML = "";
-
-
-
-
-
-
-
-    /*
-
-      إنشاء QR جديد
-
-
-
-      الحجم 300 × 300
-
-      ثم CSS يقوم بتصغيره
-
-      حسب مساحة QR في الشهادة
-
-    */
-
-
-
-    new QRCode(
-
-      qrDiv,
-
-      {
-
-
-
-        text:
-
-          window.location.href,
-
-
-
-        width:
-
-          300,
-
-
-
-        height:
-
-          300,
-
-
-
-        correctLevel:
-
-          QRCode.CorrectLevel.H
-
-
-
-      }
-
-    );
-
-
-
-
-
-
-
-    /* =====================================
-
-       إظهار الشهادة
-
-       ===================================== */
-
-
-
-    statusBox.style.display =
-
-      "none";
-
-
-
-
-
-    certWrapper.style.display =
-
-      "block";
-
-
-
-
-
-    downloadBtn.style.display =
-
-      "inline-block";
-
-
-
-
-
-  }
-
-
-
-
-
-  /* =====================================
-
-     معالجة الأخطاء
-
-     ===================================== */
-
-
-
-  catch (err) {
-
-
-
-
-
-    console.error(
-
-      "تفاصيل الخطأ:",
-
-      err
-
-    );
-
-
-
-
-
-    if (
-
-      !statusBox.textContent.includes(
-
-        "خطأ:"
-
-      )
-
-    ) {
-
-
-
-      statusBox.textContent =
-
-        "حدث خطأ برمجي أثناء الاتصال: " +
-
-        err.message;
-
-
-
-    }
-
-
-
-  }
-
-
-
-
-
-
-
-  /* =====================================
-
-     تحميل الشهادة كملف PDF بجودة عالية
-
-     ===================================== */
-
-
-
-  downloadBtn.addEventListener(
-
-
-
-    "click",
-
-
-
-    async () => {
-
-
-
-      downloadBtn.disabled = true;
-
-      downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة عالية...";
-
-
-
-      try {
-
-
-
-        /* انتظار تحميل الخطوط والصورة قبل التصوير */
-
-        if (document.fonts && document.fonts.ready) {
-
-          await document.fonts.ready;
-
-        }
-
-
-
-        /*
-
-          تصدير الشهادة من نسخة ثابتة 1448×1086 بدل تصوير النسخة
-
-          المعروضة على الشاشة. بهذه الطريقة جودة التحميل لا تعتمد
-
-          على مقاس شاشة الموبايل أو الكمبيوتر.
-
-        */
-
-        const originalCert = document.getElementById("renderCert");
-
-        const exportCert = originalCert.cloneNode(true);
-
-
-
-        exportCert.style.width = "1448px";
-
-        exportCert.style.height = "1086px";
-
-        exportCert.style.maxWidth = "none";
-
-        exportCert.style.minWidth = "1448px";
-
-        exportCert.style.aspectRatio = "1448 / 1086";
-
-        exportCert.style.position = "fixed";
-
-        exportCert.style.left = "-10000px";
-
-        exportCert.style.top = "0";
-
-        exportCert.style.margin = "0";
-
-        exportCert.style.zIndex = "-1";
-
-
-
-        document.body.appendChild(exportCert);
-
-
-
-        /* التأكد من تحميل الصور داخل النسخة المخصصة للتصدير */
-
-        const exportImages = Array.from(exportCert.querySelectorAll("img"));
-
-        await Promise.all(
-
-          exportImages.map(img => {
-
-            if (img.complete) return Promise.resolve();
-
-            return new Promise(resolve => {
-
-              img.onload = resolve;
-
-              img.onerror = resolve;
-
-            });
-
-          })
-
-        );
-
-
-
-        const canvas = await html2canvas(exportCert, {
-
-          scale: 4,
-
-          useCORS: true,
-
-          allowTaint: false,
-
-          backgroundColor: "#ffffff",
-
-          imageTimeout: 30000,
-
-          logging: false,
-
-          width: 1448,
-
-          height: 1086,
-
-          windowWidth: 1448,
-
-          windowHeight: 1086,
-
-          scrollX: 0,
-
-          scrollY: 0
-
-        });
-
-
-
-        document.body.removeChild(exportCert);
-
-
-
-        /*
-
-          الشهادة 1448 × 1086 = نسبة 4:3
-
-          نستخدم مقاس صفحة PDF مخصص بنفس النسبة،
-
-          بدل ضغطها على A4 بنسبة مختلفة.
-
-        */
-
-        const pdfWidth = 297;
-
-        const pdfHeight = pdfWidth * (1086 / 1448);
-
-
-
-        const { jsPDF } = window.jspdf;
-
-
-
-        const pdf = new jsPDF({
-
-          orientation: "landscape",
-
-          unit: "mm",
-
-          format: [pdfWidth, pdfHeight],
-
-          compress: false
-
-        });
-
-
-
-        /* PNG داخل الـPDF يحافظ على تفاصيل النص وQR بدون ضغط JPEG */
-
-        const imgData = canvas.toDataURL("image/png");
-
-
-
-        pdf.addImage(
-
-          imgData,
-
-          "PNG",
-
-          0,
-
-          0,
-
-          pdfWidth,
-
-          pdfHeight,
-
-          undefined,
-
-          "NONE"
-
-        );
-
-
-
-        const certId =
-
-          new URLSearchParams(window.location.search).get("id") ||
-
-          "Certificate";
-
-
-
-        pdf.save(`Certificate-${certId}.pdf`);
-
-
-
-      } catch (err) {
-
-
-
-        console.error("PDF error:", err);
-
-
-
-        alert(
-
-          "خطأ في إنشاء ملف PDF: " +
-
-          err.message
-
-        );
-
-
-
-      } finally {
-
-
-
-        downloadBtn.disabled = false;
-
-        downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة عالية";
-
-
-
-      }
-
-
-
-    }
-
-
-
-  );
-
-</script>
-
-
-
-
-
-</body>
-
-
-
-</html>
-
-
-
-<!DOCTYPE html>
-
-<html lang="ar" dir="rtl">
-
-
-
-<head>
-
-
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-  <!-- منع استخدام النسخة القديمة -->
-
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-
-  <meta http-equiv="Pragma" content="no-cache">
-
-  <meta http-equiv="Expires" content="0">
-
-
-
-  <title>معاينة الشهادة | مؤتمر المنوفية لطب الأسنان</title>
-
-
-
-  <!-- خط الاسم -->
-
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-
-
-
-  <!-- HTML2Canvas -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-
-
-  <!-- FileSaver -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-
-
-  <!-- jsPDF لإنشاء PDF بجودة عالية -->
+<!-- صندوق خفي لتوليد الشهادات برمجياً وضغطها -->
+
+<div id="hiddenCertificateContainer" style="position: absolute; left: -9999px; top: -9999px;">
+  <div id="renderCert" style="position: relative; width: 1800px; height: 1350px; background-image: url('certificate-template.jpg?v=2'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; padding: 55px;">
+    <div style="position: absolute; left: 20%; top: 39.5%; width: 60%; height: 12%; display: flex; align-items: center; justify-content: center;">
+      <div id="renderName" style="color: #102c52; font-family: 'Brush Script MT', 'Segoe Script', cursive; font-size: 50px; white-space: nowrap;"></div>
+    </div>
+    <div style="position: absolute; left: 5.5%; top: 66%; width: 9.5%; height: 15%; background: white; display: flex; align-items: center; justify-content: center;" id="renderQr"></div>
+    <div style="position: absolute; left: 5.5%; top: 81.5%; width: 9.5%; height: 4%; background: #173b63; display: flex; align-items: center; justify-content: center;">
+      <div id="renderId" style="color: white; font-family: Arial, sans-serif; font-size: 11px; font-weight: bold;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- مكتبة QR Code -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-
-
-  <!-- QR Code -->
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
-
-
-
-
-  <style>
-
-
-
-    * {
-
-      box-sizing: border-box;
-
-    }
-
-
-
-
-
-    /* ================================
-
-       الصفحة
-
-       ================================ */
-
-
-
-    body {
-
-      margin: 0;
-
-      min-height: 100vh;
-
-
-
-      font-family: Arial, sans-serif;
-
-
-
-      background: #f4f7fb;
-
-
-
-      display: flex;
-
-      flex-direction: column;
-
-
-
-      align-items: center;
-
-      justify-content: center;
-
-
-
-      padding: 20px;
-
-    }
-
-
-
-
-
-    /* ================================
-
-       الحاوية
-
-       ================================ */
-
-
-
-    .container {
-
-
-
-      width: 100%;
-
-
-
-      max-width: 900px;
-
-
-
-      text-align: center;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       الشهادة
-
-       ================================ */
-
-
-
-    .certificate-wrapper {
-
-
-
-      position: relative;
-
-
-
-      width: 100%;
-
-
-
-      background: white;
-
-
-
-      border-radius: 12px;
-
-
-
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-
-
-
-      overflow: hidden;
-
-
-
-      margin-bottom: 20px;
-
-
-
-      display: none;
-
-
-
-      /*
-
-        مهم جدًا:
-
-        يجعل حجم الخط يعتمد على عرض الشهادة
-
-      */
-
-
-
-      container-type: inline-size;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       تصميم الشهادة الأساسي
-
-       ================================ */
-
-
-
- #renderCert {
-
-    position: relative !important;
-
-    width: 100%;
-
-    aspect-ratio: 1448 / 1086;
-
-
-
-    background-image: url('certificate-template.jpg?v=6');
-
-    background-size: 100% 100%;
-
-    background-position: center;
-
-    background-repeat: no-repeat;
-
-}
-
-
-
-    /* ================================
-
-       الاسم
-
-       ================================ */
-
-
-
-    .cert-name-container {
-
-
-
-      position: absolute !important;
-
-
-
-      /*
-
-        مكان الاسم مطابق تقريبًا
-
-        لمكانه في الصورة الثانية
-
-      */
-
-
-
-      left: 25.5%;
-
-
-
-      top: 38.5%;
-
-
-
-      width: 52%;
-
-
-
-      height: 10%;
-
-
-
-      display: flex;
-
-
-
-      align-items: center;
-
-
-
-      justify-content: center;
-
-
-
-      overflow: hidden;
-
-
-
-      z-index: 5;
-
-
-
-    }
-
-
-
-
-
-    .cert-name {
-
-
-
-      color: #102c52;
-
-
-
-   font-family:
-
-  'Cormorant Garamond',
-
-  Georgia,
-
-  serif;
-
-font-style: italic;
-
-font-weight: 600;
-
-
-
-      /*
-
-        حجم الاسم يتناسب
-
-        مع حجم الشهادة
-
-      */
-
-
-
-      font-size: 2.2cqw;
-
-
-
-      font-weight: bold;
-
-
-
-      white-space: nowrap;
-
-
-
-      line-height: 1;
-
-
-
-      max-width: 100%;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       QR Code
-
-       ================================ */
-
-
-
-    .cert-qr-container {
-
-
-
-      position: absolute !important;
-
-
-
-      /*
-
-        مكان QR في أسفل يسار الشهادة
-
-      */
-
-
-
-      left: 4.3%;
-
-
-
-      top: 74.2%;
-
-
-
-      /*
-
-        حجم QR
-
-      */
-
-
-
-      width: 8%;
-
-
-
-      height: 10.5%;
-
-
-
-      background: white;
-
-
-
-      display: flex;
-
-
-
-      align-items: center;
-
-
-
-      justify-content: center;
-
-
-
-      z-index: 10;
-
-
-
-      overflow: hidden;
-
-
-
-    }
-
-
-
-
-
-    .cert-qr-container img,
-
-    .cert-qr-container canvas {
-
-
-
-      width: 100% !important;
-
-
-
-      height: 100% !important;
-
-
-
-      display: block;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       رقم الشهادة
-
-       ================================ */
-
-
-
-    .cert-id-container {
-
-
-
-      position: absolute !important;
-
-
-
-      /*
-
-        رقم الشهادة أسفل QR
-
-      */
-
-
-
-      left: 4.3%;
-
-
-
-      top: 87%;
-
-
-
-      width: 8%;
-
-
-
-      height: 3.5%;
-
-
-
-      background: #173b63;
-
-
-
-      display: flex;
-
-
-
-      align-items: center;
-
-
-
-      justify-content: center;
-
-
-
-      z-index: 10;
-
-
-
-      overflow: hidden;
-
-
-
-    }
-
-
-
-
-
-    .cert-id-text {
-
-
-
-      color: white;
-
-
-
-      /*
-
-        حجم رقم الشهادة
-
-        يتناسب مع الشهادة
-
-      */
-
-
-
-      font-size: 0.85cqw;
-
-
-
-      font-weight: bold;
-
-
-
-      font-family: Arial, sans-serif;
-
-
-
-      white-space: nowrap;
-
-
-
-      line-height: 1;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       زر التحميل
-
-       ================================ */
-
-
-
-    .download-btn {
-
-
-
-      background: #c9a227;
-
-
-
-      color: white;
-
-
-
-      border: none;
-
-
-
-      padding: 14px 28px;
-
-
-
-      font-size: 16px;
-
-
-
-      font-weight: bold;
-
-
-
-      border-radius: 10px;
-
-
-
-      cursor: pointer;
-
-
-
-      box-shadow:
-
-        0 4px 15px rgba(201, 162, 39, 0.3);
-
-
-
-      display: none;
-
-
-
-      margin-top: 15px;
-
-
-
-    }
-
-
-
-
-
-    .download-btn:hover {
-
-
-
-      background: #b08d1f;
-
-
-
-    }
-
-
-
-
-
-    .download-btn:disabled {
-
-
-
-      opacity: 0.7;
-
-
-
-      cursor: wait;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       رسالة الحالة
-
-       ================================ */
-
-
-
-    .status-box {
-
-
-
-      font-size: 18px;
-
-
-
-      color: #d9534f;
-
-
-
-      background: #fdf7f7;
-
-
-
-      border: 1px solid #ebccd1;
-
-
-
-      padding: 15px;
-
-
-
-      border-radius: 8px;
-
-
-
-      margin-bottom: 20px;
-
-
-
-      font-weight: bold;
-
-
-
-    }
-
-
-
-
-
-    /* ================================
-
-       الموبايل
-
-       ================================ */
-
-
-
-    @media (max-width: 600px) {
-
-
-
-      body {
-
-
-
-        padding: 10px;
-
-
-
-      }
-
-
-
-
-
-      .container {
-
-
-
-        width: 100%;
-
-
-
-      }
-
-
-
-
-
-      .certificate-wrapper {
-
-
-
-        border-radius: 6px;
-
-
-
-        box-shadow:
-
-          0 4px 15px rgba(0,0,0,0.1);
-
-
-
-      }
-
-
-
-
-
-      .download-btn {
-
-
-
-        width: 100%;
-
-
-
-        font-size: 15px;
-
-
-
-        padding: 13px 15px;
-
-
-
-      }
-
-
-
-
-
-      .status-box {
-
-
-
-        font-size: 15px;
-
-
-
-      }
-
-
-
-    }
-
-
-
-
-
-  </style>
-
-
-
-</head>
-
-
-
-
-
-<body>
-
-
-
-
-
-<div class="container">
-
-
-
-
-
-  <!-- رسالة الحالة -->
-
-
-
-  <div id="statusBox" class="status-box">
-
-
-
-    جاري الاتصال بقاعدة البيانات وتحميل الشهادة...
-
-
-
-  </div>
-
-
-
-
-
-  <!-- ================================
-
-       الشهادة
-
-       ================================ -->
-
-
-
-  <div
-
-    class="certificate-wrapper"
-
-    id="certWrapper"
-
-  >
-
-
-
-
-
-    <div id="renderCert">
-
-
-
-
-
-      <!-- ================================
-
-           الاسم
-
-           ================================ -->
-
-
-
-      <div class="cert-name-container">
-
-
-
-        <div
-
-          id="renderName"
-
-          class="cert-name"
-
-        ></div>
-
-
-
-      </div>
-
-
-
-
-
-      <!-- ================================
-
-           QR Code
-
-           ================================ -->
-
-
-
-      <div
-
-        class="cert-qr-container"
-
-        id="renderQr"
-
-      ></div>
-
-
-
-
-
-      <!-- ================================
-
-           رقم الشهادة
-
-           ================================ -->
-
-
-
-      <div class="cert-id-container">
-
-
-
-        <div
-
-          id="renderId"
-
-          class="cert-id-text"
-
-        ></div>
-
-
-
-      </div>
-
-
-
-
-
-    </div>
-
-
-
-
-
-  </div>
-
-
-
-
-
-  <!-- ================================
-
-       زر التحميل
-
-       ================================ -->
-
-
-
-  <button
-
-    id="downloadBtn"
-
-    class="download-btn"
-
-  >
-
-
-
-    📄 تنزيل الشهادة PDF بجودة عالية
-
-
-
-  </button>
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-<!-- ================================
-
-     JavaScript
-
-     ================================ -->
-
-
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 <script type="module">
-
-
-
-
-
-  /* =====================================
-
-     Firebase
-
-     ===================================== */
-
-
-
-  import {
-
-
-
-    initializeApp
-
-
-
-  } from
-
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-
-
-
-
-  import {
-
-
-
-    getFirestore,
-
-
-
-    doc,
-
-
-
-    getDoc
-
-
-
-  } from
-
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-
-
-
-
-
-  /* =====================================
-
-     Firebase Configuration
-
-     ===================================== */
-
-
-
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { initializeAuth, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  
   const firebaseConfig = {
-
-
-
-    apiKey:
-
-      "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
-
-
-
-    authDomain:
-
-      "menoufia-dental-congress.firebaseapp.com",
-
-
-
-    projectId:
-
-      "menoufia-dental-congress",
-
-
-
-    storageBucket:
-
-      "menoufia-dental-congress.firebasestorage.app",
-
-
-
-    messagingSenderId:
-
-      "20481129823",
-
-
-
-    appId:
-
-      "1:20481129823:web:24658314d19bcacf1dcaea"
-
-
-
+    apiKey: "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
+    authDomain: "menoufia-dental-congress.firebaseapp.com",
+    projectId: "menoufia-dental-congress",
+    storageBucket: "menoufia-dental-congress.firebasestorage.app",
+    messagingSenderId: "20481129823",
+    appId: "1:20481129823:web:24658314d19bcacf1dcaea"
   };
 
-
-
-
-
-
-
-  /* =====================================
-
-     عناصر الصفحة
-
-     ===================================== */
-
-
-
-  const statusBox =
-
-    document.getElementById("statusBox");
-
-
-
-
-
-  const certWrapper =
-
-    document.getElementById("certWrapper");
-
-
-
-
-
-  const downloadBtn =
-
-    document.getElementById("downloadBtn");
-
-
-
-
-
-
-
-  /* =====================================
-
-     تحميل الشهادة
-
-     ===================================== */
-
-
-
-  try {
-
-
-
-
-
-    /* إنشاء Firebase */
-
-
-
-    const app =
-
-      initializeApp(firebaseConfig);
-
-
-
-
-
-    const db =
-
-      getFirestore(app);
-
-
-
-
-
-
-
-    /* =====================================
-
-       قراءة رقم الشهادة من الرابط
-
-       ===================================== */
-
-
-
-    const urlParams =
-
-      new URLSearchParams(
-
-        window.location.search
-
-      );
-
-
-
-
-
-    const certId =
-
-      urlParams.get("id");
-
-
-
-
-
-
-
-    /* التأكد من وجود الرقم */
-
-
-
-    if (!certId) {
-
-
-
-      statusBox.textContent =
-
-        "خطأ: لم يتم كتابة رقم الشهادة في الرابط (مثلاً: ?id=رقم_الشهادة)";
-
-
-
-      throw new Error(
-
-        "No ID provided"
-
-      );
-
-
-
-    }
-
-
-
-
-
-
-
-    /* رسالة البحث */
-
-
-
-    statusBox.textContent =
-
-      `جاري البحث عن الشهادة برقم: ${certId} ...`;
-
-
-
-
-
-
-
-    /* =====================================
-
-       الحصول على بيانات الشهادة
-
-       ===================================== */
-
-
-
-    const docRef =
-
-      doc(
-
-        db,
-
-        "certificates",
-
-        certId
-
-      );
-
-
-
-
-
-    const docSnap =
-
-      await getDoc(docRef);
-
-
-
-
-
-
-
-    /* التأكد من وجود الشهادة */
-
-
-
-    if (!docSnap.exists()) {
-
-
-
-      statusBox.textContent =
-
-        `خطأ: رقم الشهادة (${certId}) غير موجود داخل قاعدة بيانات Firebase.`;
-
-
-
-      throw new Error(
-
-        "Document not found"
-
-      );
-
-
-
-    }
-
-
-
-
-
-
-
-    /* بيانات الشهادة */
-
-
-
-    const data =
-
-      docSnap.data();
-
-
-
-
-
-
-
-    /* =====================================
-
-       اسم المشارك
-
-       ===================================== */
-
-
-
-    const rawName =
-
-
-
-      data.fullName ||
-
-
-
-      data.name ||
-
-
-
-      data.ParticipantName ||
-
-
-
-      "مشارك بدون اسم";
-
-
-
-
-
-
-
-    /*
-
-      إضافة DR/
-
-      إذا لم يكن موجودًا
-
-    */
-
-
-
-    const fullName =
-
-
-
-      rawName.startsWith("DR/ ") ||
-
-
-
-      rawName.startsWith("Dr/ ")
-
-
-
-        ? rawName
-
-
-
-        : `DR/ ${rawName}`;
-
-
-
-
-
-
-
-    /* عرض الاسم */
-
-
-
-    document.getElementById(
-
-      "renderName"
-
-    ).textContent = fullName;
-
-
-
-
-
-
-
-    /* =====================================
-
-       عرض رقم الشهادة
-
-       ===================================== */
-
-
-
-    document.getElementById(
-
-      "renderId"
-
-    ).textContent = certId;
-
-
-
-
-
-
-
-    /* =====================================
-
-       QR Code
-
-       ===================================== */
-
-
-
-    const qrDiv =
-
-      document.getElementById(
-
-        "renderQr"
-
-      );
-
-
-
-
-
-    /* تنظيف QR القديم */
-
-
-
-    qrDiv.innerHTML = "";
-
-
-
-
-
-
-
-    /*
-
-      إنشاء QR جديد
-
-
-
-      الحجم 300 × 300
-
-      ثم CSS يقوم بتصغيره
-
-      حسب مساحة QR في الشهادة
-
-    */
-
-
-
-    new QRCode(
-
-      qrDiv,
-
-      {
-
-
-
-        text:
-
-          window.location.href,
-
-
-
-        width:
-
-          300,
-
-
-
-        height:
-
-          300,
-
-
-
-        correctLevel:
-
-          QRCode.CorrectLevel.H
-
-
-
+  const app = initializeApp(firebaseConfig);
+  const auth = initializeAuth(app, { persistence: browserLocalPersistence });
+  const db = getFirestore(app);
+  const ORGANIZER_UID = "fS56FR5b2vdd632fpUZWXbJFWwj1";
+
+  const loading = document.getElementById("loading");
+  const list = document.getElementById("participantsList");
+  const statusBox = document.getElementById("status");
+  const searchInput = document.getElementById("searchInput");
+
+  let allParticipantsData = []; // لتخزين البيانات والبحث فيها بسلاسة
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      if (user.uid === ORGANIZER_UID) {
+        loading.innerHTML = "تم التحقق. جاري جلب الحاضرين...";
+        loadCheckedInParticipants();
+      } else {
+        loading.innerHTML = "خطأ: حساب المنظم غير مطابق (UID: " + user.uid + ")";
       }
-
-    );
-
-
-
-
-
-
-
-    /* =====================================
-
-       إظهار الشهادة
-
-       ===================================== */
-
-
-
-    statusBox.style.display =
-
-      "none";
-
-
-
-
-
-    certWrapper.style.display =
-
-      "block";
-
-
-
-
-
-    downloadBtn.style.display =
-
-      "inline-block";
-
-
-
-
-
-  }
-
-
-
-
-
-  /* =====================================
-
-     معالجة الأخطاء
-
-     ===================================== */
-
-
-
-  catch (err) {
-
-
-
-
-
-    console.error(
-
-      "تفاصيل الخطأ:",
-
-      err
-
-    );
-
-
-
-
-
-    if (
-
-      !statusBox.textContent.includes(
-
-        "خطأ:"
-
-      )
-
-    ) {
-
-
-
-      statusBox.textContent =
-
-        "حدث خطأ برمجي أثناء الاتصال: " +
-
-        err.message;
-
-
-
+    } else {
+      loading.innerHTML = "يرجى تسجيل الدخول بحساب المنظم في Firebase أولاً.";
     }
+  });
 
-
-
+  function formatDoctorName(rawName) {
+    const cleanName = (rawName || "Participant").trim();
+    if (/^dr[\/.\s]/i.test(cleanName)) {
+      return cleanName.replace(/^dr[\/.\s]+/i, "DR/ ");
+    }
+    return "DR/ " + cleanName;
   }
 
-
-
-
-
-
-
-  /* =====================================
-
-     تحميل الشهادة كملف PDF بجودة عالية
-
-     ===================================== */
-
-
-
-  downloadBtn.addEventListener(
-
-
-
-    "click",
-
-
-
-    async () => {
-
-
-
-      downloadBtn.disabled = true;
-
-      downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة عالية...";
-
-
-
-      try {
-
-
-
-        /* انتظار تحميل الخطوط والصورة قبل التصوير */
-
-        if (document.fonts && document.fonts.ready) {
-
-          await document.fonts.ready;
-
+  async function loadCheckedInParticipants() {
+    try {
+      const participantsSnap = await getDocs(collection(db, "participants"));
+      const certificatesSnap = await getDocs(collection(db, "certificates"));
+      
+      const existingCerts = new Map();
+      certificatesSnap.forEach(docSnap => {
+        const data = docSnap.data();
+        if (data.participantId) {
+          existingCerts.set(data.participantId, docSnap.id);
         }
-
-
-
-        /* تحويل الشهادة إلى Canvas بدقة أعلى */
-
-        const canvas = await html2canvas(
-
-          document.getElementById("renderCert"),
-
-          {
-
-            scale: 5,
-
-            useCORS: true,
-
-            allowTaint: false,
-
-            backgroundColor: "#ffffff",
-
-            imageTimeout: 15000,
-
-            logging: false
-
-          }
-
-        );
-
-
-
-        /*
-
-          الشهادة 1448 × 1086 = نسبة 4:3
-
-          نستخدم مقاس صفحة PDF مخصص بنفس النسبة،
-
-          بدل ضغطها على A4 بنسبة مختلفة.
-
-        */
-
-        const pdfWidth = 297;
-
-        const pdfHeight = pdfWidth * (1086 / 1448);
-
-
-
-        const { jsPDF } = window.jspdf;
-
-
-
-        const pdf = new jsPDF({
-
-          orientation: "landscape",
-
-          unit: "mm",
-
-          format: [pdfWidth, pdfHeight],
-
-          compress: false
-
-        });
-
-
-
-        /* PNG داخل الـPDF يحافظ على تفاصيل النص وQR بدون ضغط JPEG */
-
-        const imgData = canvas.toDataURL("image/png");
-
-
-
-        pdf.addImage(
-
-          imgData,
-
-          "PNG",
-
-          0,
-
-          0,
-
-          pdfWidth,
-
-          pdfHeight,
-
-          undefined,
-
-          "NONE"
-
-        );
-
-
-
-        const certId =
-
-          new URLSearchParams(window.location.search).get("id") ||
-
-          "Certificate";
-
-
-
-        pdf.save(`Certificate-${certId}.pdf`);
-
-
-
-      } catch (err) {
-
-
-
-        console.error("PDF error:", err);
-
-
-
-        alert(
-
-          "خطأ في إنشاء ملف PDF: " +
-
-          err.message
-
-        );
-
-
-
-      } finally {
-
-
-
-        downloadBtn.disabled = false;
-
-        downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة عالية";
-
-
-
-      }
-
-
-
+      });
+
+      allParticipantsData = [];
+      participantsSnap.forEach(participantDoc => {
+        const data = participantDoc.data();
+        if (data.attendance === true) {
+          allParticipantsData.push({
+            participantId: participantDoc.id,
+            data: data,
+            certId: existingCerts.get(participantDoc.id)
+          });
+        }
+      });
+
+      loading.style.display = "none";
+      renderFilteredList("");
+
+    } catch (error) {
+      console.error(error);
+      loading.textContent = "حدث خطأ أثناء الجلب: " + error.message;
+    }
+  }
+
+  function renderFilteredList(query) {
+    list.innerHTML = "";
+    const lowerQuery = query.toLowerCase().trim();
+
+    const filtered = allParticipantsData.filter(item => {
+      const name = (item.data.fullName || "").toLowerCase();
+      const email = (item.data.email || "").toLowerCase();
+      return name.includes(lowerQuery) || email.includes(lowerQuery);
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = "<p style='text-align: center; color: #777;'>لا توجد نتائج مطابقة للبحث.</p>";
+      return;
     }
 
+    filtered.forEach(item => {
+      renderRow(item.participantId, item.data, item.certId);
+    });
+  }
 
+  // تفعيل البحث عند الكتابة
+  searchInput.addEventListener("input", (e) => {
+    renderFilteredList(e.target.value);
+  });
 
-  );
+  function renderRow(participantId, data, certId) {
+    const row = document.createElement("div");
+    row.className = "participant";
 
+    const info = document.createElement("div");
+    info.className = "participant-info";
+
+    const name = document.createElement("div");
+    name.className = "name";
+    name.textContent = formatDoctorName(data.fullName);
+
+    const email = document.createElement("div");
+    email.className = "email";
+    email.textContent = data.email || "بدون بريد إلكتروني";
+
+    info.appendChild(name);
+    info.appendChild(email);
+
+    const actions = document.createElement("div");
+    actions.className = "actions-group";
+
+    if (certId) {
+      const viewLink = document.createElement("a");
+      viewLink.className = "view-btn";
+      viewLink.textContent = "عرض الشهادة";
+      viewLink.href = "certificate.html?id=" + encodeURIComponent(certId);
+      viewLink.target = "_blank";
+      actions.appendChild(viewLink);
+
+      const downloadSingleBtn = document.createElement("button");
+      downloadSingleBtn.className = "view-btn";
+      downloadSingleBtn.style.background = "#c9a227";
+      downloadSingleBtn.textContent = "📥 تنزيل";
+      downloadSingleBtn.onclick = async () => {
+        downloadSingleBtn.disabled = true;
+        downloadSingleBtn.textContent = "جاري الحفظ...";
+        await generateAndDownloadSingle(certId, formatDoctorName(data.fullName));
+        downloadSingleBtn.disabled = false;
+        downloadSingleBtn.textContent = "📥 تنزيل";
+      };
+      actions.appendChild(downloadSingleBtn);
+
+      const emailBtn = document.createElement("button");
+      emailBtn.className = "view-btn btn-email-single";
+      emailBtn.textContent = "📧 إرسال إيميل";
+      emailBtn.onclick = () => {
+        if (!data.email) {
+          alert("هذا المستخدم ليس لديه بريد إلكتروني مسجل.");
+          return;
+        }
+       const certUrl = "https://maalyzayed.github.io/menoufia-dental-congress/certificate.html?id=" + encodeURIComponent(certId);
+        const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
+        const body = encodeURIComponent(`مرحباً ${formatDoctorName(data.fullName)},\n\nيسعدنا إرسال شهادة حضورك الخاصة بمؤتمر المنوفية لطب الأسنان.\nيمكنك معاينة وتنزيل شهادتك عبر الرابط التالي:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
+        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${data.email}&su=${subject}&body=${body}`, '_blank');
+      };
+      actions.appendChild(emailBtn);
+    } else {
+      const createBtn = document.createElement("button");
+      createBtn.className = "view-btn btn-create";
+      createBtn.textContent = "إنشاء الشهادة";
+      createBtn.onclick = async () => {
+        createBtn.disabled = true;
+        createBtn.textContent = "جاري الإنشاء...";
+        try {
+          const certificatesSnap = await getDocs(collection(db, "certificates"));
+          const nextNum = certificatesSnap.size + 1;
+          const certificateId = "MDC-2026-" + String(nextNum).padStart(4, "0");
+          const finalName = formatDoctorName(data.fullName);
+
+          await setDoc(doc(db, "certificates", certificateId), {
+            fullName: finalName,
+            participantId: participantId,
+            email: data.email || "",
+            institution: data.institution || "",
+            certificateId: certificateId,
+            createdAt: new Date().toISOString()
+          });
+          loadCheckedInParticipants();
+        } catch (err) {
+          alert("خطأ: " + err.message);
+          createBtn.disabled = false;
+          createBtn.textContent = "إنشاء الشهادة";
+        }
+      };
+      actions.appendChild(createBtn);
+    }
+
+    row.appendChild(info);
+    row.appendChild(actions);
+    list.appendChild(row);
+  }
+
+  async function generateAndDownloadSingle(certId, fullName) {
+    const canvas = await renderCertificateCanvas(certId, fullName);
+    canvas.toBlob(blob => {
+      saveAs(blob, `Certificate-${certId}.png`);
+    });
+  }
+
+  async function renderCertificateCanvas(certId, fullName) {
+    const renderDiv = document.getElementById("renderCert");
+    document.getElementById("renderName").textContent = fullName;
+    document.getElementById("renderId").textContent = certId;
+    
+    const qrDiv = document.getElementById("renderQr");
+    qrDiv.innerHTML = "";
+    const verificationUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
+    new QRCode(qrDiv, { text: verificationUrl, width: 150, height: 150, correctLevel: QRCode.CorrectLevel.H });
+
+    await new Promise(r => setTimeout(r, 200));
+    return await html2canvas(renderDiv, { scale: 2, useCORS: true });
+  }
+
+  document.getElementById("downloadAllZipBtn").addEventListener("click", async () => {
+    const btn = document.getElementById("downloadAllZipBtn");
+    const certificatesSnap = await getDocs(collection(db, "certificates"));
+    
+    if (certificatesSnap.empty) {
+      alert("لا توجد شهادات مسجلة بعد!");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "⏳ جاري إعداد وضغط الشهادات، قد يستغرق ذلك بضع ثوانٍ...";
+
+    try {
+      const zip = new JSZip();
+      let index = 0;
+
+      for (const docSnap of certificatesSnap.docs) {
+        index++;
+        btn.textContent = `جاري معالجة الشهادة ${index} من ${certificatesSnap.size}...`;
+        
+        const certId = docSnap.id;
+        const fullName = docSnap.data().fullName || "Participant";
+        
+        const canvas = await renderCertificateCanvas(certId, fullName);
+        const imgData = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
+        zip.file(`Certificate-${certId}.png`, imgData, { base64: true });
+      }
+
+      btn.textContent = "📦 جاري ضغط الملفات وتنزيل الـ ZIP...";
+      const content = await zip.generateAsync({ type: "blob" });
+      saveAs(content, "Menoufia-Dental-Congress-Certificates.zip");
+
+      btn.disabled = false;
+      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
+      alert("تم تنزيل ملف الـ ZIP بنجاح!");
+
+    } catch (error) {
+      console.error(error);
+      alert("حدث خطأ أثناء إنشاء ملف الـ ZIP: " + error.message);
+      btn.disabled = false;
+      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
+    }
+  });
+
+  document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
+    if (!confirm("هل تريد فتح رسائل البريد الإلكتروني للمشاركين الحاضرين؟")) return;
+    const certificatesSnap = await getDocs(collection(db, "certificates"));
+    let count = 0;
+    certificatesSnap.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data.email) {
+        count++;
+        const certUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(docSnap.id);
+        const subject = encodeURIComponent("شهادة حضور مؤتمر المنوفية لطب الأسنان");
+        const body = encodeURIComponent(`مرحباً ${data.fullName},\n\nإليك رابط شهادة حضورك في مؤتمر المنوفية لطب الأسنان:\n${certUrl}\n\nمع تحيات اللجنة المنظمة.`);
+        setTimeout(() => {
+          window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${data.email}&su=${subject}&body=${body}`, '_blank');
+        }, count * 600);
+      }
+    });
+    alert(`تم فتح تبويبات الإرسال لـ ${count} مشارك.`);
+  });
+
+  document.getElementById("generateAllBtn").addEventListener("click", async () => {
+    const btn = document.getElementById("generateAllBtn");
+    btn.disabled = true;
+    btn.textContent = "جاري الفحص وإنشاء الشهادات...";
+
+    try {
+      const participantsSnap = await getDocs(collection(db, "participants"));
+      const certificatesSnap = await getDocs(collection(db, "certificates"));
+
+      const existingCerts = new Map();
+      certificatesSnap.forEach(docSnap => {
+        const d = docSnap.data();
+        if (d.participantId) existingCerts.set(d.participantId, docSnap.id);
+      });
+
+      let totalCertsCount = certificatesSnap.size;
+      let createdCount = 0;
+
+      for (const participantDoc of participantsSnap.docs) {
+        const data = participantDoc.data();
+        const participantId = participantDoc.id;
+
+        if (data.attendance === true && !existingCerts.has(participantId)) {
+          totalCertsCount++;
+          const certificateId = "MDC-2026-" + String(totalCertsCount).padStart(4, "0");
+          const finalName = formatDoctorName(data.fullName);
+
+          await setDoc(doc(db, "certificates", certificateId), {
+            fullName: finalName,
+            participantId: participantId,
+            email: data.email || "",
+            institution: data.institution || "",
+            certificateId: certificateId,
+            createdAt: new Date().toISOString()
+          });
+
+          existingCerts.set(participantId, certificateId);
+          createdCount++;
+        }
+      }
+
+      statusBox.className = "status success";
+      statusBox.textContent = `تم بنجاح إنشاء ${createdCount} شهادة جديدة.`;
+      statusBox.style.display = "block";
+
+      setTimeout(() => {
+        loadCheckedInParticipants();
+        btn.disabled = false;
+        btn.textContent = "🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة";
+      }, 1500);
+
+    } catch (error) {
+      console.error(error);
+      statusBox.className = "status error";
+      statusBox.textContent = "حدث خطأ: " + error.message;
+      statusBox.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "🚀 فحص الحاضرين وإنشاء الشهادات المفقودة دفعة واحدة";
+    }
+  });
 </script>
 
-
-
-
-
 </body>
-
-
-
 </html>
