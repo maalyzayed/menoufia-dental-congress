@@ -142,20 +142,71 @@
 
 </div>
 
-<!-- صندوق خفي لتوليد الشهادات برمجياً وضغطها -->
+<!-- صندوق خفي لتوليد الشهادات برمجياً وضغطها بجودة Vector نقية -->
 <div id="hiddenCertificateContainer" style="position: absolute; left: -9999px; top: -9999px;">
-  <div id="renderCert" style="position: relative; width: 1024px; height: 768px; background-image: url('certificate-template.png?v=2'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; padding: 30px; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+  <div id="renderCert" style="position: relative; width: 1400px; height: 1000px; background: #ffffff; border: 15px solid #173b63; padding: 50px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;">
     
-    <div style="position: absolute; left: 20%; top: 39.5%; width: 60%; height: 12%; display: flex; align-items: center; justify-content: center;">
-      <div id="renderName" style="color: #102c52; font-family: 'Brush Script MT', 'Segoe Script', cursive; font-size: 35px; white-space: nowrap;"></div>
+    <!-- إطار داخلي جمالي -->
+    <div style="position: absolute; top: 25px; left: 25px; right: 25px; bottom: 25px; border: 3px solid #c9a227; pointer-events: none;"></div>
+
+    <!-- رأس الشهادة -->
+    <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2;">
+      <div style="font-size: 28px; font-weight: bold; color: #173b63; font-family: Arial, sans-serif;">
+        Menoufia University<br>Faculty of Dentistry
+      </div>
+      <div style="font-size: 32px; font-weight: bold; color: #173b63; font-family: Arial, sans-serif; text-align: center;">
+        CERTIFICATE OF PARTICIPATION
+      </div>
     </div>
-    
-    <div style="position: absolute; left: 5.5%; top: 66%; width: 9.5%; height: 15%; background: white; display: flex; align-items: center; justify-content: center;" id="renderQr"></div>
-    
-    <div style="position: absolute; left: 5.5%; top: 81.5%; width: 9.5%; height: 4%; background: #173b63; display: flex; align-items: center; justify-content: center;">
-      <div id="renderId" style="color: white; font-family: Arial, sans-serif; font-size: 9px; font-weight: bold;"></div>
+
+    <!-- محتوى الشهادة (الاسم) -->
+    <div style="text-align: center; z-index: 2; margin: 20px 0;">
+      <div style="font-size: 22px; color: #555; margin-bottom: 15px; font-family: Arial, sans-serif;">THIS IS TO CERTIFY THAT</div>
+      
+      <!-- إطار اسم الدكتور -->
+      <div style="display: inline-block; border-bottom: 3px solid #c9a227; padding: 0 40px 10px 40px; min-width: 600px;">
+        <div id="renderName" style="color: #173b63; font-family: 'Brush Script MT', 'Segoe Script', cursive; font-size: 65px; white-space: nowrap; font-weight: bold;"></div>
+      </div>
+      
+      <div style="font-size: 24px; color: #333; margin-top: 20px; font-family: Arial, sans-serif;">Has Attended The</div>
+      <div style="font-size: 36px; font-weight: bold; color: #173b63; margin-top: 10px; font-family: Arial, sans-serif;">
+        The 2nd Scientific Conference of the Faculty of Dentistry, Menoufia University
+      </div>
+      <div style="font-size: 26px; color: #c9a227; font-weight: bold; margin-top: 10px; font-family: Arial, sans-serif;">
+        📅 26-27 August 2026
+      </div>
     </div>
-    
+
+    <!-- التوقيعات والـ QR في الأسفل -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; z-index: 2; border-top: 2px solid #e0e5eb; pt: 20px;">
+      
+      <!-- خانة الـ QR -->
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div id="renderQr" style="width: 90px; height: 90px; background: white; padding: 5px; border: 1px solid #ccc;"></div>
+        <div>
+          <div style="font-size: 12px; color: #555; font-weight: bold;">Certificate ID:</div>
+          <div id="renderId" style="font-size: 13px; color: #173b63; font-weight: bold;"></div>
+        </div>
+      </div>
+
+      <!-- التوقيعات -->
+      <div style="display: flex; gap: 40px; text-align: center;">
+        <div>
+          <div style="font-size: 14px; font-weight: bold; color: #173b63;">Conference President</div>
+          <div style="font-size: 13px; color: #555; margin-top: 5px;">Prof. Salah Abdelfatah Hegazy</div>
+        </div>
+        <div>
+          <div style="font-size: 14px; font-weight: bold; color: #173b63;">Conference Coordinator</div>
+          <div style="font-size: 13px; color: #555; margin-top: 5px;">As.Prof. Mohamed Abd El Rahman</div>
+        </div>
+        <div>
+          <div style="font-size: 14px; font-weight: bold; color: #173b63;">Conference Coordinator</div>
+          <div style="font-size: 13px; color: #555; margin-top: 5px;">As.Prof. Mostafa Swedan</div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </div>
 
@@ -378,13 +429,12 @@
     // استخدام مكتبة jsPDF المضمنة لديك
     const { jsPDF } = window.jspdf;
     // إنشاء PDF بأبعاد أفقية (Landscape) وبنفس نسبة أبعاد الشهادة
-    const pdf = new jsPDF({
-      orientation: "landscape",
-      unit: "px",
-      format: [1024, 768]
-    });
-    
-    pdf.addImage(imgData, 'JPEG', 0, 0, 1024, 768);
+   const pdf = new jsPDF({
+  orientation: "landscape",
+  unit: "px",
+  format: [1400, 1000]
+});
+pdf.addImage(imgData, 'JPEG', 0, 0, 1400, 1000);
     pdf.save(`Certificate-${certId}.pdf`);
   }
 async function renderCertificateCanvas(certId, fullName) {
