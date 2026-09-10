@@ -375,7 +375,7 @@
     });
   }
 
- async function renderCertificateCanvas(certId, fullName) {
+async function renderCertificateCanvas(certId, fullName) {
     const renderDiv = document.getElementById("renderCert");
     document.getElementById("renderName").textContent = fullName;
     document.getElementById("renderId").textContent = certId;
@@ -385,17 +385,15 @@
     const verificationUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
     new QRCode(qrDiv, { text: verificationUrl, width: 300, height: 300, correctLevel: QRCode.CorrectLevel.H });
 
-    // الانتظار قليلاً للتأكد من تحميل الـ QR وتطبيق الخطوط
-    await new Promise(r => setTimeout(r, 400));
+    // التأكد من تحميل خلفية الشهادة بالكامل قبل التقاط الصورة
+    await new Promise(r => setTimeout(r, 600));
 
-    // رفع الـ scale إلى 3 أو 4 لضمان جودة فائقة (HD)
     return await html2canvas(renderDiv, {
-      scale: 3, 
-      useCORS: true,
+      scale: 3,           // رفع الدقة للضعف لتكون حادة وواضحة
+      useCORS: true,      // السماح بتحميل الصور الخارجية إن وجدت
       allowTaint: true,
       logging: false,
-      scrollX: 0,
-      scrollY: 0
+      imageTimeout: 0     // إلغاء مهلة تحميل الصور لضمان تحميل الخلفية كاملة
     });
   }
 
