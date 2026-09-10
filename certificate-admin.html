@@ -375,7 +375,7 @@
     });
   }
 
-  async function renderCertificateCanvas(certId, fullName) {
+ async function renderCertificateCanvas(certId, fullName) {
     const renderDiv = document.getElementById("renderCert");
     document.getElementById("renderName").textContent = fullName;
     document.getElementById("renderId").textContent = certId;
@@ -383,55 +383,21 @@
     const qrDiv = document.getElementById("renderQr");
     qrDiv.innerHTML = "";
     const verificationUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
-    new QRCode(qrDiv, { text: verificationUrl, width: 150, height: 150, correctLevel: QRCode.CorrectLevel.H });
+    new QRCode(qrDiv, { text: verificationUrl, width: 300, height: 300, correctLevel: QRCode.CorrectLevel.H });
 
-    await new Promise(r => setTimeout(r, 200));
-    return await html2canvas(renderDiv, { scale: 2, useCORS: true });
+    // الانتظار قليلاً للتأكد من تحميل الـ QR وتطبيق الخطوط
+    await new Promise(r => setTimeout(r, 400));
+
+    // رفع الـ scale إلى 3 أو 4 لضمان جودة فائقة (HD)
+    return await html2canvas(renderDiv, {
+      scale: 3, 
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: 0
+    });
   }
-
-  document.getElementById("downloadAllZipBtn").addEventListener("click", async () => {
-    const btn = document.getElementById("downloadAllZipBtn");
-    const certificatesSnap = await getDocs(collection(db, "certificates"));
-    
-    if (certificatesSnap.empty) {
-      alert("لا توجد شهادات مسجلة بعد!");
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = "⏳ جاري إعداد وضغط الشهادات، قد يستغرق ذلك بضع ثوانٍ...";
-
-    try {
-      const zip = new JSZip();
-      let index = 0;
-
-      for (const docSnap of certificatesSnap.docs) {
-        index++;
-        btn.textContent = `جاري معالجة الشهادة ${index} من ${certificatesSnap.size}...`;
-        
-        const certId = docSnap.id;
-        const fullName = docSnap.data().fullName || "Participant";
-        
-        const canvas = await renderCertificateCanvas(certId, fullName);
-        const imgData = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
-        zip.file(`Certificate-${certId}.png`, imgData, { base64: true });
-      }
-
-      btn.textContent = "📦 جاري ضغط الملفات وتنزيل الـ ZIP...";
-      const content = await zip.generateAsync({ type: "blob" });
-      saveAs(content, "Menoufia-Dental-Congress-Certificates.zip");
-
-      btn.disabled = false;
-      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
-      alert("تم تنزيل ملف الـ ZIP بنجاح!");
-
-    } catch (error) {
-      console.error(error);
-      alert("حدث خطأ أثناء إنشاء ملف الـ ZIP: " + error.message);
-      btn.disabled = false;
-      btn.textContent = "📦 تنزيل كل الشهادات كملف مضغوط (ZIP)";
-    }
-  });
 
   document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
     if (!confirm("هل تريد فتح رسائل البريد الإلكتروني للمشاركين الحاضرين؟")) return;
