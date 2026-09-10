@@ -2,7 +2,6 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -28,931 +27,373 @@
   <!-- QR Code -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
-    /* ================================
-       الصفحة
-       ================================ */
-
     body {
       margin: 0;
       min-height: 100vh;
-
       font-family: Arial, sans-serif;
-
       background: #f4f7fb;
-
       display: flex;
       flex-direction: column;
-
       align-items: center;
       justify-content: center;
-
       padding: 20px;
     }
 
-
-    /* ================================
-       الحاوية
-       ================================ */
-
     .container {
-
       width: 100%;
-
       max-width: 900px;
-
       text-align: center;
-
     }
-
-
-    /* ================================
-       الشهادة
-       ================================ */
 
     .certificate-wrapper {
-
       position: relative;
-
       width: 100%;
-
       background: white;
-
       border-radius: 12px;
-
       box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-
       overflow: hidden;
-
       margin-bottom: 20px;
-
       display: none;
-
-      /*
-        مهم جدًا:
-        يجعل حجم الخط يعتمد على عرض الشهادة
-      */
-
       container-type: inline-size;
-
     }
 
-
-    /* ================================
-       تصميم الشهادة الأساسي
-       ================================ */
-
- #renderCert {
-    position: relative !important;
-    width: 100%;
-    aspect-ratio: 1448 / 1086;
-
-    background-image: url('certificate-template.jpg?v=6');
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-    /* ================================
-       الاسم
-       ================================ */
+    #renderCert {
+      position: relative !important;
+      width: 100%;
+      aspect-ratio: 1448 / 1086;
+      background-image: url('certificate-template.jpg?v=6');
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
     .cert-name-container {
-
       position: absolute !important;
-
-      /*
-        مكان الاسم مطابق تقريبًا
-        لمكانه في الصورة الثانية
-      */
-
       left: 25.5%;
-
       top: 38.5%;
-
       width: 52%;
-
       height: 10%;
-
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       overflow: hidden;
-
       z-index: 5;
-
     }
-
 
     .cert-name {
-
       color: #102c52;
-
-   font-family:
-  'Cormorant Garamond',
-  Georgia,
-  serif;
-font-style: italic;
-font-weight: 600;
-
-      /*
-        حجم الاسم يتناسب
-        مع حجم الشهادة
-      */
-
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 600;
       font-size: 2.2cqw;
-
       font-weight: bold;
-
       white-space: nowrap;
-
       line-height: 1;
-
       max-width: 100%;
-
     }
-
-
-    /* ================================
-       QR Code
-       ================================ */
 
     .cert-qr-container {
-
       position: absolute !important;
-
-      /*
-        مكان QR في أسفل يسار الشهادة
-      */
-
       left: 4.3%;
-
       top: 74.2%;
-
-      /*
-        حجم QR
-      */
-
       width: 8%;
-
       height: 10.5%;
-
       background: white;
-
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       z-index: 10;
-
       overflow: hidden;
-
     }
-
 
     .cert-qr-container img,
     .cert-qr-container canvas {
-
       width: 100% !important;
-
       height: 100% !important;
-
       display: block;
-
     }
-
-
-    /* ================================
-       رقم الشهادة
-       ================================ */
 
     .cert-id-container {
-
       position: absolute !important;
-
-      /*
-        رقم الشهادة أسفل QR
-      */
-
       left: 4.3%;
-
       top: 87%;
-
       width: 8%;
-
       height: 3.5%;
-
       background: #173b63;
-
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       z-index: 10;
-
       overflow: hidden;
-
     }
-
 
     .cert-id-text {
-
       color: white;
-
-      /*
-        حجم رقم الشهادة
-        يتناسب مع الشهادة
-      */
-
       font-size: 0.85cqw;
-
       font-weight: bold;
-
       font-family: Arial, sans-serif;
-
       white-space: nowrap;
-
       line-height: 1;
-
     }
-
-
-    /* ================================
-       زر التحميل
-       ================================ */
 
     .download-btn {
-
       background: #c9a227;
-
       color: white;
-
       border: none;
-
       padding: 14px 28px;
-
       font-size: 16px;
-
       font-weight: bold;
-
       border-radius: 10px;
-
       cursor: pointer;
-
-      box-shadow:
-        0 4px 15px rgba(201, 162, 39, 0.3);
-
+      box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3);
       display: none;
-
       margin-top: 15px;
-
     }
-
 
     .download-btn:hover {
-
       background: #b08d1f;
-
     }
-
 
     .download-btn:disabled {
-
       opacity: 0.7;
-
       cursor: wait;
-
     }
-
-
-    /* ================================
-       رسالة الحالة
-       ================================ */
 
     .status-box {
-
       font-size: 18px;
-
       color: #d9534f;
-
       background: #fdf7f7;
-
       border: 1px solid #ebccd1;
-
       padding: 15px;
-
       border-radius: 8px;
-
       margin-bottom: 20px;
-
       font-weight: bold;
-
     }
-
-
-    /* ================================
-       الموبايل
-       ================================ */
 
     @media (max-width: 600px) {
-
       body {
-
         padding: 10px;
-
       }
-
-
       .container {
-
         width: 100%;
-
       }
-
-
       .certificate-wrapper {
-
         border-radius: 6px;
-
-        box-shadow:
-          0 4px 15px rgba(0,0,0,0.1);
-
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       }
-
-
       .download-btn {
-
         width: 100%;
-
         font-size: 15px;
-
         padding: 13px 15px;
-
       }
-
-
       .status-box {
-
         font-size: 15px;
-
       }
-
     }
-
-
   </style>
-
 </head>
-
 
 <body>
 
-
 <div class="container">
-
-
   <!-- رسالة الحالة -->
-
   <div id="statusBox" class="status-box">
-
     جاري الاتصال بقاعدة البيانات وتحميل الشهادة...
-
   </div>
 
-
-  <!-- ================================
-       الشهادة
-       ================================ -->
-
-  <div
-    class="certificate-wrapper"
-    id="certWrapper"
-  >
-
-
+  <!-- الشهادة -->
+  <div class="certificate-wrapper" id="certWrapper">
     <div id="renderCert">
-
-
-      <!-- ================================
-           الاسم
-           ================================ -->
-
+      <!-- الاسم -->
       <div class="cert-name-container">
-
-        <div
-          id="renderName"
-          class="cert-name"
-        ></div>
-
+        <div id="renderName" class="cert-name"></div>
       </div>
 
+      <!-- QR Code -->
+      <div class="cert-qr-container" id="renderQr"></div>
 
-      <!-- ================================
-           QR Code
-           ================================ -->
-
-      <div
-        class="cert-qr-container"
-        id="renderQr"
-      ></div>
-
-
-      <!-- ================================
-           رقم الشهادة
-           ================================ -->
-
+      <!-- رقم الشهادة -->
       <div class="cert-id-container">
-
-        <div
-          id="renderId"
-          class="cert-id-text"
-        ></div>
-
+        <div id="renderId" class="cert-id-text"></div>
       </div>
-
-
     </div>
-
-
   </div>
 
-
-  <!-- ================================
-       زر التحميل
-       ================================ -->
-
-  <button
-    id="downloadBtn"
-    class="download-btn"
-  >
-
+  <!-- زر التحميل -->
+  <button id="downloadBtn" class="download-btn">
     📄 تنزيل الشهادة PDF بجودة عالية
-
   </button>
-
-
 </div>
 
-
-
-<!-- ================================
-     JavaScript
-     ================================ -->
-
+<!-- JavaScript -->
 <script type="module">
-
-
-  /* =====================================
-     Firebase
-     ===================================== */
-
-  import {
-
-    initializeApp
-
-  } from
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-
-  import {
-
-    getFirestore,
-
-    doc,
-
-    getDoc
-
-  } from
-    "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-
-  /* =====================================
-     Firebase Configuration
-     ===================================== */
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
   const firebaseConfig = {
-
-    apiKey:
-      "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
-
-    authDomain:
-      "menoufia-dental-congress.firebaseapp.com",
-
-    projectId:
-      "menoufia-dental-congress",
-
-    storageBucket:
-      "menoufia-dental-congress.firebasestorage.app",
-
-    messagingSenderId:
-      "20481129823",
-
-    appId:
-      "1:20481129823:web:24658314d19bcacf1dcaea"
-
+    apiKey: "AIzaSyAB-AIOIQH0tOcVXQnUt7pvVnQi0CoFwSo",
+    authDomain: "menoufia-dental-congress.firebaseapp.com",
+    projectId: "menoufia-dental-congress",
+    storageBucket: "menoufia-dental-congress.firebasestorage.app",
+    messagingSenderId: "20481129823",
+    appId: "1:20481129823:web:24658314d19bcacf1dcaea"
   };
 
-
-
-  /* =====================================
-     عناصر الصفحة
-     ===================================== */
-
-  const statusBox =
-    document.getElementById("statusBox");
-
-
-  const certWrapper =
-    document.getElementById("certWrapper");
-
-
-  const downloadBtn =
-    document.getElementById("downloadBtn");
-
-
-
-  /* =====================================
-     تحميل الشهادة
-     ===================================== */
+  const statusBox = document.getElementById("statusBox");
+  const certWrapper = document.getElementById("certWrapper");
+  const downloadBtn = document.getElementById("downloadBtn");
 
   try {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-
-    /* إنشاء Firebase */
-
-    const app =
-      initializeApp(firebaseConfig);
-
-
-    const db =
-      getFirestore(app);
-
-
-
-    /* =====================================
-       قراءة رقم الشهادة من الرابط
-       ===================================== */
-
-    const urlParams =
-      new URLSearchParams(
-        window.location.search
-      );
-
-
-    const certId =
-      urlParams.get("id");
-
-
-
-    /* التأكد من وجود الرقم */
+    const urlParams = new URLSearchParams(window.location.search);
+    const certId = urlParams.get("id");
 
     if (!certId) {
-
-      statusBox.textContent =
-        "خطأ: لم يتم كتابة رقم الشهادة في الرابط (مثلاً: ?id=رقم_الشهادة)";
-
-      throw new Error(
-        "No ID provided"
-      );
-
+      statusBox.textContent = "خطأ: لم يتم كتابة رقم الشهادة في الرابط (مثلاً: ?id=رقم_الشهادة)";
+      throw new Error("No ID provided");
     }
 
+    statusBox.textContent = `جاري البحث عن الشهادة برقم: ${certId} ...`;
 
-
-    /* رسالة البحث */
-
-    statusBox.textContent =
-      `جاري البحث عن الشهادة برقم: ${certId} ...`;
-
-
-
-    /* =====================================
-       الحصول على بيانات الشهادة
-       ===================================== */
-
-    const docRef =
-      doc(
-        db,
-        "certificates",
-        certId
-      );
-
-
-    const docSnap =
-      await getDoc(docRef);
-
-
-
-    /* التأكد من وجود الشهادة */
+    const docRef = doc(db, "certificates", certId);
+    const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
-
-      statusBox.textContent =
-        `خطأ: رقم الشهادة (${certId}) غير موجود داخل قاعدة بيانات Firebase.`;
-
-      throw new Error(
-        "Document not found"
-      );
-
+      statusBox.textContent = `خطأ: رقم الشهادة (${certId}) غير موجود داخل قاعدة بيانات Firebase.`;
+      throw new Error("Document not found");
     }
 
+    const data = docSnap.data();
+    const rawName = data.fullName || data.name || data.ParticipantName || "مشارك بدون اسم";
 
+    const fullName = rawName.startsWith("DR/ ") || rawName.startsWith("Dr/ ") ? rawName : `DR/ ${rawName}`;
 
-    /* بيانات الشهادة */
+    document.getElementById("renderName").textContent = fullName;
+    document.getElementById("renderId").textContent = certId;
 
-    const data =
-      docSnap.data();
-
-
-
-    /* =====================================
-       اسم المشارك
-       ===================================== */
-
-    const rawName =
-
-      data.fullName ||
-
-      data.name ||
-
-      data.ParticipantName ||
-
-      "مشارك بدون اسم";
-
-
-
-    /*
-      إضافة DR/
-      إذا لم يكن موجودًا
-    */
-
-    const fullName =
-
-      rawName.startsWith("DR/ ") ||
-
-      rawName.startsWith("Dr/ ")
-
-        ? rawName
-
-        : `DR/ ${rawName}`;
-
-
-
-    /* عرض الاسم */
-
-    document.getElementById(
-      "renderName"
-    ).textContent = fullName;
-
-
-
-    /* =====================================
-       عرض رقم الشهادة
-       ===================================== */
-
-    document.getElementById(
-      "renderId"
-    ).textContent = certId;
-
-
-
-    /* =====================================
-       QR Code
-       ===================================== */
-
-    const qrDiv =
-      document.getElementById(
-        "renderQr"
-      );
-
-
-    /* تنظيف QR القديم */
-
+    const qrDiv = document.getElementById("renderQr");
     qrDiv.innerHTML = "";
 
+    new QRCode(qrDiv, {
+      text: window.location.href,
+      width: 300,
+      height: 300,
+      correctLevel: QRCode.CorrectLevel.H
+    });
 
+    statusBox.style.display = "none";
+    certWrapper.style.display = "block";
+    downloadBtn.style.display = "inline-block";
 
-    /*
-      إنشاء QR جديد
-
-      الحجم 300 × 300
-      ثم CSS يقوم بتصغيره
-      حسب مساحة QR في الشهادة
-    */
-
-    new QRCode(
-      qrDiv,
-      {
-
-        text:
-          window.location.href,
-
-        width:
-          300,
-
-        height:
-          300,
-
-        correctLevel:
-          QRCode.CorrectLevel.H
-
-      }
-    );
-
-
-
-    /* =====================================
-       إظهار الشهادة
-       ===================================== */
-
-    statusBox.style.display =
-      "none";
-
-
-    certWrapper.style.display =
-      "block";
-
-
-    downloadBtn.style.display =
-      "inline-block";
-
-
+  } catch (err) {
+    console.error("تفاصيل الخطأ:", err);
+    if (!statusBox.textContent.includes("خطأ:")) {
+      statusBox.textContent = "حدث خطأ برمجي أثناء الاتصال: " + err.message;
+    }
   }
 
+  // تحميل الشهادة كملف PDF بجودة عالية وثابتة
+  downloadBtn.addEventListener("click", async () => {
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة عالية...";
 
-  /* =====================================
-     معالجة الأخطاء
-     ===================================== */
-
-  catch (err) {
-
-
-    console.error(
-      "تفاصيل الخطأ:",
-      err
-    );
-
-
-    if (
-      !statusBox.textContent.includes(
-        "خطأ:"
-      )
-    ) {
-
-      statusBox.textContent =
-        "حدث خطأ برمجي أثناء الاتصال: " +
-        err.message;
-
-    }
-
-  }
-
-
-
-  /* =====================================
-     تحميل الشهادة كملف PDF بجودة عالية
-     ===================================== */
-
-  downloadBtn.addEventListener(
-
-    "click",
-
-    async () => {
-
-      downloadBtn.disabled = true;
-      downloadBtn.textContent = "جاري تجهيز ملف PDF بجودة عالية...";
-
-      try {
-
-        /* انتظار تحميل الخطوط والصورة قبل التصوير */
-        if (document.fonts && document.fonts.ready) {
-          await document.fonts.ready;
-        }
-
-        /*
-          تصدير الشهادة من نسخة ثابتة 1448×1086 بدل تصوير النسخة
-          المعروضة على الشاشة. بهذه الطريقة جودة التحميل لا تعتمد
-          على مقاس شاشة الموبايل أو الكمبيوتر.
-        */
-        const originalCert = document.getElementById("renderCert");
-        const exportCert = originalCert.cloneNode(true);
-
-        exportCert.style.width = "1448px";
-        exportCert.style.height = "1086px";
-        exportCert.style.maxWidth = "none";
-        exportCert.style.minWidth = "1448px";
-        exportCert.style.aspectRatio = "1448 / 1086";
-        exportCert.style.position = "fixed";
-        exportCert.style.left = "-10000px";
-        exportCert.style.top = "0";
-        exportCert.style.margin = "0";
-        exportCert.style.zIndex = "-1";
-
-        document.body.appendChild(exportCert);
-
-        /* التأكد من تحميل الصور داخل النسخة المخصصة للتصدير */
-        const exportImages = Array.from(exportCert.querySelectorAll("img"));
-        await Promise.all(
-          exportImages.map(img => {
-            if (img.complete) return Promise.resolve();
-            return new Promise(resolve => {
-              img.onload = resolve;
-              img.onerror = resolve;
-            });
-          })
-        );
-
-        const canvas = await html2canvas(exportCert, {
-          scale: 4,
-          useCORS: true,
-          allowTaint: false,
-          backgroundColor: "#ffffff",
-          imageTimeout: 30000,
-          logging: false,
-          width: 1448,
-          height: 1086,
-          windowWidth: 1448,
-          windowHeight: 1086,
-          scrollX: 0,
-          scrollY: 0
-        });
-
-        document.body.removeChild(exportCert);
-
-        /*
-          الشهادة 1448 × 1086 = نسبة 4:3
-          نستخدم مقاس صفحة PDF مخصص بنفس النسبة،
-          بدل ضغطها على A4 بنسبة مختلفة.
-        */
-        const pdfWidth = 297;
-        const pdfHeight = pdfWidth * (1086 / 1448);
-
-        const { jsPDF } = window.jspdf;
-
-        const pdf = new jsPDF({
-          orientation: "landscape",
-          unit: "mm",
-          format: [pdfWidth, pdfHeight],
-          compress: false
-        });
-
-        /* PNG داخل الـPDF يحافظ على تفاصيل النص وQR بدون ضغط JPEG */
-        const imgData = canvas.toDataURL("image/png");
-
-        pdf.addImage(
-          imgData,
-          "PNG",
-          0,
-          0,
-          pdfWidth,
-          pdfHeight,
-          undefined,
-          "NONE"
-        );
-
-        const certId =
-          new URLSearchParams(window.location.search).get("id") ||
-          "Certificate";
-
-        pdf.save(`Certificate-${certId}.pdf`);
-
-      } catch (err) {
-
-        console.error("PDF error:", err);
-
-        alert(
-          "خطأ في إنشاء ملف PDF: " +
-          err.message
-        );
-
-      } finally {
-
-        downloadBtn.disabled = false;
-        downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة عالية";
-
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
       }
 
-    }
+      // إنشاء نسخة مخفية ومثبتة الأبعاد بدقة Template الأصلية (1448x1086)
+      const originalCert = document.getElementById("renderCert");
+      const exportCert = originalCert.cloneNode(true);
 
-  );
+      exportCert.style.width = "1448px";
+      exportCert.style.height = "1086px";
+      exportCert.style.maxWidth = "none";
+      exportCert.style.minWidth = "1448px";
+      exportCert.style.aspectRatio = "1448 / 1086";
+      exportCert.style.position = "fixed";
+      exportCert.style.left = "-10000px";
+      exportCert.style.top = "0";
+      exportCert.style.margin = "0";
+      exportCert.style.zIndex = "-1";
+
+      document.body.appendChild(exportCert);
+
+      // التأكد من تحميل كافة الصور داخل النسخة المصدرة
+      const exportImages = Array.from(exportCert.querySelectorAll("img"));
+      await Promise.all(
+        exportImages.map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+        })
+      );
+
+      // ضبط html2canvas بدقة عالية جداً ومنع التشويش
+      const canvas = await html2canvas(exportCert, {
+        scale: 3, // دقة ممتازة تحافظ على وضوح الخطوط والـ QR دون زيادة مبالغة في حجم الملف
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: "#ffffff",
+        imageTimeout: 30000,
+        logging: false,
+        width: 1448,
+        height: 1086,
+        windowWidth: 1448,
+        windowHeight: 1086,
+        scrollX: 0,
+        scrollY: 0
+      });
+
+      document.body.removeChild(exportCert);
+
+      const pdfWidth = 297;
+      const pdfHeight = pdfWidth * (1086 / 1448);
+
+      const { jsPDF } = window.jspdf;
+
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: [pdfWidth, pdfHeight],
+        compress: false
+      });
+
+      // استخدام PNG حصرياً لمنع أي ضغط (Compression Artifacts) يقلل الجودة
+      const imgData = canvas.toDataURL("image/png", 1.0);
+
+      pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        0,
+        pdfWidth,
+        pdfHeight,
+        undefined,
+        "NONE"
+      );
+
+      const certId = new URLSearchParams(window.location.search).get("id") || "Certificate";
+      pdf.save(`Certificate-${certId}.pdf`);
+
+    } catch (err) {
+      console.error("PDF error:", err);
+      alert("خطأ في إنشاء ملف PDF: " + err.message);
+    } finally {
+      downloadBtn.disabled = false;
+      downloadBtn.textContent = "📄 تنزيل الشهادة PDF بجودة عالية";
+    }
+  });
 </script>
 
-
 </body>
-
 </html>
