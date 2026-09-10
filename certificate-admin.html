@@ -397,16 +397,28 @@ async function renderCertificateCanvas(certId, fullName) {
     const verificationUrl = window.location.origin + "/certificate.html?id=" + encodeURIComponent(certId);
     new QRCode(qrDiv, { text: verificationUrl, width: 300, height: 300, correctLevel: QRCode.CorrectLevel.H });
 
-    // التأكد من تحميل خلفية الشهادة بالكامل قبل التقاط الصورة
     await new Promise(r => setTimeout(r, 600));
 
-    return await html2canvas(renderDiv, {
-      scale: 3,           // رفع الدقة للضعف لتكون حادة وواضحة
-      useCORS: true,      // السماح بتحميل الصور الخارجية إن وجدت
+    // التقاط الصورة عبر html2canvas مع تفعيل إعدادات تحسين النقاء
+    const canvas = await html2canvas(renderDiv, {
+      scale: 2, 
+      useCORS: true,
       allowTaint: true,
-      logging: false,
-      imageTimeout: 0     // إلغاء مهلة تحميل الصور لضمان تحميل الخلفية كاملة
+      logging: false
     });
+
+    // إنشاء canvas مؤقت لتنعيم الصورة وإزالة البكسلة الحادة
+    const smoothCanvas = document.createElement('canvas');
+    const ctx = smoothCanvas.getContext('2d');
+    smoothCanvas.width = canvas.width;
+    smoothCanvas.height = canvas.height;
+    
+    // تفعيل خاصية التنعيم العالي في المتصفح
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    
+    ctx.drawImage(canvas, 0, 0);
+    return smoothCanvas;
   }
 
   document.getElementById("sendAllEmailBtn").addEventListener("click", async () => {
