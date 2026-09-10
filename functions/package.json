@@ -1,1 +1,12 @@
-
+{
+  "name": "menoufia-dental-congress-functions",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "firebase-functions": "^7.0.0",
+    "firebase-admin": "^13.0.0",
+    "nodemailer": "^7.0.6"
+  }
+}
