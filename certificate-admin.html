@@ -385,23 +385,26 @@
   }
 
   function drawTitleBanner(pdf){
-    // Centered banner with enough clearance from the conference heading.
+    // Elegant navy-gold ribbon; compact and clear of the conference heading.
     pdf.setFillColor(16,47,82); pdf.setDrawColor(201,162,39); pdf.setLineWidth(.9);
-    pdf.roundedRect(77,55,143,16,3.5,3.5,"FD");
-    setText(pdf,"CERTIFICATE OF ATTENDANCE",W/2,65.4,14.2,[245,210,91],"times","bold");
+    pdf.roundedRect(72,54,153,17,3.5,3.5,"FD");
+    pdf.setFillColor(201,162,39);
+    pdf.triangle(72,58,64,62.5,72,67,"F");
+    pdf.triangle(225,58,233,62.5,225,67,"F");
+    setText(pdf,"CERTIFICATE OF ATTENDANCE",W/2,65.8,15.2,[245,210,91],"times","bold");
   }
 
   function drawSignatureArea(pdf){
-    // Three balanced signature blocks; the right block stops before the QR code.
+    // Exact conference data, with larger names and clear spacing from the QR code.
     const cols=[
       {x:52,name:"Prof. Salah Abdelfatah Hegazy",role:"Conference President"},
       {x:131,name:"As.Prof. Mohamed Abd El Rahman",role:"Conference Coordinator"},
       {x:210,name:"As.Prof. Mostafa Swedan",role:"Conference Coordinator"}
     ];
     cols.forEach(c=>{
-      pdf.setDrawColor(201,162,39); pdf.setLineWidth(.45); pdf.line(c.x-24,166,c.x+24,166);
-      setText(pdf,c.name,c.x,172.5,8.9,[16,47,82],"times","bold");
-      setText(pdf,c.role,c.x,178.5,7.7,[95,105,115],"times","normal");
+      pdf.setDrawColor(201,162,39); pdf.setLineWidth(.55); pdf.line(c.x-24,166,c.x+24,166);
+      setText(pdf,c.name,c.x,172.8,10.1,[16,47,82],"times","bold");
+      setText(pdf,c.role,c.x,179.2,8.2,[95,105,115],"times","normal");
     });
   }
 
@@ -414,28 +417,28 @@
     addImageSafe(pdf,FACULTY_LOGO,245,16,32,32,"JPEG");
 
     // Header
-    setText(pdf,"Menoufia University",W/2,19.5,16.5,[16,47,82],"times","bold");
-    setText(pdf,"Faculty of Dentistry",W/2,27.5,12.2,[16,47,82],"times","bold");
+    setText(pdf,"Menoufia University",W/2,19.5,18,[16,47,82],"times","bold");
+    setText(pdf,"Faculty of Dentistry",W/2,27.5,13.2,[16,47,82],"times","bold");
     drawGoldRule(pdf,101,196,33.5);
-    setText(pdf,"The Second Scientific Conference",W/2,41,10.8,[16,47,82],"times","bold");
-    setText(pdf,"of the Faculty of Dentistry, Menoufia University",W/2,47.5,9.7,[16,47,82],"times","normal");
+    setText(pdf,"The Second Scientific Conference",W/2,40.5,11.8,[16,47,82],"times","bold");
+    setText(pdf,"of the Faculty of Dentistry, Menoufia University",W/2,47,10.2,[16,47,82],"times","normal");
 
     drawTitleBanner(pdf);
 
     // Main certificate text
-    setText(pdf,"This is to certify that",W/2,79,9.3,[55,65,75],"times","normal");
+    setText(pdf,"This is to certify that",W/2,78.5,10,[55,65,75],"times","normal");
     const name=fullName||"DR/ Participant";
-    const size=name.length>31?16.5:name.length>25?18:19.5;
+    const size=name.length>31?17.5:name.length>25?19:20.5;
     setText(pdf,name,W/2,93,size,[16,47,82],"times","italic");
     drawGoldRule(pdf,76,221,98);
-    setText(pdf,"has attended the",W/2,107,9.5,[55,65,75],"times","normal");
-    setText(pdf,"Second Scientific Conference of the Faculty of Dentistry,",W/2,115,10.5,[16,47,82],"times","bold");
-    setText(pdf,"Menoufia University",W/2,122,10.5,[16,47,82],"times","bold");
+    setText(pdf,"has attended the",W/2,107,10,[55,65,75],"times","normal");
+    setText(pdf,"Second Scientific Conference of the Faculty of Dentistry,",W/2,115,11.2,[16,47,82],"times","bold");
+    setText(pdf,"Menoufia University",W/2,122,11.2,[16,47,82],"times","bold");
 
     // Date plaque
     pdf.setFillColor(16,47,82); pdf.setDrawColor(201,162,39); pdf.setLineWidth(.7);
     pdf.roundedRect(108,129,81,13,3,3,"FD");
-    setText(pdf,"26 – 27 August 2026",W/2,137.7,10.5,[245,210,91],"times","bold");
+    setText(pdf,"26 – 27 August 2026",W/2,137.7,11.2,[245,210,91],"times","bold");
 
     // Footer: signatures on the left/center, QR isolated on the right.
     drawSignatureArea(pdf);
