@@ -375,24 +375,30 @@
   function drawCertificateFrame(pdf) {
     pdf.setFillColor(255,255,255); pdf.rect(0,0,W,H,"F");
 
-    // Elegant architectural watermark panel — decorative only, never overlaps footer.
-    pdf.setFillColor(248,250,252); pdf.rect(10,10,82,185,"F");
-    addImageSafe(pdf, BUILDING_WATERMARK, 10, 48, 82, 82, "PNG");
+    // Creative academic background: a soft architectural panel with a clean white stage.
+    pdf.setFillColor(247,249,252); pdf.rect(10,10,72,190,"F");
+    pdf.setFillColor(16,47,82); pdf.rect(7,7,4,196,"F");
+    pdf.setFillColor(201,162,39); pdf.rect(11,7,1.4,196,"F");
 
-    // Clean double frame.
-    pdf.setDrawColor(16,47,82); pdf.setLineWidth(1.25); pdf.rect(7,7,W-14,H-14);
-    pdf.setDrawColor(201,162,39); pdf.setLineWidth(.65); pdf.rect(11,11,W-22,H-22);
+    // Building watermark kept subtle so it never competes with certificate text.
+    addImageSafe(pdf, BUILDING_WATERMARK, 12, 52, 68, 105, "PNG");
 
-    // Small gold corner accents for a livelier academic look.
-    pdf.setDrawColor(201,162,39); pdf.setLineWidth(1.1);
-    pdf.line(18,18,45,18); pdf.line(18,18,18,31);
-    pdf.line(W-18,18,W-45,18); pdf.line(W-18,18,W-18,31);
-    pdf.line(18,H-18,45,H-18); pdf.line(18,H-18,18,H-31);
-    pdf.line(W-18,H-18,W-45,H-18); pdf.line(W-18,H-18,W-18,H-31);
+    // Main elegant frame.
+    pdf.setDrawColor(16,47,82); pdf.setLineWidth(1.15); pdf.roundedRect(7,7,W-14,H-14,3,3,"S");
+    pdf.setDrawColor(201,162,39); pdf.setLineWidth(.55); pdf.roundedRect(12,12,W-24,H-24,2,2,"S");
 
-    // Very subtle central seal/watermark.
-    pdf.setDrawColor(225,230,235); pdf.setLineWidth(.35);
-    pdf.circle(221,83,27,"S"); pdf.circle(221,83,23,"S");
+    // Four lively corner ornaments.
+    pdf.setDrawColor(201,162,39); pdf.setLineWidth(1.05);
+    pdf.line(18,18,43,18); pdf.line(18,18,18,28);
+    pdf.line(W-18,18,W-43,18); pdf.line(W-18,18,W-18,28);
+    pdf.line(18,H-18,43,H-18); pdf.line(18,H-18,18,H-28);
+    pdf.line(W-18,H-18,W-43,H-18); pdf.line(W-18,H-18,W-18,H-28);
+
+    // Subtle circular academic seal area.
+    pdf.setDrawColor(224,230,236); pdf.setLineWidth(.35);
+    pdf.circle(219,91,30,"S"); pdf.circle(219,91,26,"S");
+    pdf.setDrawColor(236,239,243); pdf.setLineWidth(.25);
+    pdf.circle(219,91,22,"S");
   }
 
   function drawGoldRule(pdf,x1,x2,y){
@@ -401,30 +407,32 @@
   }
 
   function drawTitleBanner(pdf){
-    // More dynamic navy-gold ribbon while keeping the official wording unchanged.
+    // More creative ribbon: navy center + gold end caps.
     pdf.setFillColor(16,47,82); pdf.setDrawColor(201,162,39); pdf.setLineWidth(1);
-    pdf.roundedRect(67,55,163,18,4,4,"FD");
+    pdf.roundedRect(68,54,161,19,4.5,4.5,"FD");
     pdf.setFillColor(16,47,82);
-    pdf.triangle(67,58.5,58,64,67,69.5,"F");
-    pdf.triangle(230,58.5,239,64,230,69.5,"F");
+    pdf.triangle(68,57,57,63.5,68,70,"F");
+    pdf.triangle(229,57,240,63.5,229,70,"F");
     pdf.setFillColor(201,162,39);
-    pdf.triangle(61,61.5,58,64,61,66.5,"F");
-    pdf.triangle(236,61.5,239,64,236,66.5,"F");
-    setText(pdf,"CERTIFICATE OF ATTENDANCE",W/2,67,16.2,[245,210,91],"times","bold");
+    pdf.triangle(62,60,57,63.5,62,67,"F");
+    pdf.triangle(234,60,240,63.5,234,67,"F");
+    setText(pdf,"CERTIFICATE OF ATTENDANCE",W/2,67.2,17.2,[245,210,91],"times","bold");
   }
 
   function drawSignatureArea(pdf){
-    // Exact original conference data — names and titles are not changed.
+    // Exact conference data — names/titles intentionally preserved.
     const cols=[
       {x:57,name:"Prof. Salah Abdelfatah Hegazy",role:"Conference President"},
       {x:137,name:"As.Prof. Mohamed Abd El Rahman",role:"Conference Coordinator"},
       {x:217,name:"As.Prof. Mostafa Swedan",role:"Conference Coordinator"}
     ];
+
+    // Three clean signature zones with small gold markers.
     cols.forEach(c=>{
       pdf.setDrawColor(201,162,39); pdf.setLineWidth(.65); pdf.line(c.x-25,166,c.x+25,166);
-      pdf.setFillColor(201,162,39); pdf.circle(c.x,166,1,"F");
-      setText(pdf,c.name,c.x,173,10.8,[16,47,82],"times","bold");
-      setText(pdf,c.role,c.x,180,8.6,[80,90,102],"times","normal");
+      pdf.setFillColor(201,162,39); pdf.circle(c.x,166,1.15,"F");
+      setText(pdf,c.name,c.x,174,10.6,[16,47,82],"times","bold");
+      setText(pdf,c.role,c.x,181,8.5,[80,90,102],"times","normal");
     });
   }
 
@@ -432,41 +440,42 @@
     const pdf=new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true,putOnlyUsedFonts:true});
     drawCertificateFrame(pdf);
 
-    // Logos — same source data, slightly larger for visual balance.
-    addImageSafe(pdf,UNIVERSITY_LOGO,21,16,31,31,"JPEG");
-    addImageSafe(pdf,FACULTY_LOGO,245,15,33,33,"JPEG");
+    // Logos — original assets and positions, slightly enlarged.
+    addImageSafe(pdf,UNIVERSITY_LOGO,20,15,33,33,"JPEG");
+    addImageSafe(pdf,FACULTY_LOGO,245,14,34,34,"JPEG");
 
-    // Header
-    setText(pdf,"Menoufia University",W/2,20,19.5,[16,47,82],"times","bold");
-    setText(pdf,"Faculty of Dentistry",W/2,29,14.2,[16,47,82],"times","bold");
-    drawGoldRule(pdf,101,196,35);
-    setText(pdf,"The Second Scientific Conference",W/2,43,12.4,[16,47,82],"times","bold");
-    setText(pdf,"of the Faculty of Dentistry, Menoufia University",W/2,49.5,10.6,[16,47,82],"times","normal");
+    // Header — larger typography with more breathing room.
+    setText(pdf,"Menoufia University",W/2,20,20.5,[16,47,82],"times","bold");
+    setText(pdf,"Faculty of Dentistry",W/2,29,14.8,[16,47,82],"times","bold");
+    drawGoldRule(pdf,100,197,36);
+    setText(pdf,"The Second Scientific Conference",W/2,44,12.8,[16,47,82],"times","bold");
+    setText(pdf,"of the Faculty of Dentistry, Menoufia University",W/2,50.5,10.8,[16,47,82],"times","normal");
 
     drawTitleBanner(pdf);
 
-    // Main certificate text
-    setText(pdf,"This is to certify that",W/2,81,10.5,[55,65,75],"times","normal");
+    // Main certificate text.
+    setText(pdf,"This is to certify that",W/2,82,10.8,[55,65,75],"times","normal");
     const name=fullName||"DR/ Participant";
-    const size=name.length>31?18.5:name.length>25?20:22;
-    setText(pdf,name,W/2,96.5,size,[16,47,82],"times","italic");
-    drawGoldRule(pdf,70,227,101.5);
-    setText(pdf,"has attended the",W/2,111,10.5,[55,65,75],"times","normal");
-    setText(pdf,"Second Scientific Conference of the Faculty of Dentistry,",W/2,119,11.8,[16,47,82],"times","bold");
-    setText(pdf,"Menoufia University",W/2,126,11.8,[16,47,82],"times","bold");
+    const size=name.length>31?18.8:name.length>25?20.5:23;
+    setText(pdf,name,W/2,97.5,size,[16,47,82],"times","italic");
+    drawGoldRule(pdf,72,225,103);
+    setText(pdf,"has attended the",W/2,112.5,10.8,[55,65,75],"times","normal");
+    setText(pdf,"Second Scientific Conference of the Faculty of Dentistry,",W/2,121,12.1,[16,47,82],"times","bold");
+    setText(pdf,"Menoufia University",W/2,128,12.1,[16,47,82],"times","bold");
 
-    // Date plaque
-    pdf.setFillColor(16,47,82); pdf.setDrawColor(201,162,39); pdf.setLineWidth(.8);
-    pdf.roundedRect(104,133,89,14,3.5,3.5,"FD");
-    setText(pdf,"26 – 27 August 2026",W/2,142.5,11.8,[245,210,91],"times","bold");
+    // Date plaque with a small gold accent.
+    pdf.setFillColor(16,47,82); pdf.setDrawColor(201,162,39); pdf.setLineWidth(.9);
+    pdf.roundedRect(101,134,95,15,3.8,3.8,"FD");
+    pdf.setFillColor(201,162,39); pdf.circle(101,141.5,1.5,"F"); pdf.circle(196,141.5,1.5,"F");
+    setText(pdf,"26 – 27 August 2026",W/2,144,12.2,[245,210,91],"times","bold");
 
     // Footer: signatures + isolated QR.
     drawSignatureArea(pdf);
     const qr=await makeQrDataUrl(certId);
-    pdf.setFillColor(255,255,255); pdf.setDrawColor(201,162,39); pdf.setLineWidth(.65);
-    pdf.roundedRect(249,156,29,33,2.8,2.8,"FD");
-    addImageSafe(pdf,qr,251.5,158.2,24,24,"PNG");
-    setText(pdf,"Scan to Verify",263.5,186.7,5.4,[16,47,82],"helvetica","normal");
+    pdf.setFillColor(255,255,255); pdf.setDrawColor(201,162,39); pdf.setLineWidth(.7);
+    pdf.roundedRect(248,155,30,34,3,3,"FD");
+    addImageSafe(pdf,qr,250.5,157.2,25,25,"PNG");
+    setText(pdf,"Scan to Verify",263,187.1,5.5,[16,47,82],"helvetica","normal");
     setText(pdf,`Certificate ID: ${certId}`,20,194,7.8,[16,47,82],"times","bold","left");
     return pdf;
   }
