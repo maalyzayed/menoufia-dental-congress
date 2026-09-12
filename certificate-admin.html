@@ -363,7 +363,7 @@
   async function generateAndDownloadSingle(certId, fullName) {
     const canvas = await renderCertificateCanvas(certId, fullName);
     canvas.toBlob(blob => {
-      saveAs(blob, `Certificate-${certId}.png`);
+      saveAs(blob, `Certificate-${certId}.jpg`);
     });
   }
 
@@ -405,8 +405,8 @@
         const fullName = docSnap.data().fullName || "Participant";
         
         const canvas = await renderCertificateCanvas(certId, fullName);
-        const imgData = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
-        zip.file(`Certificate-${certId}.png`, imgData, { base64: true });
+        const imgData = canvas.toDataURL("image/jpg").replace(/^data:image\/jpg;base64,/, "");
+        zip.file(`Certificate-${certId}.jpg`, imgData, { base64: true });
       }
 
       btn.textContent = "📦 جاري ضغط الملفات وتنزيل الـ ZIP...";
