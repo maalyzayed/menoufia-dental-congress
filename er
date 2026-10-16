@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الإرشاد الأكاديمي | الفرقة الأولى - كلية طب الأسنان</title>
+<style>
+:root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a;--muted:#617b8c}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;color:var(--ink);background:#f3f8fb;line-height:1.8}.hero{background:linear-gradient(130deg,#102f4d,#167da5);color:white;text-align:center;padding:42px 18px 55px}.hero .icon{font-size:42px}.hero h1{margin:8px 0;font-size:clamp(25px,4vw,38px)}.hero p{max-width:720px;margin:8px auto;color:#eaf6fb}.wrap{max-width:1000px;margin:-25px auto 0;padding:0 15px 30px}.card{background:white;border:1px solid #deebf1;border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 10px 28px #123b5d0c}.card h2{color:var(--navy);margin:0 0 12px;font-size:22px}.searchrow{display:flex;gap:10px}.searchrow input{flex:1;min-width:0;padding:13px 14px;border:1px solid #cbdfe9;border-radius:11px;font:inherit}.btn{background:var(--navy);color:white;border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:bold;cursor:pointer}.btn:hover{background:var(--blue)}.hint{font-size:13px;color:var(--muted);margin:8px 0 0}.result{display:none;background:#f0f8fc;border-right:4px solid var(--blue);padding:15px;border-radius:10px;margin-top:14px}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tile{background:#f7fbfd;border:1px solid #e1edf2;border-radius:13px;padding:15px}.tile b{display:block;color:var(--navy);font-size:17px;margin-bottom:5px}.steps{margin:0;padding-right:22px}.notice{background:#fff8e3;border:1px solid #f0dfaa;border-radius:12px;padding:14px;color:#705b20}.back{display:inline-block;color:var(--blue);font-weight:bold;text-decoration:none;margin-bottom:10px}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}@media(max-width:700px){.tiles{grid-template-columns:1fr}.searchrow{flex-direction:column}.btn{width:100%}}
+</style></head>
+<body>
+<header class="hero"><div class="icon">🧭</div><h1>صفحة الإرشاد الأكاديمي</h1><p>كلية طب الأسنان – جامعة المنوفية</p><p>دليل إرشادي لطلاب الفرقة الأولى | الفصل الدراسي الأول 2026/2027</p></header>
+<main class="wrap">
+<section class="card"><a class="back" href="index.html">← العودة للمساعد الطلابي</a><h2>اعرف مرشدك الأكاديمي</h2><p>اكتب اسمك أو كود الطالب للبحث عن بيانات المرشد الأكاديمي المخصص لك.</p><div class="searchrow"><input id="studentQuery" type="search" placeholder="اكتب اسم الطالب أو الكود الجامعي" aria-label="اسم الطالب أو الكود"><button class="btn" onclick="lookupAdvisor()">بحث</button></div><div id="lookupResult" class="result" role="status"></div><p class="hint">سيتم تفعيل البحث عن اسم المرشد بمجرد إضافة كشف التوزيع الرسمي للطلاب على المرشدين الأكاديميين.</p></section>
+<section class="card"><h2>ما دور المرشد الأكاديمي؟</h2><div class="tiles"><div class="tile"><b>📚 متابعة دراسية</b>مساعدة الطالب في فهم خطته الدراسية ومتابعة تقدمه الأكاديمي.</div><div class="tile"><b>🗓️ تنظيم الدراسة</b>توجيه الطالب عند وجود صعوبة في الجدول أو تعارض في المقررات.</div><div class="tile"><b>🤝 دعم وتوجيه</b>توجيه الطالب إلى الجهة المختصة عند مواجهة مشكلة أكاديمية أو إدارية.</div></div></section>
+<section class="card"><h2>متى أتواصل مع المرشد؟</h2><ul class="steps"><li>إذا واجهت صعوبة في فهم الخطة الدراسية أو متطلبات المقررات.</li><li>إذا احتجت إلى توجيه بخصوص التعثر الدراسي أو تنظيم الدراسة.</li><li>إذا لم تعرف الجهة المختصة بمشكلة أكاديمية.</li><li>قبل اتخاذ قرار دراسي مهم، مع الالتزام بلوائح الكلية والتعليمات الرسمية.</li></ul></section>
+<section class="card"><h2>قبل طلب المساعدة</h2><div class="notice">جهّز اسمك الكامل وكودك الجامعي، واشرح سؤالك باختصار. لا تكتب كلمة مرور أو بيانات شخصية حساسة في هذه الصفحة.</div></section>
+<section class="card"><h2>تواصل مع الجهات المختصة</h2><p>للحصول على اسم المرشد الصحيح أو الاستفسار عن توزيع الطلاب، راجع إعلان الفرقة الأولى أو إدارة شؤون التعليم والطلاب بالكلية. لم تتم إضافة أرقام مكاتب أو بيانات اتصال غير مؤكدة.</p></section>
+</main><footer>كلية طب الأسنان – جامعة المنوفية | صفحة الإرشاد الأكاديمي للفرقة الأولى</footer>
+<script>
+// بيانات المرشدين غير مضافة بعد. أضف كشف التوزيع الرسمي هنا لتفعيل البحث.
+const ADVISOR_ASSIGNMENTS = [];
+function lookupAdvisor(){
+ const q=document.getElementById('studentQuery').value.trim();
+ const box=document.getElementById('lookupResult');
+ box.style.display='block';
+ if(!q){box.textContent='من فضلك اكتب اسم الطالب أو الكود الجامعي أولًا.';return;}
+ const key=q.toLocaleLowerCase('ar');
+ const found=ADVISOR_ASSIGNMENTS.find(x=>(x.studentName||'').toLocaleLowerCase('ar').includes(key)||(x.studentCode||'').toLocaleLowerCase('ar')===key);
+ if(found){box.innerHTML='<b>المرشد الأكاديمي:</b> '+escapeHtml(found.advisorName||'غير محدد')+(found.contact?'<br><b>بيانات التواصل:</b> '+escapeHtml(found.contact):'');}
+ else if(ADVISOR_ASSIGNMENTS.length===0){box.textContent='كشف توزيع الطلاب على المرشدين الأكاديميين غير مضاف إلى الصفحة بعد. راجع إعلان الفرقة الأولى أو إدارة شؤون التعليم والطلاب للتأكد من اسم مرشدك.';}
+ else{box.textContent='لم نعثر على تطابق. تأكد من كتابة الاسم أو الكود كما هو مسجل في الكشف الرسمي.';}
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+document.getElementById('studentQuery').addEventListener('keydown',e=>{if(e.key==='Enter')lookupAdvisor()});
+</script></body></html>
