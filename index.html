@@ -4,60 +4,112 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>المساعد الطلابي | كلية طب الأسنان جامعة المنوفية</title>
 <style>
-:root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eaf7fc,#f7fbfd);color:var(--ink)}header{background:linear-gradient(120deg,#123452,#167da5);color:#fff;padding:30px 18px;text-align:center}header h1{margin:0 0 10px;font-size:clamp(24px,4vw,36px)}header p{margin:0;line-height:1.8}.wrap{max-width:1100px;margin:24px auto;padding:0 14px}.grid{display:grid;grid-template-columns:.9fr 1.2fr;gap:18px}.panel{background:#fff;border:1px solid #dcecf3;border-radius:18px;padding:18px;box-shadow:0 10px 28px #123b5d12}.panel h2{margin-top:0;color:var(--navy);font-size:20px}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}button{font-family:inherit;border:0;border-radius:11px;padding:12px 10px;background:#e8f5fa;color:var(--navy);font-weight:bold;cursor:pointer}button:hover{background:#d5edf7}.note{font-size:12px;color:#607b8c;line-height:1.8;margin-top:12px}.chat{display:flex;flex-direction:column;min-height:480px}.messages{height:390px;overflow:auto;padding:5px}.msg{max-width:95%;padding:12px 14px;border-radius:14px;margin:8px 0;line-height:1.85;font-size:14px;overflow-wrap:anywhere}.bot{background:#eaf6fb;border-top-right-radius:4px}.user{background:var(--navy);color:#fff;margin-right:auto;border-top-left-radius:4px}.composer{display:flex;gap:8px;border-top:1px solid #e3eef3;padding-top:12px}input{flex:1;min-width:0;border:1px solid #cfe3ec;border-radius:11px;padding:12px;font:inherit}.send{background:var(--navy);color:#fff;min-width:75px}.tag{display:inline-block;background:#f8f0d5;color:#6e5712;padding:4px 9px;border-radius:20px;font-size:12px;margin:3px}footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}@media(max-width:780px){.grid{grid-template-columns:1fr}.messages{height:340px}.buttons{grid-template-columns:1fr 1fr}}@media(max-width:430px){.buttons{grid-template-columns:1fr}}
+:root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a}
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eaf7fc,#f7fbfd);color:var(--ink)}
+header{background:linear-gradient(120deg,#123452,#167da5);color:#fff;padding:30px 18px;text-align:center}
+header h1{margin:0 0 10px;font-size:clamp(24px,4vw,36px)}header p{margin:0;line-height:1.8}
+.wrap{max-width:1150px;margin:24px auto;padding:0 14px}.grid{display:grid;grid-template-columns:.9fr 1.2fr;gap:18px}
+.panel{background:#fff;border:1px solid #dcecf3;border-radius:18px;padding:18px;box-shadow:0 10px 28px #123b5d12}
+.panel h2{margin-top:0;color:var(--navy);font-size:20px}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button,select{font-family:inherit;border:0;border-radius:11px;padding:12px 10px;background:#e8f5fa;color:var(--navy);font-weight:bold;cursor:pointer}
+button:hover{background:#d5edf7}.note{font-size:12px;color:#607b8c;line-height:1.8;margin-top:12px}
+.chat{display:flex;flex-direction:column;min-height:480px}.messages{height:390px;overflow:auto;padding:5px}
+.msg{max-width:98%;padding:12px 14px;border-radius:14px;margin:8px 0;line-height:1.85;font-size:14px;overflow-wrap:anywhere}
+.bot{background:#eaf6fb;border-top-right-radius:4px}.user{background:var(--navy);color:#fff;margin-right:auto;border-top-left-radius:4px}
+.composer{display:flex;gap:8px;border-top:1px solid #e3eef3;padding-top:12px}
+input{flex:1;min-width:0;border:1px solid #cfe3ec;border-radius:11px;padding:12px;font:inherit}.send{background:var(--navy);color:#fff;min-width:75px}
+.tag{display:inline-block;background:#f8f0d5;color:#6e5712;padding:4px 9px;border-radius:20px;font-size:12px;margin:3px;text-decoration:none}
+.gradebox{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px auto 0}
+.gradebox label{font-weight:bold}.gradebox select{background:#fff;border:1px solid #cfe3ec;min-width:190px}
+footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.messages{height:340px}}@media(max-width:430px){.buttons{grid-template-columns:1fr}}
 </style></head>
 <body>
-<header><h1>🎓 المساعد الطلابي لكلية طب الأسنان</h1><p>جامعة المنوفية · الفرقة الأولى · الفصل الدراسي الأول 2026/2027</p><div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">
-  الإرشاد الأكاديمي
-</a></div></header>
+<header>
+<h1>🎓 المساعد الطلابي لكلية طب الأسنان</h1>
+<p>جامعة المنوفية · جميع الفرق الدراسية · الفصل الدراسي الأول</p>
+<div class="gradebox"><label for="grade">اختار الفرقة:</label><select id="grade" onchange="changeGrade()">
+<option value="1">الفرقة الأولى</option><option value="2">الفرقة الثانية</option><option value="3">الفرقة الثالثة</option><option value="4">الفرقة الرابعة</option><option value="5">الفرقة الخامسة</option>
+</select></div>
+<div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div>
+</header>
 <div class="wrap"><div class="grid">
 <section class="panel"><h2>اختار سؤالك</h2><div class="buttons">
-<button onclick="ask('جدول الأسبوع')">📚 جدول الأسبوع</button><button onclick="ask('جدول يوم الأحد')">📅 جدول الأحد</button><button onclick="ask('جدول يوم الاثنين')">📅 جدول الاثنين</button><button onclick="ask('جدول يوم الثلاثاء')">📅 جدول الثلاثاء</button><button onclick="ask('جدول يوم الأربعاء')">📅 جدول الأربعاء</button><button onclick="ask('جدول يوم الخميس')">📅 جدول الخميس</button><button onclick="ask('جدول يوم السبت')">📅 جدول السبت</button><button onclick="ask('أماكن المدرجات')">📍 أماكن المدرجات</button><button onclick="ask('أماكن المعامل')">🧪 أماكن المعامل</button><button onclick="ask('الإرشاد الأكاديمي')">🧭 الإرشاد الأكاديمي</button><button onclick="ask('عملي تشريح الأسنان مجموعة A5')">🦷 مثال على سؤال مجموعة</button><button onclick="ask('مساعدة')">❓ مساعدة</button>
-</div><p class="note">المعلومات الدراسية مبنية على جدول الفرقة الأولى المرفق. أماكن المدرجات والمعامل مضافة حسب المعلومات التي زودتِنا بها. عند وجود إعلان أحدث من القسم، يُرجى اتباع الإعلان الرسمي.</p></section>
+<button onclick="ask('جدول الأسبوع')">📚 جدول الأسبوع</button>
+<button onclick="ask('جدول يوم السبت')">📅 جدول السبت</button><button onclick="ask('جدول يوم الأحد')">📅 جدول الأحد</button>
+<button onclick="ask('جدول يوم الاثنين')">📅 جدول الاثنين</button><button onclick="ask('جدول يوم الثلاثاء')">📅 جدول الثلاثاء</button>
+<button onclick="ask('جدول يوم الأربعاء')">📅 جدول الأربعاء</button><button onclick="ask('جدول يوم الخميس')">📅 جدول الخميس</button>
+<button onclick="ask('أماكن المدرجات')">📍 أماكن المدرجات</button><button onclick="ask('أماكن المعامل')">🧪 أماكن المعامل</button>
+<button onclick="ask('الإرشاد الأكاديمي')">🧭 الإرشاد الأكاديمي</button><button onclick="ask('عملي مجموعة A3')">🦷 عملي مجموعة A3</button><button onclick="ask('مساعدة')">❓ مساعدة</button>
+</div><p class="note">اختار الفرقة أولًا، ثم اسأل عن اليوم أو المادة أو مجموعة العملي. جداول الفرق الثانية إلى الخامسة مدخلة من ملفات الجداول المرفقة، وقد تحتاج بعض الخانات المتداخلة في ملفات PDF إلى مراجعة القسم للتأكد من توقيتها. عند صدور تعديل رسمي، يُتبع الإعلان الأحدث.</p></section>
 <section class="panel chat"><h2>اسأل المساعد الطلابي</h2><div class="messages" id="messages"></div><div class="composer"><input id="input" placeholder="اكتب سؤالك عن مادة أو يوم أو مكان..." onkeydown="if(event.key==='Enter')send()"><button class="send" onclick="send()">إرسال</button></div></section>
-</div><footer>كلية طب الأسنان – جامعة المنوفية | المساعد الطلابي للفرقة الأولى</footer></div>
+</div><footer>كلية طب الأسنان – جامعة المنوفية | المساعد الطلابي لجميع الفرق</footer></div>
 <script>
-const S=[
-{d:'الأحد',s:'التشريح العام',t:'محاضرة',time:'9:00–11:00 صباحًا',p:'Lec Hall 1',g:'كل الفرقة'},
-{d:'الأحد',s:'التشريح العام',t:'عملي',time:'11:00 صباحًا–12:00 ظهرًا',p:'Class 6A',g:'A1 وA2'},
-{d:'الأحد',s:'التشريح العام',t:'عملي',time:'12:00–1:00 ظهرًا',p:'Class 6B',g:'A3 وA4'},
-{d:'الأحد',s:'الهستولوجي',t:'عملي',time:'1:00–2:00 ظهرًا',p:'Class 6C',g:'A5 وA6'},
-{d:'الأحد',s:'تشريح الأسنان',t:'عملي',time:'2:00–5:00 مساءً',p:'Lab 1 / Lab 2 / Lab 3',g:'A1 في Lab 1، A2 في Lab 2، A3 في Lab 3'},
-{d:'الاثنين',s:'الفيزياء الحيوية',t:'محاضرة',time:'9:00–11:00 صباحًا',p:'Lec Hall 1',g:'كل الفرقة'},
-{d:'الاثنين',s:'الفسيولوجي',t:'عملي',time:'11:00 صباحًا–12:00 ظهرًا',p:'Class 6A',g:'A1 وA2'},
-{d:'الاثنين',s:'الفسيولوجي',t:'عملي',time:'11:00 صباحًا–12:00 ظهرًا',p:'Class 6B',g:'A3 وA4'},
-{d:'الاثنين',s:'التشريح العام',t:'عملي',time:'12:00–1:00 ظهرًا',p:'Class 6C',g:'A5 وA6'},
-{d:'الاثنين',s:'الهستولوجي',t:'عملي',time:'1:00–2:00 ظهرًا',p:'Class 6A',g:'A1 وA2'},
-{d:'الاثنين',s:'الهستولوجي',t:'عملي',time:'1:00–2:00 ظهرًا',p:'Class 6B',g:'A3 وA4'},
-{d:'الاثنين',s:'الكيمياء الحيوية',t:'عملي',time:'1:00–2:00 ظهرًا',p:'Class 6C',g:'A5 وA6'},
-{d:'الثلاثاء',s:'الفسيولوجي',t:'محاضرة',time:'9:00–11:00 صباحًا',p:'Lec Hall 1',g:'كل الفرقة'},
-{d:'الثلاثاء',s:'الهستولوجي',t:'محاضرة',time:'11:00 صباحًا–12:00 ظهرًا',p:'Lec Hall 1',g:'كل الفرقة'},
-{d:'الثلاثاء',s:'تشريح الأسنان',t:'محاضرة',time:'12:00–1:00 ظهرًا',p:'Lec Hall 1',g:'كل الفرقة'},
-{d:'الثلاثاء',s:'تشريح الأسنان',t:'عملي',time:'1:00–5:00 مساءً',p:'Lab 1 / Lab 2 / Lab 3',g:'A4 في Lab 1، A5 في Lab 2، A6 في Lab 3'},
-{d:'الأربعاء',s:'الكيمياء الحيوية',t:'محاضرة',time:'9:00–11:00 صباحًا',p:'Lec Hall 1',g:'كل الفرقة'},
-{d:'الأربعاء',s:'الكيمياء الحيوية',t:'عملي',time:'11:00 صباحًا–12:00 ظهرًا',p:'Class 6A',g:'A1 وA2'},
-{d:'الأربعاء',s:'الكيمياء الحيوية',t:'عملي',time:'12:00–1:00 ظهرًا',p:'Class 6B',g:'A3 وA4'},
-{d:'الأربعاء',s:'الفسيولوجي',t:'عملي',time:'1:00–2:00 ظهرًا',p:'Class 6C',g:'A5 وA6'},
-{d:'الخميس',s:'الفيزياء الحيوية',t:'عملي',time:'9:00–11:00 صباحًا',p:'كلية العلوم',g:'A1 وA2'},
-{d:'الخميس',s:'الفيزياء الحيوية',t:'عملي',time:'11:00 صباحًا–1:00 ظهرًا',p:'كلية العلوم',g:'A3 وA4'},
-{d:'الخميس',s:'الفيزياء الحيوية',t:'عملي',time:'1:00–3:00 ظهرًا',p:'كلية العلوم',g:'A5 وA6'},
-{d:'السبت',s:'الجودة',t:'أونلاين',time:'3:00–5:00 مساءً',p:'أونلاين',g:'حسب الجدول'}
-];
+const S={
+1:[
+['الأحد','التشريح العام','محاضرة','9:00–11:00 صباحًا','مدرج 1','كل الفرقة'],['الأحد','التشريح العام','عملي','11:00 صباحًا–12:00 ظهرًا','Class 6A','A1 وA2'],['الأحد','التشريح العام','عملي','12:00–1:00 ظهرًا','Class 6B','A3 وA4'],['الأحد','الهستولوجي','عملي','1:00–2:00 ظهرًا','Class 6C','A5 وA6'],['الأحد','تشريح الأسنان','عملي','2:00–5:00 مساءً','Lab 1 / Lab 2 / Lab 3','A1 في Lab 1، A2 في Lab 2، A3 في Lab 3'],
+['الاثنين','الفيزياء الحيوية','محاضرة','9:00–11:00 صباحًا','مدرج 1','كل الفرقة'],['الاثنين','الفسيولوجي','عملي','11:00 صباحًا–12:00 ظهرًا','Class 6A / 6B','A1–A4'],['الاثنين','التشريح العام','عملي','12:00–1:00 ظهرًا','Class 6C','A5 وA6'],['الاثنين','الهستولوجي','عملي','1:00–2:00 ظهرًا','Class 6A / 6B','A1–A4'],['الاثنين','الكيمياء الحيوية','عملي','1:00–2:00 ظهرًا','Class 6C','A5 وA6'],
+['الثلاثاء','الفسيولوجي','محاضرة','9:00–11:00 صباحًا','مدرج 1','كل الفرقة'],['الثلاثاء','الهستولوجي','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 1','كل الفرقة'],['الثلاثاء','تشريح الأسنان','محاضرة','12:00–1:00 ظهرًا','مدرج 1','كل الفرقة'],['الثلاثاء','تشريح الأسنان','عملي','1:00–5:00 مساءً','Lab 1 / Lab 2 / Lab 3','A4 في Lab 1، A5 في Lab 2، A6 في Lab 3'],
+['الأربعاء','الكيمياء الحيوية','محاضرة','9:00–11:00 صباحًا','مدرج 1','كل الفرقة'],['الأربعاء','الكيمياء الحيوية','عملي','11:00 صباحًا–1:00 ظهرًا','Class 6A / 6B','A1–A4'],['الأربعاء','الفسيولوجي','عملي','1:00–2:00 ظهرًا','Class 6C','A5 وA6'],
+['الخميس','الفيزياء الحيوية','عملي','9:00 صباحًا–3:00 مساءً','كلية العلوم','A1–A6 حسب المواعيد بالمجموعة'],['السبت','الجودة','أونلاين','3:00–5:00 مساءً','أونلاين','حسب الجدول']
+],
+2:[
+['السبت','Oral Biology 201','محاضرة','9:00–10:00 صباحًا','مدرج 2','كل الفرقة'],['السبت','Oral Biology','عملي','11:00 صباحًا–1:00 ظهرًا','Lab 1 / Lab 2 / Lab 3','A1 وA4 في Lab 1؛ A2 وA5 في Lab 2؛ A3 وA6 في Lab 3'],
+['الأحد','General Pathology 201','محاضرة','9:00–10:00 صباحًا','مدرج 2','كل الفرقة'],['الأحد','Biomaterial 201','محاضرة','10:00–11:00 صباحًا','مدرج 2','كل الفرقة'],['الأحد','Elective 201 (First Aid)','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 2','كل الفرقة'],['الأحد','Biomaterial 201','عملي','1:00–3:00 ظهرًا','Class 4A / Class 4B','A1 وA3 في 4A؛ A2 وA4 في 4B'],
+['الاثنين','General Pharmacology 201','محاضرة','9:00–10:00 صباحًا','مدرج 2','كل الفرقة'],['الاثنين','Microbiology 201','محاضرة','10:00–11:00 صباحًا','مدرج 2','كل الفرقة'],['الاثنين','Microbiology','عملي','11:00 صباحًا–1:00 ظهرًا','Class 4A / 4B / 4C / 4D','المجموعات A1–A6 حسب الجدول'],['الاثنين','General Pharmacology','عملي','12:00–3:00 ظهرًا','Class 4A / 4B / 4C / 4D','المجموعات A1–A6 حسب الجدول'],
+['الثلاثاء','Removable Prosthodontics 201','محاضرة','9:00–10:00 صباحًا','مدرج 2','كل الفرقة'],['الثلاثاء','Biomaterial 201','عملي','10:00–12:00 ظهرًا','Class 4A / Class 4B','A3 وA4 حسب الجدول'],['الثلاثاء','General Pathology 201','عملي','12:00–3:00 ظهرًا','Class 4A','A1 وA3 وA2 وA4 حسب الجدول'],['الثلاثاء','Removable Prosthodontics','عملي','1:00–5:00 مساءً','Lab 3 / Lab 4','A5 وA4 في Lab 3؛ A6 وA2 في Lab 4'],
+['الأربعاء','Prosthodontics (Fixed) 201','محاضرة','9:00–10:00 صباحًا','مدرج 2','كل الفرقة'],['الأربعاء','Removable Prosthodontics 201','عملي','10:00–11:00 صباحًا','Lab 4','A1'],['الأربعاء','Prosthodontics (Fixed) 201','عملي','10:00 صباحًا–1:00 ظهرًا','Sim 1 / Sim 2','A1–A6 حسب الجدول'],['الأربعاء','General Pathology 201','عملي','1:00–3:00 ظهرًا','Class 4A','A5 وA6'],
+['الخميس','Operative 201','محاضرة','9:00–10:00 صباحًا','مدرج 2','كل الفرقة'],['الخميس','Operative 201','عملي','10:00 صباحًا–12:00 ظهرًا','Sim 1 / Sim 2','A1 وA2'],['الخميس','Operative 201','عملي','3:00–5:00 مساءً','Sim 1 / Sim 2','A5 وA6']
+],
+3:[
+['الأحد','Oral Pathology 301','محاضرة','9:00–10:00 صباحًا','مدرج 3','كل الفرقة'],['الأحد','Removable Prosthodontics 301','محاضرة','10:00–11:00 صباحًا','مدرج 3','كل الفرقة'],['الأحد','Infection Control 301','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 3','كل الفرقة'],['الأحد','Oral Pathology','عملي','1:00–5:00 مساءً','Lab 1 / Lab 2','A1 وA3 في Lab 1؛ A2 وA4 في Lab 2'],
+['الاثنين','Operative 301','عملي','10:00–11:00 صباحًا','Clinic 5 / Clinic 7','A2 وA3 في Clinic 5/7؛ A1 في Clinic 5؛ راجع الجدول'],
+['الثلاثاء','General Medicine','محاضرة','9:00–10:00 صباحًا','مدرج 3','كل الفرقة'],['الثلاثاء','Prosthodontics (Fixed) 301','محاضرة','10:00–11:00 صباحًا','مدرج 3','كل الفرقة'],['الثلاثاء','Otorhinolaryngology','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 3','كل الفرقة'],['الثلاثاء','Dermatology and Andrology','محاضرة','12:00–1:00 ظهرًا','مدرج 3','كل الفرقة'],['الثلاثاء','Oral Pathology','عملي','3:00–5:00 مساءً','Lab 1 / Lab 2','A5 في Lab 1؛ A6 في Lab 2'],
+['الأربعاء','Removable Prosthodontics 301','عملي','10:00–11:00 صباحًا','Clinic 5 / Clinic 7','A1 وA2 وA3 حسب الجدول'],['الأربعاء','Prosthodontics (Fixed) 301','عملي','1:00–2:00 ظهرًا','Clinic 1 / Clinic 5 / Clinic 7','A1–A3 حسب الجدول'],
+['الخميس','Operative 301','محاضرة','9:00–10:00 صباحًا','مدرج 3','كل الفرقة'],['الخميس','General Surgery','محاضرة','10:00–11:00 صباحًا','مدرج 3','كل الفرقة'],['الخميس','Ophthalmology','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 3','كل الفرقة'],['الخميس','Elective (Forensic Dentistry)','محاضرة','12:00–1:00 ظهرًا','مدرج 3','كل الفرقة']
+],
+4:[
+['الأحد','Diagnosis 401','محاضرة','10:00–11:00 صباحًا','مدرج 3','كل الفرقة'],['الأحد','Prosthodontics (Removable) 401','محاضرة','1:00–2:00 ظهرًا','مدرج 3','كل الفرقة'],['الأحد','Elective 401','محاضرة','3:00–4:00 عصرًا','مدرج 3','كل الفرقة'],['الأحد','Endodontics 401','عملي','9:00–11:00 صباحًا','Sim 1 / Sim 2','A1 في Sim 1؛ A2 في Sim 2'],['الأحد','Diagnosis 401','عملي','9:00–11:00 صباحًا','Lab 3 / Lab 4','A3 في Lab 3؛ A4 في Lab 4'],
+['الاثنين','Maxillofacial Radiology 401','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 3','كل الفرقة'],['الاثنين','Operative 401','محاضرة','12:00–1:00 ظهرًا','مدرج 3','كل الفرقة'],['الاثنين','Oral Surgery 401','عملي','9:00–10:00 صباحًا','Clinic 1','A1'],['الاثنين','Maxillofacial Radiology 401','عملي','9:00–11:00 صباحًا','X-Ray class','A3 وA4 حسب الجدول'],['الاثنين','Maxillofacial Radiology 401','عملي','3:00–5:00 مساءً','X-Ray class','A1 وA2'],
+['الثلاثاء','Endodontics 401','عملي','9:00–10:00 صباحًا','Sim 1 / Sim 2','A3 في Sim 1؛ A4 في Sim 2'],['الثلاثاء','Removable Prosthodontics 401','عملي','11:00 صباحًا–12:00 ظهرًا','Clinic 1 / Clinic 5 / Clinic 7','A1–A3 حسب الجدول'],['الثلاثاء','Prosthodontics (Fixed) 401','عملي','12:00–1:00 ظهرًا','Clinic 1 / Clinic 5','A1 وA2 حسب الجدول'],
+['الأربعاء','Prosthodontics (Fixed) 401','محاضرة','1:00–2:00 ظهرًا','مدرج 3','كل الفرقة'],['الأربعاء','Endodontics 401','محاضرة','2:00–3:00 عصرًا','مدرج 3','كل الفرقة'],['الأربعاء','Orthodontics 401','محاضرة','3:00–4:00 عصرًا','مدرج 3','كل الفرقة'],['الأربعاء','Diagnosis 401','عملي','9:00–11:00 صباحًا','Lab 1 / Lab 2','A1 في Lab 1؛ A2 في Lab 2'],['الأربعاء','Orthodontics 401','عملي','3:00–5:00 مساءً','Lab 1 / Lab 2','A3 في Lab 1؛ A4 في Lab 2'],
+['الخميس','Oral Surgery 401','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 2','كل الفرقة'],['الخميس','Operative 401','عملي','1:00–3:00 ظهرًا','Clinic 1 / Clinic 5 / Clinic 7','A1–A3 حسب الجدول']
+],
+5:[
+['الأحد','Periodontics 501','محاضرة','12:00–1:00 ظهرًا','مدرج 1','كل الفرقة'],['الأحد','Prosthodontics (Fixed) 501','عملي','10:00–11:00 صباحًا','Clinic 1 / Clinic 5 / Clinic 7','A1–A3 حسب الجدول'],['الأحد','Oral & Maxillofacial Surgery 501','عملي','9:00–10:00 صباحًا','Clinic 1 / Clinic 5 / Clinic 7','A1–A3 حسب الجدول'],['الأحد','Oral Medicine 501','عملي','3:00–5:00 مساءً','Clinic 1 / Clinic 5 / Clinic 7','A1–A3 حسب الجدول'],
+['الاثنين','Elective 501 (Adult Dentistry)','محاضرة','10:00–11:00 صباحًا','مدرج 1','كل الفرقة'],['الاثنين','Operative 501','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 1','كل الفرقة'],['الاثنين','Removable Prosthodontics 501','عملي','1:00–3:00 ظهرًا','Clinic 1','A3'],['الاثنين','Endodontics 501','عملي','3:00–5:00 مساءً','Clinic 7','A1'],
+['الثلاثاء','Prosthodontics 501','محاضرة','10:00–11:00 صباحًا','مدرج 1','كل الفرقة'],['الثلاثاء','Oral & Maxillofacial Surgery 501','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 1','كل الفرقة'],['الثلاثاء','Endodontics 501','عملي','9:00–10:00 صباحًا','Clinic 7 / Clinic 5','A3 وA2 حسب الجدول'],['الثلاثاء','Removable Prosthodontics 501','عملي','9:00–10:00 صباحًا','Clinic 5','A2'],['الثلاثاء','Endodontics 501','عملي','3:00–5:00 مساءً','Clinic 7 / Clinic 5','A1 وA2 حسب الجدول'],
+['الأربعاء','Endodontics 501','محاضرة','10:00–11:00 صباحًا','مدرج 1','كل الفرقة'],['الأربعاء','Oral Medicine 501','محاضرة','11:00 صباحًا–12:00 ظهرًا','مدرج 1','كل الفرقة'],['الأربعاء','Oral & Maxillofacial Surgery 501','عملي','9:00–11:00 صباحًا','Clinic 1','A3 وA2 حسب الجدول'],['الأربعاء','Operative 501','عملي','3:00–5:00 مساءً','Clinic 1 / Clinic 7','A3 وA1 حسب الجدول'],
+['الخميس','Pedodontics & Public Health 501','محاضرة','12:00–1:00 ظهرًا','مدرج 1','كل الفرقة'],['الخميس','Pedodontics & Public Health 501','عملي','9:00–11:00 صباحًا','Clinic 5 / Clinic 7','A1 وA2 وA3 حسب الجدول'],['الخميس','Operative 501','عملي','3:00–5:00 مساءً','Clinic 1 / Clinic 5 / Clinic 7','A1–A3 حسب الجدول']
+]};
 const days=[['الأحد',/الأحد|الاحد|sunday/],['الاثنين',/الاثنين|الإثنين|الاتنين|monday/],['الثلاثاء',/الثلاثاء|التلات|tuesday/],['الأربعاء',/الأربعاء|الاربعاء|wednesday/],['الخميس',/الخميس|thursday/],['السبت',/السبت|saturday/]];
-const subs=[['التشريح العام',/التشريح العام|g\.?\s*anatomy/],['تشريح الأسنان',/تشريح الأسنان|تشريح الاسنان|dental anatomy/],['الفيزياء الحيوية',/الفيزياء الحيوية|biophysics/],['الهستولوجي',/الهستولوجي|هستولوجي|histology/],['الفسيولوجي',/الفسيولوجي|فسيولوجي|physiology/],['الكيمياء الحيوية',/الكيمياء الحيوية|بيوكيمياء|biochemistry|bio chemistry/],['الجودة',/الجودة|quality/]];
+function changeGrade(){const n=document.getElementById('grade').value;add('تم اختيار الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][n])+'. اسأل عن الجدول أو المادة أو مجموعة العملي.');}
 function add(text,who='bot'){const box=document.getElementById('messages');const d=document.createElement('div');d.className='msg '+who;d.innerHTML=text;box.appendChild(d);box.scrollTop=box.scrollHeight;}
 function norm(s){return s.toLowerCase().replace(/[؟?!.,،؛:]/g,' ').replace(/\s+/g,' ').trim();}
-function answer(q){const x=norm(q);if(/مساعدة|help|القائمة|الخدمات|ابدأ/.test(x))return 'اسأل عن جدول يوم محدد، مادة، عملي مجموعة A1 إلى A6، أماكن المدرجات والمعامل، أو الإرشاد الأكاديمي.';
+function answer(q){
+const x=norm(q),grade=document.getElementById('grade').value, arr0=S[grade];
+if(/مساعدة|help|القائمة|الخدمات|ابدأ/.test(x))return 'اسأل عن جدول يوم محدد، اسم مادة بالعربي أو الإنجليزي، عملي مجموعة A1 إلى A6، أماكن المدرجات والمعامل، أو الإرشاد الأكاديمي.';
 if(/مدرج\s*أ|مدرج ا|مدرج a/.test(x))return '📍 <b>مدرج أ:</b> الدور الرابع.';
 if(/مدرج\s*2|مدرج ٢|مدرج اتنين/.test(x))return '📍 <b>مدرج 2:</b> الدور الرابع.';
 if(/مدرج\s*3|مدرج ٣|مدرج تلاتة/.test(x))return '📍 <b>مدرج 3:</b> الدور السادس.';
-if(/أماكن المدرجات|اماكن المدرجات|المدرجات فين|أماكن القاعات/.test(x))return '📍 <b>أماكن المدرجات:</b><br>• مدرج أ: الدور الرابع.<br>• مدرج 2: الدور الرابع.<br>• مدرج 3: الدور السادس.';
-if(/معامل|المعامل|معمل|فين العملي|مكان العملي/.test(x)&&!/جدول/.test(x))return '🧪 <b>أماكن المعامل:</b><br>المعامل موجودة في الأدوار الثالث والرابع والخامس. أما أسماء المعامل وأرقامها بالتحديد، فراجعي جدول المادة أو إعلان القسم.';
-if(/مرشد|ارشاد|إرشاد|اكاديمي|أكاديمي/.test(x))return '🧭 <b>الإرشاد الأكاديمي:</b><br>للتأكد من اسم المرشد الأكاديمي المخصص لك، راجع إعلان الفرقة الأولى أو إدارة شؤون التعليم والطلاب. أسماء المرشدين وتوزيع الطلاب غير مدمجة في هذه النسخة بعد.';
-if(/شؤون الطلاب|شئون الطلاب|إدارة الطلاب/.test(x))return '🏢 للاستفسارات عن الجداول والإجراءات الدراسية، راجع إدارة شؤون التعليم والطلاب بالكلية. لم تُضف بيانات المكتب أو التواصل في هذه النسخة.';
-let day=days.find(a=>a[1].test(x));let sub=subs.find(a=>a[1].test(x));let gm=x.match(/\ba\s*([1-6])\b/i)||x.match(/مجموعة\s*([1-6])/);let group=gm?'A'+(gm[1]||gm[2]):null;let arr=S.slice();if(day)arr=arr.filter(e=>e.d===day[0]);if(sub)arr=arr.filter(e=>e.s===sub[0]);if(/عملي|سكشن|سكاشن|لاب|lab|معمل/.test(x))arr=arr.filter(e=>e.t==='عملي');else if(/محاضرة|محاضرات|lecture/.test(x))arr=arr.filter(e=>e.t==='محاضرة');if(group)arr=arr.filter(e=>e.g.includes(group)||e.g.includes('كل الفرقة'));
-if((day||sub||group||/جدول الأسبوع|جدول الاسبوع/.test(x))&&arr.length){return '📚 <b>نتيجة الجدول الدراسي</b><br>'+arr.map(e=>'• <b>'+e.d+' — '+e.s+'</b><br>النوع: '+e.t+'<br>الوقت: '+e.time+'<br>المكان: '+e.p+'<br>المجموعة: '+e.g).join('<br><br>')+'<br><br><small>المصدر: جدول الفرقة الأولى للفصل الدراسي الأول 2026/2027. إذا صدر تعديل رسمي أحدث، اتبع الإعلان الأحدث.</small>';}
-if(/جدول|الأسبوع|الاسبوع/.test(x)){return '📚 <b>اختاري اليوم لعرض الجدول:</b><br>'+days.map(a=>'• '+a[0]).join('<br>')+'<br><br>مثال: «جدول يوم الأحد» أو «عملي الفيزياء الحيوية مجموعة A3».';}
-return 'أنا المساعد الطلابي للفرقة الأولى. يمكنك سؤالي عن جدول يوم، مادة، مجموعة عملي، أماكن المدرجات والمعامل، أو الإرشاد الأكاديمي. مثال: «مدرج 3 فين؟» أو «عملي تشريح الأسنان مجموعة A5».';}
-function ask(q){add(q,'user');setTimeout(()=>add(answer(q),'bot'),80);}function send(){const i=document.getElementById('input');const q=i.value.trim();if(!q)return;i.value='';ask(q);}add('👋 <b>أهلًا بيك في المساعد الطلابي للفرقة الأولى!</b><br>اسألني عن المحاضرات والسكاشن وأماكن المدرجات والمعامل.');
+if(/أماكن المدرجات|اماكن المدرجات|المدرجات فين|أماكن القاعات/.test(x))return '📍 <b>أماكن المدرجات:</b><br>• مدرج أ ومدرج 2: الدور الرابع.<br>• مدرج 3: الدور السادس.';
+if(/معامل|المعامل|معمل|فين العملي|مكان العملي/.test(x)&&!/جدول/.test(x))return '🧪 <b>أماكن المعامل:</b><br>المعامل موجودة في الأدوار الثالث والرابع والخامس. راجع جدول المادة لمعرفة اسم المعمل أو العيادة المحددة.';
+if(/مرشد|ارشاد|إرشاد|اكاديمي|أكاديمي/.test(x))return '🧭 <b>الإرشاد الأكاديمي:</b><br>للتأكد من اسم المرشد الأكاديمي المخصص لك، راجع إعلان الفرقة أو إدارة شؤون التعليم والطلاب. أسماء المرشدين وتوزيع الطلاب غير مضافة في هذه النسخة.';
+const day=days.find(a=>a[1].test(x));const groupMatch=x.match(/\ba\s*([1-6])\b/i)||x.match(/مجموعة\s*([1-6])/);const group=groupMatch?'A'+(groupMatch[1]||groupMatch[2]):null;
+let arr=arr0.slice();if(day)arr=arr.filter(e=>e[0]===day[0]);
+const query=x.replace(/جدول|يوم|الاسبوع|الأسبوع|عملي|سكشن|سكاشن|محاضرة|محاضرات|مجموعة|group|lab|لاب/g,' ').trim();
+if(query.length>1){const terms=query.split(' ').filter(t=>t.length>2);if(terms.length){const matched=arr.filter(e=>terms.some(t=>norm(e[1]).includes(t))||terms.some(t=>norm(e[4]).includes(t)));if(matched.length)arr=matched;}}
+if(/عملي|سكشن|سكاشن|لاب|lab|معمل|clinic|sim/.test(x))arr=arr.filter(e=>/عملي/.test(e[2])||/lab|clinic|sim/i.test(e[4]));
+else if(/محاضرة|محاضرات|lecture/.test(x))arr=arr.filter(e=>/محاضرة/.test(e[2]));
+if(group)arr=arr.filter(e=>e[5].includes(group)||e[5].includes('كل الفرقة')||e[5].includes('A1–A6')||e[5].includes('A1-A6'));
+if(/جدول الأسبوع|جدول الاسبوع|جدول الاسبوع كامل/.test(x)){arr=arr0.slice();}
+if(arr.length&&(day||query.length>1||group||/جدول|الأسبوع|الاسبوع/.test(x))){
+return '📚 <b>الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][grade])+' — نتيجة الجدول</b><br>'+arr.map(e=>'• <b>'+e[0]+' — '+e[1]+'</b><br>النوع: '+e[2]+'<br>الوقت: '+e[3]+'<br>المكان: '+e[4]+'<br>المجموعة: '+e[5]).join('<br><br>')+'<br><br><small>الجداول مأخوذة من ملفات الجداول المرفقة. بعض الخانات المتداخلة في ملفات PDF تحتاج مراجعة الجدول الأصلي/إعلان القسم للتأكد من التوقيت والتوزيع.</small>';
+}
+if(/جدول|الأسبوع|الاسبوع/.test(x))return '📚 اختار يومًا من أزرار الأيام أو اكتب مثلًا: «جدول يوم الأحد» أو اسم المادة.';
+return 'أنا المساعد الطلابي للفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][grade])+'. اسألني عن جدول يوم، مادة، مجموعة عملي، أماكن المدرجات والمعامل، أو الإرشاد الأكاديمي. مثال: «عملي Oral Biology مجموعة A3».';
+}
+function ask(q){add(q,'user');setTimeout(()=>add(answer(q),'bot'),80);}
+function send(){const i=document.getElementById('input');const q=i.value.trim();if(!q)return;i.value='';ask(q);}
+add('👋 <b>أهلًا بيك في المساعد الطلابي!</b><br>اختار الفرقة الدراسية من أعلى الصفحة، ثم اسألني عن المحاضرات والعملي والمجموعات والأماكن.');
 </script></body></html>
