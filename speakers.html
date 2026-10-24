@@ -1,34 +1,139 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>الإرشاد الأكاديمي | الفرقة الأولى - كلية طب الأسنان</title>
 <style>
-:root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a;--muted:#617b8c}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;color:var(--ink);background:#f3f8fb;line-height:1.8}.hero{background:linear-gradient(130deg,#102f4d,#167da5);color:white;text-align:center;padding:42px 18px 55px}.hero .icon{font-size:42px}.hero h1{margin:8px 0;font-size:clamp(25px,4vw,38px)}.hero p{max-width:720px;margin:8px auto;color:#eaf6fb}.wrap{max-width:1000px;margin:-25px auto 0;padding:0 15px 30px}.card{background:white;border:1px solid #deebf1;border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 10px 28px #123b5d0c}.card h2{color:var(--navy);margin:0 0 12px;font-size:22px}.searchrow{display:flex;gap:10px}.searchrow input{flex:1;min-width:0;padding:13px 14px;border:1px solid #cbdfe9;border-radius:11px;font:inherit}.btn{background:var(--navy);color:white;border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:bold;cursor:pointer}.btn:hover{background:var(--blue)}.hint{font-size:13px;color:var(--muted);margin:8px 0 0}.result{display:none;background:#f0f8fc;border-right:4px solid var(--blue);padding:15px;border-radius:10px;margin-top:14px}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tile{background:#f7fbfd;border:1px solid #e1edf2;border-radius:13px;padding:15px}.tile b{display:block;color:var(--navy);font-size:17px;margin-bottom:5px}.steps{margin:0;padding-right:22px}.notice{background:#fff8e3;border:1px solid #f0dfaa;border-radius:12px;padding:14px;color:#705b20}.back{display:inline-block;color:var(--blue);font-weight:bold;text-decoration:none;margin-bottom:10px}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}@media(max-width:700px){.tiles{grid-template-columns:1fr}.searchrow{flex-direction:column}.btn{width:100%}}
-</style></head>
+:root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a;--muted:#617b8c;--green:#16835c}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;color:var(--ink);background:#f3f8fb;line-height:1.8}
+.hero{background:linear-gradient(130deg,#102f4d,#167da5);color:white;text-align:center;padding:42px 18px 55px}
+.hero .icon{font-size:42px}.hero h1{margin:8px 0;font-size:clamp(25px,4vw,38px)}
+.hero p{max-width:720px;margin:8px auto;color:#eaf6fb}
+.wrap{max-width:1000px;margin:-25px auto 0;padding:0 15px 30px}
+.card{background:white;border:1px solid #deebf1;border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 10px 28px #123b5d0c}
+.card h2{color:var(--navy);margin:0 0 12px;font-size:22px}
+.searchrow{display:flex;gap:10px}.searchrow input{flex:1;min-width:0;padding:13px 14px;border:1px solid #cbdfe9;border-radius:11px;font:inherit}
+.btn{background:var(--navy);color:white;border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:bold;cursor:pointer}
+.btn:hover{background:var(--blue)}.hint{font-size:13px;color:var(--muted);margin:8px 0 0}
+.result{display:none;background:#f0f8fc;border-right:4px solid var(--blue);padding:16px;border-radius:10px;margin-top:14px}
+.person{background:#fff;border:1px solid #dcebf2;border-radius:12px;padding:15px;margin-top:10px}
+.person h3{margin:0 0 8px;color:var(--navy);font-size:18px}
+.badge{display:inline-block;background:#e7f5ee;color:#116846;border-radius:30px;padding:3px 10px;font-size:13px;font-weight:bold}
+.detail{margin:4px 0}.detail strong{color:var(--navy)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{background:#f7fbfd;border:1px solid #e1edf2;border-radius:13px;padding:15px}
+.tile b{display:block;color:var(--navy);font-size:17px;margin-bottom:5px}
+.steps{margin:0;padding-right:22px}.notice{background:#fff8e3;border:1px solid #f0dfaa;border-radius:12px;padding:14px;color:#705b20}
+.back{display:inline-block;color:var(--blue);font-weight:bold;text-decoration:none;margin-bottom:10px}
+.empty{color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:700px){.tiles{grid-template-columns:1fr}.searchrow{flex-direction:column}.btn{width:100%}.card{padding:17px}}
+</style>
+</head>
 <body>
-<header class="hero"><div class="icon">🧭</div><h1>صفحة الإرشاد الأكاديمي</h1><p>كلية طب الأسنان – جامعة المنوفية</p><p>دليل إرشادي لطلاب الفرقة الأولى | الفصل الدراسي الأول 2026/2027</p></header>
+<header class="hero">
+  <div class="icon">🧭</div>
+  <h1>صفحة الإرشاد الأكاديمي</h1>
+  <p>كلية طب الأسنان – جامعة المنوفية</p>
+  <p>دليل الإرشاد الأكاديمي لطلاب الفرقة الأولى | الفصل الدراسي الأول 2026/2027</p>
+</header>
 <main class="wrap">
-<section class="card"><a class="back" href="index.html">← العودة للمساعد الطلابي</a><h2>اعرف مرشدك الأكاديمي</h2><p>اكتب اسمك أو كود الطالب للبحث عن بيانات المرشد الأكاديمي المخصص لك.</p><div class="searchrow"><input id="studentQuery" type="search" placeholder="اكتب اسم الطالب أو الكود الجامعي" aria-label="اسم الطالب أو الكود"><button class="btn" onclick="lookupAdvisor()">بحث</button></div><div id="lookupResult" class="result" role="status"></div><p class="hint">سيتم تفعيل البحث عن اسم المرشد بمجرد إضافة كشف التوزيع الرسمي للطلاب على المرشدين الأكاديميين.</p></section>
-<section class="card"><h2>ما دور المرشد الأكاديمي؟</h2><div class="tiles"><div class="tile"><b>📚 متابعة دراسية</b>مساعدة الطالب في فهم خطته الدراسية ومتابعة تقدمه الأكاديمي.</div><div class="tile"><b>🗓️ تنظيم الدراسة</b>توجيه الطالب عند وجود صعوبة في الجدول أو تعارض في المقررات.</div><div class="tile"><b>🤝 دعم وتوجيه</b>توجيه الطالب إلى الجهة المختصة عند مواجهة مشكلة أكاديمية أو إدارية.</div></div></section>
-<section class="card"><h2>متى أتواصل مع المرشد؟</h2><ul class="steps"><li>إذا واجهت صعوبة في فهم الخطة الدراسية أو متطلبات المقررات.</li><li>إذا احتجت إلى توجيه بخصوص التعثر الدراسي أو تنظيم الدراسة.</li><li>إذا لم تعرف الجهة المختصة بمشكلة أكاديمية.</li><li>قبل اتخاذ قرار دراسي مهم، مع الالتزام بلوائح الكلية والتعليمات الرسمية.</li></ul></section>
-<section class="card"><h2>قبل طلب المساعدة</h2><div class="notice">جهّز اسمك الكامل وكودك الجامعي، واشرح سؤالك باختصار. لا تكتب كلمة مرور أو بيانات شخصية حساسة في هذه الصفحة.</div></section>
-<section class="card"><h2>تواصل مع الجهات المختصة</h2><p>للحصول على اسم المرشد الصحيح أو الاستفسار عن توزيع الطلاب، راجع إعلان الفرقة الأولى أو إدارة شؤون التعليم والطلاب بالكلية. لم تتم إضافة أرقام مكاتب أو بيانات اتصال غير مؤكدة.</p></section>
-</main><footer>كلية طب الأسنان – جامعة المنوفية | صفحة الإرشاد الأكاديمي للفرقة الأولى</footer>
+<section class="card">
+  <a class="back" href="index.html">← العودة للمساعد الطلابي</a>
+  <h2>اعرف مرشدك الأكاديمي</h2>
+  <p>اكتب اسمك (كاملًا أو جزءًا منه) أو كودك الجامعي، ثم اضغط على «بحث».</p>
+  <div class="searchrow">
+    <input id="studentQuery" type="search" placeholder="مثال: أحمد محمد أو 26016" aria-label="اسم الطالب أو الكود الجامعي" autocomplete="off">
+    <button class="btn" id="searchButton" type="button">بحث</button>
+  </div>
+  <div id="lookupResult" class="result" role="status" aria-live="polite"></div>
+  <p class="hint">يعرض البحث اسم المرشد الأكاديمي المسجل في كشف توزيع طلاب الفرقة الأولى.</p>
+</section>
+<section class="card">
+  <h2>ما دور المرشد الأكاديمي؟</h2>
+  <div class="tiles">
+    <div class="tile"><b>📚 متابعة دراسية</b>مساعدة الطالب في فهم خطته الدراسية ومتابعة تقدمه الأكاديمي.</div>
+    <div class="tile"><b>🗓️ تنظيم الدراسة</b>توجيه الطالب عند وجود صعوبة في الجدول أو تعارض في المقررات.</div>
+    <div class="tile"><b>🤝 دعم وتوجيه</b>توجيه الطالب إلى الجهة المختصة عند مواجهة مشكلة أكاديمية أو إدارية.</div>
+  </div>
+</section>
+<section class="card">
+  <h2>متى أتواصل مع المرشد؟</h2>
+  <ul class="steps">
+    <li>إذا واجهت صعوبة في فهم الخطة الدراسية أو متطلبات المقررات.</li>
+    <li>إذا احتجت إلى توجيه بخصوص التعثر الدراسي أو تنظيم الدراسة.</li>
+    <li>إذا لم تعرف الجهة المختصة بمشكلة أكاديمية.</li>
+    <li>قبل اتخاذ قرار دراسي مهم، مع الالتزام بلوائح الكلية والتعليمات الرسمية.</li>
+  </ul>
+</section>
+<section class="card">
+  <h2>قبل طلب المساعدة</h2>
+  <div class="notice">جهّز اسمك الكامل وكودك الجامعي، واشرح سؤالك باختصار. لا تكتب كلمة مرور أو بيانات شخصية حساسة في هذه الصفحة.</div>
+</section>
+<section class="card">
+  <h2>تواصل مع الجهات المختصة</h2>
+  <p>إذا لم تظهر بياناتك أو وجدت اختلافًا في اسم المرشد، راجع إدارة شؤون التعليم والطلاب بالكلية للتأكد من الكشف الرسمي.</p>
+</section>
+</main>
+<footer>كلية طب الأسنان – جامعة المنوفية | صفحة الإرشاد الأكاديمي للفرقة الأولى</footer>
 <script>
-// بيانات المرشدين غير مضافة بعد. أضف كشف التوزيع الرسمي هنا لتفعيل البحث.
-const ADVISOR_ASSIGNMENTS = [];
-function lookupAdvisor(){
- const q=document.getElementById('studentQuery').value.trim();
- const box=document.getElementById('lookupResult');
- box.style.display='block';
- if(!q){box.textContent='من فضلك اكتب اسم الطالب أو الكود الجامعي أولًا.';return;}
- const key=q.toLocaleLowerCase('ar');
- const found=ADVISOR_ASSIGNMENTS.find(x=>(x.studentName||'').toLocaleLowerCase('ar').includes(key)||(x.studentCode||'').toLocaleLowerCase('ar')===key);
- if(found){box.innerHTML='<b>المرشد الأكاديمي:</b> '+escapeHtml(found.advisorName||'غير محدد')+(found.contact?'<br><b>بيانات التواصل:</b> '+escapeHtml(found.contact):'');}
- else if(ADVISOR_ASSIGNMENTS.length===0){box.textContent='كشف توزيع الطلاب على المرشدين الأكاديميين غير مضاف إلى الصفحة بعد. راجع إعلان الفرقة الأولى أو إدارة شؤون التعليم والطلاب للتأكد من اسم مرشدك.';}
- else{box.textContent='لم نعثر على تطابق. تأكد من كتابة الاسم أو الكود كما هو مسجل في الكشف الرسمي.';}
+const ADVISOR_ASSIGNMENTS = [{"code": "26190", "name": "موده يسرى حمدى محمد راشد", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26192", "name": "مى متولى عبدالحميد محمد عميره", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26193", "name": "ميساء مسعد محمد عبدالفتاح ابوسن", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26194", "name": "ندى حسام سعد عبدالحميد عبدربه", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26195", "name": "ندى محمد غريب عبد العال امام", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26196", "name": "ندى مصطفى محمد البيومى صدقه", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26197", "name": "ندى نادر سعيد مصطفى النادى", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26199", "name": "نور احمد رجب عطيه عبدالرحمن العسال", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26200", "name": "نور سمير على سلام غنيم", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26201", "name": "نور محسن حسن حسن الفار", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26202", "name": "نور محمد حسن ابراهيم عبد ربه", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26203", "name": "نورا فؤاد محمود", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26204", "name": "نورالله صبرى فرج حجازى فرج", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26205", "name": "نوران عاطف المليجى مهدى المليجى", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26206", "name": "نوراى عمرو عامر خميس", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26207", "name": "هاجر محمد عبدالعزيز السيد الهدهد", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26208", "name": "هبه حلمى السيد ابراهيم كروش", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26209", "name": "هبه فايز البطايحى الحسينى سعد", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26210", "name": "هدير عماد خضر محمد عبد الحليم", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26211", "name": "هنا حامد عبدالله حامد غزال", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26212", "name": "هنا عبدالمنعم محمد محمود الشايب", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26213", "name": "هيام محمود رمزى عبدالسميع ابو العينين", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26214", "name": "ولاء رفعت محمد ابراهيم سالم", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26216", "name": "ياسمين شريف محمد اسماعيل الصياد", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26217", "name": "ياسمين صابر سعيد سلام", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26218", "name": "ياسمين صبحى محمد صقر حسب الله", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26219", "name": "ياسمين عيد صالح بدير محمد", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26220", "name": "يوسف أسامه السعيد السيد داود", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26222", "name": "يوسف هشام محمد محمد خلاف", "advisor": "أ.د/ أحمد عبد السلام محمد عبد المنعم"}, {"code": "26083", "name": "زياد عماد شعبان الصعيدى", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26084", "name": "زياد مدحت محمود محمد عزب", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26085", "name": "زينب رياض عطيه متولى أحمد", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26086", "name": "زينب محمد احمد عبد الصادق أحمد بدر", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26087", "name": "ساره احمد فتحى بيومى عزام", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26088", "name": "ساره سمير على على سليمان", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26089", "name": "سلمى احمد مهدى لطفى", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26090", "name": "سلمى عبدالحميد محمد محمد عبدالحميد", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26091", "name": "سلمى هانى احمد السعيد محمود الغنام قبك", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26092", "name": "سميه عصام فرج على كشك", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26093", "name": "شذا احمد فاروق عط الله", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26094", "name": "شروق جمال سعيد عبد الرحمن نوفل", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26095", "name": "شروق محمد سعد احمد خضره", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26096", "name": "شروق مصطفى محمد علي ابوزيد", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26098", "name": "شهد أحمد جلال أحمد الخياط", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26097", "name": "شهد انور عمران عمران عمران", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26099", "name": "شهد محمد فوزى صبحى عبدالهادي", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26100", "name": "شهد محمود محمد أحمد حبيب", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26101", "name": "شهد مصطفى محمد مصطفى محمود", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26102", "name": "شهد نصر محمود أحمد الزق", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26103", "name": "شيماء علاء شعبان عبد الهادى عيد", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26104", "name": "طارق عصام السيد حسن الأبي", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26105", "name": "عبدالحميد ناصر ابراهيم عبد الحميد زيدان", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26106", "name": "عبدالرحمن علاء رشاد السيد طبانه", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26107", "name": "عبدالرحمن محمد عرفه عيسوى السيد", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26108", "name": "عبدالعزيز شريف عبدالعزيز عبدالعزيز خروب", "advisor": "أ.د/ سارة ممتاز محمد سعيد القط"}, {"code": "26016", "name": "أحمد مؤمن على علي عبادى", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26021", "name": "إسراء مجدي محمد الحداد عيسي", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26023", "name": "إسلام على عبد الجيد عبد العزيز عيد", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26001", "name": "ابراهيم محمد ابراهيم محمد ابراهيم", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26002", "name": "ابراهيم محمد صبحى عزب ابراهيم", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26003", "name": "ابراهيم محمود ابراهيم عبدالحليم سلام", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26005", "name": "احمد السباعى السيد السباعى نعيم", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26006", "name": "احمد حسن عبدالجواد حسن شاهين", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26007", "name": "احمد حلمى عبدالعزيز عبدالغنى سلطان", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26008", "name": "احمد عادل عبدالدايم يدر عسل", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26009", "name": "احمد عماد على أحمد الرعو", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26010", "name": "احمد كمال فتحى محمد على خليل", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26011", "name": "احمد محمد احمد عنائى امام الجعفراوى", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26012", "name": "احمد محمد سعد محمد ابو سالم", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26013", "name": "احمد محمود احمد عبدالحكيم المذاح", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26014", "name": "احمد مسعد صبحى عبدالحميد عبده", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26015", "name": "احمد مصطفى عبدالسميع نجم", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26017", "name": "احمد نبيل محمد سيد أحمد هنوه", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26018", "name": "احمد هانى احمد حسن الخولى", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26019", "name": "اسراء ابراهيم عبدالسلام عبدالعال عمر", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26020", "name": "اسراء عبدالرحيم مصطفى عبد الرحيم العيسوى", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26022", "name": "اسلام عبدالغفار سعد احمد مصطفى", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26024", "name": "اسماء الدسوقى عبدالرحمن عبدالمقصود الدسوقى", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26027", "name": "اسيل شاكر محمد ابراهيم سويد", "advisor": "أ.د/ شذى إسماعيل أحمد حسن"}, {"code": "26109", "name": "عبدالفتاح محمد عبدالفتاح أحمد حموده", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26110", "name": "عبدالله ماهر صبحى طلبه فرج", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26111", "name": "عبدالله محمود عبد الباقى عامر عبدالباقى", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26113", "name": "عزت اشرف تاج الدين أحمد فايد", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26114", "name": "على محمد على عبدالعاطى ابوالعلا", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26115", "name": "علياء حسن عبدالعزيز حسن المصرى", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26116", "name": "عمر احمد عمر على شتيه", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26117", "name": "عمر سامى ربيع عبد السلام عفيفى", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26118", "name": "عمر فتح محمود ناصر عبدالغنى", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26122", "name": "فاطمه الزهراء صلاح ابراهيم يوسف السعيد", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26123", "name": "فاطمه محمد رمضان هلال محمد", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26124", "name": "فاطمه محمد فتحى فتح الله الباسط", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26125", "name": "فايزه هشام سلامه نصر حشاد", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26126", "name": "فدوى ايمن السيد سليمان عطا الله", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26127", "name": "كريم ابراهيم السيد عثمان راضى", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26129", "name": "عمرو عبدالستار حجازى", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26130", "name": "لميس اشرف ابراهيم طه مقلد", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26191", "name": "مؤمن اشرف محمد ممدوح أحمد عامر", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26131", "name": "مايكل يعقوب موريس فؤاد", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26132", "name": "محمد ابراهيم السيد ابراهيم محمود", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26133", "name": "محمد احمد ابراهيم حامد عامر", "advisor": "أ.د/ شيرين فتحي بسيوني دنيا"}, {"code": "26134", "name": "محمد احمد عبدالواحد عبد الحميد", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26135", "name": "محمد اشرف السيد دراز", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26136", "name": "محمد السيد سامى السيد فتوح", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26138", "name": "محمد ايمن محمد نجيب سالم رسلان", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26140", "name": "محمد حسام امين محمد جلهوم", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26141", "name": "محمد سالم محمد سالم حبيب", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26142", "name": "محمد سمير عبدالفضيل عبدالسلام عميره", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26143", "name": "محمد عاطف محمد عبدالقادر عامر", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26144", "name": "محمد عاطف محمد عيسوى", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26145", "name": "محمد عبدالعال نجاح عبدالعال جلده", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26146", "name": "محمد على عبدالقادر عبد المطلب", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26147", "name": "محمد محسن محمد عبد العزيز بطيقه", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26148", "name": "محمد محمود السيد مجاهد عبدالسلام", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26149", "name": "محمد محمود محمد امين العشماوى", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26151", "name": "محمد مصطفى محمد عبد المنعم صوان ١", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26152", "name": "محمد مطاوع حامد ابو اليزيد صلاح", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26153", "name": "محمد ياسر محمد عامر", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26154", "name": "محمود بيومي محمد بيومي أبو ريه", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26155", "name": "محمود حازم محمود عبدالوهاب محمد", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26157", "name": "محمود محمد امين الصادق عبدالوهاب أحمد", "advisor": "أ.د/ عبد الرحمن مصطفى حسن السكري"}, {"code": "26054", "name": "حسن نبيل حسن محمد الخولى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26056", "name": "حلا ياسر عبدالرحمن البجاوى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26057", "name": "حنين معتز عبدالفتاح عبد الصمد", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26059", "name": "خديجه حسنى شاكر سلام", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26061", "name": "دانيال ريمون يوسف وديع ميخائيل", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26062", "name": "دريه حسين محمد عبدالحميد دويدار", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26063", "name": "الدين على عفيفى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26064", "name": "دينا جمال محمد صابر ابوالمجد سيد احمد", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26065", "name": "رحاب صبحى مكاوى عوف الحوشى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26066", "name": "رحمه اشرف عبدالغنى محمد صعوان", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26067", "name": "رحمه تامر عيد رمضان", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26068", "name": "ردينه سعيد حامد محمد عمران", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26070", "name": "رقيه محمد عبدالله أحمد شعلان", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26071", "name": "رنا احمد عبدالعزيز فرماوى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26073", "name": "رنيم محمد رزق دياب", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26074", "name": "رهف تامر محمد صبحى حسن المغربى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26076", "name": "روضه رمضان عبده مصلحى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26077", "name": "روضه ناصر ابراهيم علي عوض", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26078", "name": "ريتاج محمود عبدالمنعم محمود عفيفى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26079", "name": "ريهام ايهاب ابراهيم محمد منصور", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26080", "name": "زياد احمد السيد السيد عبدالعاطى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26081", "name": "زياد اشرف جاد حسانين عبدالعال", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26082", "name": "زياد ايمن طلعت عبدالستار بدوى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26028", "name": "افنان وليد جميل محمد عيسى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26029", "name": "الاء جمعه صلاح الدين أمين السقا", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26030", "name": "الاء محمود محمود أحمد", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26031", "name": "الرميصاء رضا صقر عبدالمقصود محمد", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26032", "name": "السعيد عبد الله السعيد عبد الله عبد سليمان", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26033", "name": "ايرينى هانى جمال يعقوب زكرى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26034", "name": "ايمان عبدالفتاح اسماعيل ابراهيم", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26035", "name": "ايمان محمد صلاح عباس على", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26036", "name": "ايه حسنى السعيد السيد عبدالحميد ورد", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26038", "name": "بسمله محمد عبد الله احمد الفرماوى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26039", "name": "بسمله محمود ابراهيم متولى محمود", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26040", "name": "بسنت اسامه حسن محمد اسماعيل", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26041", "name": "تسنيم شريف رزق محمد على", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26042", "name": "جمعه السيد جمعه شعيب", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26043", "name": "جنا محمد سعيد محمد المكاوى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26044", "name": "جنه خالد انور الخولى", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26045", "name": "جنى ايمن حمدى بيومى السيد", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26046", "name": "جنى هانى صبحى على ابوالنتصر", "advisor": "أ.د/ عبدالله فوزي سيد أحمد السعدني"}, {"code": "26048", "name": "جودى محمد حسن حسن خميس", "advisor": "أ.د/ كريمة منصور علي محمد"}, {"code": "26049", "name": "جومانا ميلاد وهيب فهمى يوسف", "advisor": "أ.د/ كريمة منصور علي محمد"}, {"code": "26050", "name": "حبيبه اسامه السيد محمد البرى", "advisor": "أ.د/ كريمة منصور علي محمد"}, {"code": "26051", "name": "حبيبه رجب محمد ابراهيم ناصف", "advisor": "أ.د/ كريمة منصور علي محمد"}, {"code": "26052", "name": "حبيبه عبدالوهاب عبدالعزيز السمبرى", "advisor": "أ.د/ كريمة منصور علي محمد"}, {"code": "26053", "name": "حبيبه محمد ابراهيم حموده تركيه", "advisor": "أ.د/ كريمة منصور علي محمد"}];
+
+function normalizeArabic(value) {
+  return String(value || "")
+    .toLocaleLowerCase("ar")
+    .normalize("NFD")
+    .replace(/[\u064B-\u065F\u0670\u0640]/g, "")
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ة/g, "ه")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/[^\u0600-\u06FFa-z0-9]/g, "");
 }
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-document.getElementById('studentQuery').addEventListener('keydown',e=>{if(e.key==='Enter')lookupAdvisor()});
-</script></body></html>
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function showPerson(person) {
+  return `<article class="person">
+    <h3>${escapeHtml(person.name)}</h3>
+    <p class="detail"><strong>الكود الجامعي:</strong> <span dir="ltr">${escapeHtml(person.code)}</span></p>
+    <p class="detail"><strong>المرشد الأكاديمي:</strong> ${escapeHtml(person.advisor)}</p>
+    <span class="badge">الفرقة الأولى</span>
+  </article>`;
+}
+function lookupAdvisor() {
+  const raw = document.getElementById("studentQuery").value.trim();
+  const box = document.getElementById("lookupResult");
+  box.style.display = "block";
+  if (!raw) {
+    box.innerHTML = '<span class="empty">من فضلك اكتب اسم الطالب أو الكود الجامعي أولًا.</span>';
+    return;
+  }
+  const q = normalizeArabic(raw);
+  let found;
+  if (/^\d+$/.test(raw)) {
+    found = ADVISOR_ASSIGNMENTS.filter(x => x.code === raw);
+  } else {
+    found = ADVISOR_ASSIGNMENTS.filter(x => normalizeArabic(x.name).includes(q));
+  }
+  if (!found.length) {
+    box.innerHTML = '<span class="empty">لم نعثر على نتيجة مطابقة. جرّب كتابة الاسم بشكل أوضح أو أدخل الكود الجامعي كما هو في الكشف الرسمي.</span>';
+    return;
+  }
+  if (found.length > 10) {
+    box.innerHTML = `<p>وجدنا ${found.length} نتيجة. اكتب الاسم بشكل أكثر تحديدًا أو استخدم الكود الجامعي.</p>`;
+    return;
+  }
+  box.innerHTML = `<p><strong>عدد النتائج: ${found.length}</strong></p>` + found.map(showPerson).join("");
+}
+document.getElementById("searchButton").addEventListener("click", lookupAdvisor);
+document.getElementById("studentQuery").addEventListener("keydown", e => {
+  if (e.key === "Enter") lookupAdvisor();
+});
+</script>
+</body>
+</html>
