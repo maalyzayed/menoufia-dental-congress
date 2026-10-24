@@ -21,6 +21,9 @@ input{flex:1;min-width:0;border:1px solid #cfe3ec;border-radius:11px;padding:12p
 .tag{display:inline-block;background:#f8f0d5;color:#6e5712;padding:4px 9px;border-radius:20px;font-size:12px;margin:3px;text-decoration:none}
 .gradebox{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px auto 0}
 .gradebox label{font-weight:bold}.gradebox select{background:#fff;border:1px solid #cfe3ec;min-width:190px}
+.welcome-link{display:inline-block;background:#d4af37;color:#17364a;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:bold;margin-top:14px;box-shadow:0 4px 12px #00000018}
+.welcome{margin-top:22px;scroll-margin-top:18px}.welcome h2{color:var(--navy);margin-top:0}.welcome-intro{line-height:1.9;margin-top:-4px}.welcome-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.welcome-card{background:#fff;border:1px solid #dcecf3;border-radius:16px;padding:16px;box-shadow:0 8px 22px #123b5d0b}.welcome-card h3{margin:0 0 9px;color:#167da5;font-size:17px}.welcome-card p,.welcome-card li{line-height:1.85;font-size:14px}.welcome-card ul{padding-right:20px;margin:6px 0}.welcome-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.welcome-actions button{background:#123b5d;color:white}.welcome-note{background:#fff8df;border:1px solid #f0df9b;border-radius:12px;padding:12px;line-height:1.8;margin-top:14px}
+@media(max-width:780px){.welcome-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.welcome-grid{grid-template-columns:1fr}
 footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
 @media(max-width:780px){.grid{grid-template-columns:1fr}.messages{height:340px}}@media(max-width:430px){.buttons{grid-template-columns:1fr}}
 </style></head>
@@ -31,7 +34,7 @@ footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
 <div class="gradebox"><label for="grade">اختار الفرقة:</label><select id="grade" onchange="changeGrade()">
 <option value="1">الفرقة الأولى</option><option value="2">الفرقة الثانية</option><option value="3">الفرقة الثالثة</option><option value="4">الفرقة الرابعة</option><option value="5">الفرقة الخامسة</option>
 </select></div>
-<div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div>
+<div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div><a class="welcome-link" href="#welcome-kit">🎒 افتح الحقيبة الترحيبية للطلاب</a>
 </header>
 <div class="wrap"><div class="grid">
 <section class="panel"><h2>اختار سؤالك</h2><div class="buttons">
@@ -43,7 +46,21 @@ footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
 <button onclick="ask('الإرشاد الأكاديمي')">🧭 الإرشاد الأكاديمي</button><button onclick="ask('عملي مجموعة A3')">🦷 عملي مجموعة A3</button><button onclick="ask('مساعدة')">❓ مساعدة</button>
 </div><p class="note">اختار الفرقة أولًا، ثم اسأل عن اليوم أو المادة أو مجموعة العملي. جداول الفرق الثانية إلى الخامسة مدخلة من ملفات الجداول المرفقة، وقد تحتاج بعض الخانات المتداخلة في ملفات PDF إلى مراجعة القسم للتأكد من توقيتها. عند صدور تعديل رسمي، يُتبع الإعلان الأحدث.</p></section>
 <section class="panel chat"><h2>اسأل المساعد الطلابي</h2><div class="messages" id="messages"></div><div class="composer"><input id="input" placeholder="اكتب سؤالك عن مادة أو يوم أو مكان..." onkeydown="if(event.key==='Enter')send()"><button class="send" onclick="send()">إرسال</button></div></section>
-</div><footer>كلية طب الأسنان – جامعة المنوفية | المساعد الطلابي لجميع الفرق</footer></div>
+</div>
+<section class="panel welcome" id="welcome-kit">
+<h2>🎒 الحقيبة الترحيبية لطلاب كلية طب الأسنان – جامعة المنوفية</h2>
+<p class="welcome-intro">أهلًا وسهلًا بيك في كليتك! الحقيبة دي دليلك الأول للتعرّف على المساعد الطلابي، والوصول للأماكن المهمة، والاستعداد لبداية دراسية منظمة. تقدر ترجع لها في أي وقت.</p>
+<div class="welcome-grid">
+<article class="welcome-card"><h3>👋 رسالة ترحيب</h3><p>بداية جديدة مليانة تعلّم وتجارب مهمة. خليك فضولي، اسأل لما تحتاج، ونظّم وقتك من أول أسبوع. خطوة صغيرة كل يوم هتساعدك تبني أساس قوي في دراسة طب الأسنان.</p></article>
+<article class="welcome-card"><h3>🧭 دليلك داخل الكلية</h3><ul><li><b>مدرج أ ومدرج 2:</b> الدور الرابع.</li><li><b>مدرج 3:</b> الدور السادس.</li><li><b>المعامل:</b> موجودة في الأدوار الثالث والرابع والخامس.</li></ul><p>راجع جدولك لمعرفة المعمل أو العيادة المحددة لكل حصة.</p></article>
+<article class="welcome-card"><h3>📱 إزاي تستخدم المساعد؟</h3><ul><li>اختار الفرقة الدراسية من أعلى الصفحة.</li><li>اسأل عن جدول الأسبوع أو يوم معين.</li><li>اكتب اسم المادة أو مجموعة العملي A1–A6.</li><li>اسأل عن أماكن المدرجات والمعامل.</li></ul><div class="welcome-actions"><button onclick="ask('جدول الأسبوع');document.getElementById('messages').scrollIntoView({behavior:'smooth',block:'center'})">عرض جدول الأسبوع</button><button onclick="ask('أماكن المدرجات');document.getElementById('messages').scrollIntoView({behavior:'smooth',block:'center'})">أماكن المدرجات</button></div></article>
+<article class="welcome-card"><h3>✅ قائمة الاستعداد لأول أسبوع</h3><ul><li>احفظ جدول المحاضرات والعملي بعد التأكد من آخر إعلان.</li><li>تعرّف على مكان المدرج والمعمل قبل موعد الحصة.</li><li>جهّز أدوات الكتابة ودفترًا لتسجيل الملاحظات.</li><li>احتفظ بنسخة من الإعلانات والتعليمات الرسمية.</li><li>اسأل عن نظام الحضور وتقسيم المجموعات من القسم المختص.</li></ul></article>
+<article class="welcome-card"><h3>📚 عادات دراسية مفيدة</h3><ul><li>راجع المحاضرة في نفس اليوم ولو لمدة قصيرة.</li><li>قسّم المذاكرة إلى جلسات صغيرة مع فواصل.</li><li>اربط المعلومات النظرية بالتطبيق العملي.</li><li>اكتب الأسئلة التي تحتاج توضيحًا واسأل عضو هيئة التدريس أو المعيد المختص.</li><li>لا تؤجل الاستعداد للعملي إلى آخر لحظة.</li></ul></article>
+<article class="welcome-card"><h3>🧑‍🏫 الإرشاد الأكاديمي والمساعدة</h3><p>لو عندك استفسار عن التسجيل أو الخطة الدراسية أو مشكلة أكاديمية، ارجع إلى إعلان الإرشاد الأكاديمي الخاص بفرقتك أو تواصل مع إدارة شؤون التعليم والطلاب.</p><p>أسماء المرشدين ووسائل التواصل الرسمية غير مضافة هنا؛ اعتمد على الإعلانات الرسمية لتجنب المعلومات غير المحدثة.</p><div class="welcome-actions"><a class="tag" href="speakers.html">صفحة الإرشاد الأكاديمي</a></div></article>
+</div>
+<div class="welcome-note"><b>مهم:</b> الحقيبة إرشادية، والجداول والأماكن قد تتغير. اتبع دائمًا أحدث إعلان رسمي صادر عن الكلية أو القسم، وتأكد من توقيت ومكان العملي وتوزيع المجموعات قبل الحضور.</div>
+</section>
+<footer>كلية طب الأسنان – جامعة المنوفية | المساعد الطلابي لجميع الفرق</footer></div>
 <script>
 const S={
 1:[
