@@ -3,10 +3,14 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>المساعد الطلابي | كلية طب الأسنان جامعة المنوفية</title>
+<link rel="icon" type="image/png" href="student-assistant-logo.png">
 <style>
 :root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a}
 *{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eaf7fc,#f7fbfd);color:var(--ink)}
 header{background:linear-gradient(120deg,#123452,#167da5);color:#fff;padding:30px 18px;text-align:center}
+.brand-header{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.brand-header img{width:112px;height:112px;object-fit:contain;background:#fff;border-radius:50%;padding:3px;box-shadow:0 4px 16px #001c3b35}
+.brand-header h1{margin:0;font-size:clamp(22px,4vw,36px)}
 header h1{margin:0 0 10px;font-size:clamp(24px,4vw,36px)}header p{margin:0;line-height:1.8}
 .wrap{max-width:1150px;margin:24px auto;padding:0 14px}.grid{display:grid;grid-template-columns:.9fr 1.2fr;gap:18px}
 .panel{background:#fff;border:1px solid #dcecf3;border-radius:18px;padding:18px;box-shadow:0 10px 28px #123b5d12}
@@ -31,12 +35,13 @@ footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
 <div style="max-width:1100px;margin:12px auto;padding:10px 16px;text-align:right"><a href="student-guide.html" style="display:inline-block;padding:10px 16px;border-radius:10px;background:#12345a;color:#fff;text-decoration:none;font-weight:bold">📘 دليل الطالب التفصيلي</a></div>
 
 <header>
-<h1>🎓 المساعد الطلابي لكلية طب الأسنان</h1>
+<div class="brand-header"><img src="student-assistant-logo.png" alt="شعار المساعد الطلابي لكلية طب الأسنان جامعة المنوفية"><h1>المساعد الطلابي لكلية طب الأسنان</h1></div>
 <p>جامعة المنوفية · جميع الفرق الدراسية · الفصل الدراسي الأول</p>
 <div class="gradebox"><label for="grade">اختار الفرقة:</label><select id="grade" onchange="changeGrade()">
 <option value="1">الفرقة الأولى</option><option value="2">الفرقة الثانية</option><option value="3">الفرقة الثالثة</option><option value="4">الفرقة الرابعة</option><option value="5">الفرقة الخامسة</option>
 </select></div>
-<div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div><a class="welcome-link" href="#welcome-kit">🎒 افتح الحقيبة الترحيبية للطلاب</a> <a class="welcome-link" href="#student-guide">📘 دليل الطالب</a>
+<div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div><a class="welcome-link" href="#welcome-kit">🎒 افتح الحقيبة الترحيبية للطلاب</a>
+<a href="student-guide.html" class="tag">📘 دليل الطالب التفصيلي</a> <a class="welcome-link" href="#student-guide">📘 دليل الطالب</a>
 </header>
 <div class="wrap"><div class="grid">
 <section class="panel"><h2>اختار سؤالك</h2><div class="buttons">
