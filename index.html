@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#123b5d"><meta name="description" content="المساعد الطلابي لكلية طب الأسنان جامعة المنوفية: الجداول، الأماكن، دليل الطالب والإرشاد الأكاديمي."><link rel="manifest" href="manifest.webmanifest">
 <title>المساعد الطلابي | كلية طب الأسنان جامعة المنوفية</title>
 <link rel="icon" type="image/png" href="student-assistant-logo.png">
 <style>
@@ -31,20 +31,50 @@ input{flex:1;min-width:0;border:1px solid #cfe3ec;border-radius:11px;padding:12p
 @media(max-width:520px){.welcome-grid{grid-template-columns:1fr}}
 @media(max-width:430px){.buttons{grid-template-columns:1fr}}
 footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
+
+/* تطويرات الواجهة */
+:focus-visible{outline:3px solid #d4af37;outline-offset:2px}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.top-actions a,.top-actions button{display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;background:#fff;color:#123b5d;border:1px solid #d8eaf2;border-radius:12px;padding:10px 14px;font-weight:bold}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+.stat-card{background:linear-gradient(145deg,#f5fbfe,#e7f4fa);border:1px solid #dcecf3;border-radius:14px;padding:14px}
+.stat-card b{display:block;color:#123b5d;font-size:22px;margin-bottom:5px}
+.stat-card span{font-size:13px;line-height:1.7}
+.tools-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tools-row input,.tools-row select{background:#fff;border:1px solid #cfe3ec;min-width:150px;flex:1}
+.result-list{display:grid;gap:9px;margin-top:12px}
+.result-item{border:1px solid #dcecf3;border-radius:12px;padding:12px;background:#fbfdfe;line-height:1.8}
+.result-item h3{margin:0 0 5px;color:#123b5d;font-size:16px}
+.pill{display:inline-block;background:#e8f5fa;border-radius:20px;padding:3px 9px;font-size:12px;margin:2px}
+.notice{border-right:4px solid #d4af37;background:#fff9e5;border-radius:10px;padding:12px;line-height:1.8;margin:10px 0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-grid label{display:block;font-weight:bold;font-size:13px;color:#123b5d}
+.form-grid input,.form-grid select,.form-grid textarea{width:100%;margin-top:5px;background:#fff;border:1px solid #cfe3ec;border-radius:10px;padding:11px;font:inherit}
+.form-grid textarea{min-height:110px;resize:vertical;grid-column:1/-1}
+.primary-btn{background:#123b5d!important;color:#fff!important}
+.muted{font-size:12px;color:#607b8c;line-height:1.8}
+@media(max-width:650px){.dashboard-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-grid textarea{grid-column:auto}.brand-header img{width:82px;height:82px}}
+
 </style></head>
 <body>
 <div style="max-width:1100px;margin:12px auto;padding:10px 16px;text-align:right"><a href="#student-guide" style="display:inline-block;padding:10px 16px;border-radius:10px;background:#12345a;color:#fff;text-decoration:none;font-weight:bold">📘 دليل الطالب التفصيلي</a></div>
 
 <header>
-<div class="brand-header"><img src="student-assistant-logo.png" alt="شعار المساعد الطلابي لكلية طب الأسنان جامعة المنوفية"><h1>المساعد الطلابي لكلية طب الأسنان</h1></div>
+<div class="brand-header"><img src="student-assistant-logo.png" alt="شعار المساعد الطلابي لكلية طب الأسنان جامعة المنوفية" onerror="this.style.display='none'"><h1>المساعد الطلابي لكلية طب الأسنان</h1></div>
 <p>جامعة المنوفية · جميع الفرق الدراسية · الفصل الدراسي الأول</p>
 <div class="gradebox"><label for="grade">اختار الفرقة:</label><select id="grade" onchange="changeGrade()">
 <option value="1">الفرقة الأولى</option><option value="2">الفرقة الثانية</option><option value="3">الفرقة الثالثة</option><option value="4">الفرقة الرابعة</option><option value="5">الفرقة الخامسة</option>
 </select></div>
-<div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div><a class="welcome-link" href="#welcome-kit">🎒 افتح الحقيبة الترحيبية للطلاب</a>
+<div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="#advising-help" class="tag">الإرشاد الأكاديمي</a></div><a class="welcome-link" href="#welcome-kit">🎒 افتح الحقيبة الترحيبية للطلاب</a>
 <a href="#student-guide" class="tag">📘 دليل الطالب التفصيلي</a> <a class="welcome-link" href="#student-guide">📘 دليل الطالب</a>
+<div class="top-actions"><a href="#daily-dashboard">📊 ملخص الفرقة</a><a href="#schedule-search">🔎 ابحث في الجداول</a><a href="#announcements">📢 الإعلانات</a><a href="#report-problem">✉️ أرسل استفسارًا</a></div>
 </header>
-<div class="wrap"><div class="grid">
+<div class="wrap">
+<section class="panel" id="daily-dashboard"><div class="section-title"><h2>📊 لوحة الفرقة السريعة</h2><span class="pill" id="dashboard-grade">الفرقة الأولى</span></div><p class="welcome-intro">ملخص سريع من بيانات الجداول الموجودة داخل الموقع. راجع الإعلان الرسمي إذا صدر تعديل.</p><div class="dashboard-grid"><div class="stat-card"><b id="stat-count">0</b><span>حصة مسجلة في جدول الفرقة</span></div><div class="stat-card"><b id="stat-days">0</b><span>أيام بها حصص في البيانات</span></div><div class="stat-card"><b id="stat-types">0</b><span>مواد مختلفة في الجدول</span></div></div><div id="dashboard-preview" class="result-list"></div></section>
+<section class="panel" id="schedule-search" style="margin-top:18px"><div class="section-title"><h2>🔎 البحث المتقدم في الجداول</h2></div><p class="muted">ابحث باسم مادة أو يوم أو نوع الحصة أو مجموعة. النتائج مأخوذة من البيانات المضمنة في هذا الملف.</p><div class="tools-row"><input id="schedule-query" placeholder="مثال: Oral Biology أو الأحد أو A3"><select id="schedule-day"><option value="">كل الأيام</option><option>السبت</option><option>الأحد</option><option>الاثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select><select id="schedule-type"><option value="">كل الأنواع</option><option>محاضرة</option><option>عملي</option><option>أونلاين</option></select><button class="primary-btn" onclick="searchSchedule()">بحث</button></div><div id="schedule-results" class="result-list" aria-live="polite"></div></section>
+<section class="panel" id="announcements" style="margin-top:18px"><div class="section-title"><h2>📢 الإعلانات والتنبيهات</h2><span class="pill">محتوى إرشادي</span></div><div class="notice"><b>تنبيه مهم:</b> هذه النسخة لا تتصل بعد بنظام نشر مركزي؛ لذلك لا تعتبرها مصدرًا تلقائيًا للتحديثات. اتبع أحدث إعلان رسمي صادر عن الكلية أو القسم.</div><div class="result-list"><article class="result-item"><h3>📅 مراجعة الجدول قبل الحضور</h3><div>تحقق من اليوم والوقت ومكان العملي وتوزيع المجموعات من الإعلان الرسمي قبل التوجه للكلية.</div></article><article class="result-item"><h3>📘 دليل الطالب 2026–2027</h3><div>يمكنك فتح الدليل أو تنزيله من قسم دليل الطالب أسفل الصفحة.</div></article></div></section>
+<div class="grid">
 <section class="panel"><h2>اختار سؤالك</h2><div class="buttons">
 <button onclick="ask('جدول الأسبوع')">📚 جدول الأسبوع</button>
 <button onclick="ask('جدول يوم السبت')">📅 جدول السبت</button><button onclick="ask('جدول يوم الأحد')">📅 جدول الأحد</button>
@@ -64,10 +94,13 @@ footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
 <article class="welcome-card"><h3>📱 إزاي تستخدم المساعد؟</h3><ul><li>اختار الفرقة الدراسية من أعلى الصفحة.</li><li>اسأل عن جدول الأسبوع أو يوم معين.</li><li>اكتب اسم المادة أو مجموعة العملي A1–A6.</li><li>اسأل عن أماكن المدرجات والمعامل.</li></ul><div class="welcome-actions"><button onclick="ask('جدول الأسبوع');document.getElementById('messages').scrollIntoView({behavior:'smooth',block:'center'})">عرض جدول الأسبوع</button><button onclick="ask('أماكن المدرجات');document.getElementById('messages').scrollIntoView({behavior:'smooth',block:'center'})">أماكن المدرجات</button></div></article>
 <article class="welcome-card"><h3>✅ قائمة الاستعداد لأول أسبوع</h3><ul><li>احفظ جدول المحاضرات والعملي بعد التأكد من آخر إعلان.</li><li>تعرّف على مكان المدرج والمعمل قبل موعد الحصة.</li><li>جهّز أدوات الكتابة ودفترًا لتسجيل الملاحظات.</li><li>احتفظ بنسخة من الإعلانات والتعليمات الرسمية.</li><li>اسأل عن نظام الحضور وتقسيم المجموعات من القسم المختص.</li></ul></article>
 <article class="welcome-card"><h3>📚 عادات دراسية مفيدة</h3><ul><li>راجع المحاضرة في نفس اليوم ولو لمدة قصيرة.</li><li>قسّم المذاكرة إلى جلسات صغيرة مع فواصل.</li><li>اربط المعلومات النظرية بالتطبيق العملي.</li><li>اكتب الأسئلة التي تحتاج توضيحًا واسأل عضو هيئة التدريس أو المعيد المختص.</li><li>لا تؤجل الاستعداد للعملي إلى آخر لحظة.</li></ul></article>
-<article class="welcome-card"><h3>🧑‍🏫 الإرشاد الأكاديمي والمساعدة</h3><p>لو عندك استفسار عن التسجيل أو الخطة الدراسية أو مشكلة أكاديمية، ارجع إلى إعلان الإرشاد الأكاديمي الخاص بفرقتك أو تواصل مع إدارة شؤون التعليم والطلاب.</p><p>أسماء المرشدين ووسائل التواصل الرسمية غير مضافة هنا؛ اعتمد على الإعلانات الرسمية لتجنب المعلومات غير المحدثة.</p><div class="welcome-actions"><a class="tag" href="speakers.html">صفحة الإرشاد الأكاديمي</a></div></article>
+<article class="welcome-card"><h3>🧑‍🏫 الإرشاد الأكاديمي والمساعدة</h3><p>لو عندك استفسار عن التسجيل أو الخطة الدراسية أو مشكلة أكاديمية، ارجع إلى إعلان الإرشاد الأكاديمي الخاص بفرقتك أو تواصل مع إدارة شؤون التعليم والطلاب.</p><p>أسماء المرشدين ووسائل التواصل الرسمية غير مضافة هنا؛ اعتمد على الإعلانات الرسمية لتجنب المعلومات غير المحدثة.</p><div class="welcome-actions"><a class="tag" href="#advising-help">صفحة الإرشاد الأكاديمي</a></div></article>
 </div>
 <div class="welcome-note"><b>مهم:</b> الحقيبة إرشادية، والجداول والأماكن قد تتغير. اتبع دائمًا أحدث إعلان رسمي صادر عن الكلية أو القسم، وتأكد من توقيت ومكان العملي وتوزيع المجموعات قبل الحضور.</div>
 </section>
+<section class="panel" id="campus-map" style="margin-top:18px"><h2>📍 دليل الوصول للأماكن</h2><p class="muted">الدليل النصي التالي يعرض الأماكن المسجلة حاليًا فقط، ولا يمثل خريطة هندسية للمبنى.</p><div class="dashboard-grid"><article class="result-item"><h3>مدرج أ ومدرج 2</h3><span class="pill">الدور الرابع</span></article><article class="result-item"><h3>مدرج 3</h3><span class="pill">الدور السادس</span></article><article class="result-item"><h3>المعامل</h3><span class="pill">الأدوار الثالث والرابع والخامس</span></article><article class="result-item"><h3>Lap 1 وLap 2</h3><span class="pill">الدور الثالث العلوي</span></article><article class="result-item"><h3>Lap 3</h3><span class="pill">الدور الرابع</span></article><article class="result-item"><h3>Lap 4</h3><span class="pill">الدور الخامس</span></article><article class="result-item"><h3>Simulator 1 وSimulator 2</h3><span class="pill">الدور الثالث العلوي</span></article></div><p class="muted">يرجى التأكد من أسماء الأماكن والأدوار من إدارة الكلية؛ ويمكن إضافة مخطط المبنى الرسمي عند توفره.</p></section>
+<section class="panel" id="advising-help" style="margin-top:18px"><h2>🧭 الإرشاد الأكاديمي</h2><p>للاستفسارات المتعلقة بالتسجيل أو الخطة الدراسية أو التعثر الأكاديمي، راجع إعلان المرشد الأكاديمي المخصص لفرقتك أو إدارة شؤون التعليم والطلاب. لا تتضمن هذه النسخة أسماء أو بيانات اتصال غير مؤكدة.</p></section>
+<section class="panel" id="report-problem" style="margin-top:18px"><h2>✉️ إرسال استفسار أو الإبلاغ عن مشكلة</h2><p>املأ البيانات التالية لفتح رسالة بريد إلكتروني جاهزة للإرسال. هذا النموذج لا يخزن الطلبات على الموقع؛ لاستقبال الطلبات مركزيًا ومتابعتها نحتاج ربطًا آمنًا بخدمة خلفية.</p><form id="issue-form" class="form-grid"><label>الاسم<input id="issue-name" required maxlength="100" autocomplete="name"></label><label>البريد الإلكتروني<input id="issue-email" type="email" required maxlength="150" autocomplete="email"></label><label>الفرقة<select id="issue-grade"><option>الأولى</option><option>الثانية</option><option>الثالثة</option><option>الرابعة</option><option>الخامسة</option></select></label><label>نوع الطلب<select id="issue-kind"><option>استفسار أكاديمي</option><option>مشكلة في الجدول</option><option>مشكلة في الموقع</option><option>اقتراح تطوير</option></select></label><label style="grid-column:1/-1">تفاصيل الطلب<textarea id="issue-details" required maxlength="3000" placeholder="اكتب تفاصيل الاستفسار أو المشكلة..."></textarea></label><button class="primary-btn" type="submit">إنشاء رسالة البريد</button></form><p class="muted" id="issue-status" aria-live="polite"></p></section>
 <section class="panel student-guide" id="student-guide">
 <h2>📘 دليل الطالب لكلية طب الأسنان – جامعة المنوفية</h2>
 <p class="welcome-intro">يمكنك الرجوع إلى دليل الطالب للعام الجامعي 2025–2026 للتعرّف على معلومات الكلية، واللائحة الدراسية، والإرشاد الأكاديمي، وحقوق الطالب، والامتحانات، والخدمات والأنشطة الطلابية. راجع الدليل والإعلانات الرسمية الأحدث عند وجود أي تحديث.</p>
@@ -119,7 +152,7 @@ const S={
 ]};
 const days=[['الأحد',/الأحد|الاحد|sunday/],['الاثنين',/الاثنين|الإثنين|الاتنين|monday/],['الثلاثاء',/الثلاثاء|التلات|tuesday/],['الأربعاء',/الأربعاء|الاربعاء|wednesday/],['الخميس',/الخميس|thursday/],['السبت',/السبت|saturday/]];
 function changeGrade(){const n=document.getElementById('grade').value;add('تم اختيار الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][n])+'. اسأل عن الجدول أو المادة أو مجموعة العملي.');}
-function add(text,who='bot'){const box=document.getElementById('messages');const d=document.createElement('div');d.className='msg '+who;d.innerHTML=text;box.appendChild(d);box.scrollTop=box.scrollHeight;}
+function add(text,who='bot'){const box=document.getElementById('messages');const d=document.createElement('div');d.className='msg '+who;if(who==='user'){d.textContent=String(text)}else{d.innerHTML=String(text)}box.appendChild(d);box.scrollTop=box.scrollHeight;}
 function norm(s){return s.toLowerCase().replace(/[؟?!.,،؛:]/g,' ').replace(/\s+/g,' ').trim();}
 function answer(q){
 const x=norm(q),grade=document.getElementById('grade').value, arr0=S[grade];
@@ -146,5 +179,14 @@ return 'أنا المساعد الطلابي للفرقة '+(['','الأولى',
 }
 function ask(q){add(q,'user');setTimeout(()=>add(answer(q),'bot'),80);}
 function send(){const i=document.getElementById('input');const q=i.value.trim();if(!q)return;i.value='';ask(q);}
+
+function refreshDashboard(){const g=document.getElementById('grade').value,rows=S[g]||[],daysUsed=[...new Set(rows.map(r=>r[0]))],subjects=[...new Set(rows.map(r=>r[1]))];document.getElementById('dashboard-grade').textContent='الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][g]);document.getElementById('stat-count').textContent=rows.length;document.getElementById('stat-days').textContent=daysUsed.length;document.getElementById('stat-types').textContent=subjects.length;const preview=rows.slice(0,4);document.getElementById('dashboard-preview').innerHTML=preview.length?preview.map(r=>'<article class="result-item"><h3>'+escapeHTML(r[0]+' — '+r[1])+'</h3><span class="pill">'+escapeHTML(r[2])+'</span><div>🕒 '+escapeHTML(r[3])+' · 📍 '+escapeHTML(r[4])+'</div><div class="muted">'+escapeHTML(r[5])+'</div></article>').join(''):'<p>لا توجد بيانات جدول لهذه الفرقة.</p>';}
+function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function searchSchedule(){const g=document.getElementById('grade').value,q=norm(document.getElementById('schedule-query').value),day=document.getElementById('schedule-day').value,type=document.getElementById('schedule-type').value;let rows=(S[g]||[]).filter(r=>(!day||r[0]===day)&&(!type||r[2]===type));if(q){const parts=q.split(' ').filter(Boolean);rows=rows.filter(r=>parts.some(p=>r.some(c=>norm(c).includes(p))));}const box=document.getElementById('schedule-results');box.innerHTML=rows.length?rows.map(r=>'<article class="result-item"><h3>'+escapeHTML(r[0]+' — '+r[1])+'</h3><span class="pill">'+escapeHTML(r[2])+'</span><div>🕒 '+escapeHTML(r[3])+'</div><div>📍 '+escapeHTML(r[4])+'</div><div>👥 '+escapeHTML(r[5])+'</div></article>').join(''):'<p class="notice">لا توجد نتائج مطابقة. جرّب كلمة أخرى أو امسح بعض الفلاتر.</p>';}
+function changeGrade(){const n=document.getElementById('grade').value;add('تم اختيار الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][n])+'. اسأل عن الجدول أو المادة أو مجموعة العملي.');refreshDashboard();searchSchedule();}
+document.getElementById('schedule-query').addEventListener('keydown',e=>{if(e.key==='Enter')searchSchedule()});document.getElementById('schedule-day').addEventListener('change',searchSchedule);document.getElementById('schedule-type').addEventListener('change',searchSchedule);
+document.getElementById('issue-form').addEventListener('submit',function(e){e.preventDefault();const name=document.getElementById('issue-name').value.trim(),email=document.getElementById('issue-email').value.trim(),grade=document.getElementById('issue-grade').value,kind=document.getElementById('issue-kind').value,details=document.getElementById('issue-details').value.trim();if(!name||!email||!details)return;const recipient='';if(!recipient){document.getElementById('issue-status').textContent='النموذج جاهز، لكن لم يُحدد بريد الاستقبال بعد. أضيفي البريد الرسمي في إعداد REPORT_EMAIL داخل الكود أو اربطي النموذج بخدمة خلفية قبل النشر.';const subject=encodeURIComponent('طلب من المساعد الطلابي - '+kind);const body=encodeURIComponent('الاسم: '+name+'\nالبريد: '+email+'\nالفرقة: '+grade+'\nالنوع: '+kind+'\n\nالتفاصيل:\n'+details);window.location.href='mailto:?subject='+subject+'&body='+body;return;}});
+
+refreshDashboard();searchSchedule();
 add('👋 <b>أهلًا بيك في المساعد الطلابي!</b><br>اختار الفرقة الدراسية من أعلى الصفحة، ثم اسألني عن المحاضرات والعملي والمجموعات والأماكن.');
-</script></body></html>
+</script><script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script></body></html>
