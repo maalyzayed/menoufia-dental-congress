@@ -186,7 +186,7 @@ function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':
 function searchSchedule(){const g=document.getElementById('grade').value,q=norm(document.getElementById('schedule-query').value),day=document.getElementById('schedule-day').value,type=document.getElementById('schedule-type').value;let rows=(S[g]||[]).filter(r=>(!day||r[0]===day)&&(!type||r[2]===type));if(q){const parts=q.split(' ').filter(Boolean);rows=rows.filter(r=>parts.some(p=>r.some(c=>norm(c).includes(p))));}const box=document.getElementById('schedule-results');box.innerHTML=rows.length?rows.map(r=>'<article class="result-item"><h3>'+escapeHTML(r[0]+' — '+r[1])+'</h3><span class="pill">'+escapeHTML(r[2])+'</span><div>🕒 '+escapeHTML(r[3])+'</div><div>📍 '+escapeHTML(r[4])+'</div><div>👥 '+escapeHTML(r[5])+'</div></article>').join(''):'<p class="notice">لا توجد نتائج مطابقة. جرّب كلمة أخرى أو امسح بعض الفلاتر.</p>';}
 function changeGrade(){const n=document.getElementById('grade').value;add('تم اختيار الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][n])+'. اسأل عن الجدول أو المادة أو مجموعة العملي.');refreshDashboard();searchSchedule();}
 document.getElementById('schedule-query').addEventListener('keydown',e=>{if(e.key==='Enter')searchSchedule()});document.getElementById('schedule-day').addEventListener('change',searchSchedule);document.getElementById('schedule-type').addEventListener('change',searchSchedule);
-const GOOGLE_SHEETS_WEB_APP_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+const GOOGLE_SHEETS_WEB_APP_URL = 'https://docs.google.com/spreadsheets/d/1lV2slAonBsyrzsKCKGIqRv3JuBTLhVK2vSFHxhJgMUg/edit?usp=sharing';
 document.getElementById('issue-form').addEventListener('submit',async function(e){
  e.preventDefault();
  const status=document.getElementById('issue-status'),btn=document.getElementById('issue-submit');
@@ -194,7 +194,14 @@ document.getElementById('issue-form').addEventListener('submit',async function(e
  if(document.getElementById('issue-website').value) return;
  if(!name||!email||!details){status.textContent='من فضلك املأ الاسم والبريد الإلكتروني وتفاصيل الطلب.';return;}
  if(!/^\S+@\S+\.\S+$/.test(email)){status.textContent='اكتب بريدًا إلكترونيًا صحيحًا.';return;}
- if(GOOGLE_SHEETS_WEB_APP_URL==='https://docs.google.com/spreadsheets/d/1lV2slAonBsyrzsKCKGIqRv3JuBTLhVK2vSFHxhJgMUg/edit?usp=sharing'){status.textContent='الربط لم يكتمل بعد: ضعي رابط Web App من Google Apps Script في متغير GOOGLE_SHEETS_WEB_APP_URL داخل الكود.';return;}
+ if (
+  !GOOGLE_SHEETS_WEB_APP_URL ||
+  !GOOGLE_SHEETS_WEB_APP_URL.startsWith('https://script.google.com/macros/s/') ||
+  !GOOGLE_SHEETS_WEB_APP_URL.endsWith('/exec')
+) {
+  status.textContent = 'الربط غير مكتمل. يرجى إعداد رابط استقبال البلاغات أولًا.';
+  return;
+}status.textContent='الربط لم يكتمل بعد: ضعي رابط Web App من Google Apps Script في متغير GOOGLE_SHEETS_WEB_APP_URL داخل الكود.';return;}
  btn.disabled=true;btn.textContent='جارٍ الإرسال...';status.textContent='جارٍ إرسال الطلب إلى جدول الاستفسارات...';
  const payload={name,email,grade,kind,details,source:'المساعد الطلابي لكلية طب الأسنان'};
  try{
