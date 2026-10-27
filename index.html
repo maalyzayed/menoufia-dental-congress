@@ -27,12 +27,13 @@ input{flex:1;min-width:0;border:1px solid #cfe3ec;border-radius:11px;padding:12p
 .gradebox label{font-weight:bold}.gradebox select{background:#fff;border:1px solid #cfe3ec;min-width:190px}
 .welcome-link{display:inline-block;background:#d4af37;color:#17364a;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:bold;margin-top:14px;box-shadow:0 4px 12px #00000018}
 .welcome{margin-top:22px;scroll-margin-top:18px}.welcome h2{color:var(--navy);margin-top:0}.welcome-intro{line-height:1.9;margin-top:-4px}.welcome-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.welcome-card{background:#fff;border:1px solid #dcecf3;border-radius:16px;padding:16px;box-shadow:0 8px 22px #123b5d0b}.welcome-card h3{margin:0 0 9px;color:#167da5;font-size:17px}.welcome-card p,.welcome-card li{line-height:1.85;font-size:14px}.welcome-card ul{padding-right:20px;margin:6px 0}.welcome-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.welcome-actions button{background:#123b5d;color:white}.student-guide{margin-top:22px}.guide-frame{width:100%;height:720px;border:1px solid #dcecf3;border-radius:14px;background:#fff}.guide-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.guide-actions a{display:inline-block;background:#123b5d;color:#fff;padding:11px 15px;border-radius:10px;text-decoration:none;font-weight:bold}.welcome-note{background:#fff8df;border:1px solid #f0df9b;border-radius:12px;padding:12px;line-height:1.8;margin-top:14px}
-@media(max-width:780px){.welcome-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.welcome-grid{grid-template-columns:1fr}
+@media(max-width:780px){.welcome-grid{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.messages{height:340px}}
+@media(max-width:520px){.welcome-grid{grid-template-columns:1fr}}
+@media(max-width:430px){.buttons{grid-template-columns:1fr}}
 footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
-@media(max-width:780px){.grid{grid-template-columns:1fr}.messages{height:340px}}@media(max-width:430px){.buttons{grid-template-columns:1fr}}
 </style></head>
 <body>
-<div style="max-width:1100px;margin:12px auto;padding:10px 16px;text-align:right"><a href="student-guide.html" style="display:inline-block;padding:10px 16px;border-radius:10px;background:#12345a;color:#fff;text-decoration:none;font-weight:bold">📘 دليل الطالب التفصيلي</a></div>
+<div style="max-width:1100px;margin:12px auto;padding:10px 16px;text-align:right"><a href="#student-guide" style="display:inline-block;padding:10px 16px;border-radius:10px;background:#12345a;color:#fff;text-decoration:none;font-weight:bold">📘 دليل الطالب التفصيلي</a></div>
 
 <header>
 <div class="brand-header"><img src="student-assistant-logo.png" alt="شعار المساعد الطلابي لكلية طب الأسنان جامعة المنوفية"><h1>المساعد الطلابي لكلية طب الأسنان</h1></div>
@@ -41,7 +42,7 @@ footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
 <option value="1">الفرقة الأولى</option><option value="2">الفرقة الثانية</option><option value="3">الفرقة الثالثة</option><option value="4">الفرقة الرابعة</option><option value="5">الفرقة الخامسة</option>
 </select></div>
 <div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div><a class="welcome-link" href="#welcome-kit">🎒 افتح الحقيبة الترحيبية للطلاب</a>
-<a href="student-guide.html" class="tag">📘 دليل الطالب التفصيلي</a> <a class="welcome-link" href="#student-guide">📘 دليل الطالب</a>
+<a href="#student-guide" class="tag">📘 دليل الطالب التفصيلي</a> <a class="welcome-link" href="#student-guide">📘 دليل الطالب</a>
 </header>
 <div class="wrap"><div class="grid">
 <section class="panel"><h2>اختار سؤالك</h2><div class="buttons">
@@ -69,7 +70,7 @@ footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
 </section>
 <section class="panel student-guide" id="student-guide">
 <h2>📘 دليل الطالب لكلية طب الأسنان – جامعة المنوفية</h2>
-<p class="welcome-intro">يمكنك الرجوع إلى دليل الطالب للعام الجامعي 2027–2026 للتعرّف على معلومات الكلية، واللائحة الدراسية، والإرشاد الأكاديمي، وحقوق الطالب، والامتحانات، والخدمات والأنشطة الطلابية. راجع الدليل والإعلانات الرسمية الأحدث عند وجود أي تحديث.</p>
+<p class="welcome-intro">يمكنك الرجوع إلى دليل الطالب للعام الجامعي 2025–2026 للتعرّف على معلومات الكلية، واللائحة الدراسية، والإرشاد الأكاديمي، وحقوق الطالب، والامتحانات، والخدمات والأنشطة الطلابية. راجع الدليل والإعلانات الرسمية الأحدث عند وجود أي تحديث.</p>
 <div class="guide-actions">
 <a href="student-guide-2026-2027.pdf" target="_blank" rel="noopener">📖 فتح الدليل في صفحة جديدة</a>
 <a href="student-guide-2026-2027.pdf" download>⬇️ تحميل دليل الطالب PDF</a>
