@@ -1,26 +1,38 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#123b5d"><meta name="description" content="المساعد الطلابي لكلية طب الأسنان جامعة المنوفية: الجداول الدراسية وأماكن المدرجات والمعامل ودليل الطالب.">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>المساعد الطلابي | كلية طب الأسنان جامعة المنوفية</title>
 <link rel="icon" type="image/png" href="student-assistant-logo.png">
 <style>
-:root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a;--line:#dcecf3;--shadow:0 12px 32px #123b5d12}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eaf7fc,#f7fbfd);color:var(--ink)}
-a{color:inherit}header{background:radial-gradient(circle at 15% 10%,#268eb5 0,transparent 30%),linear-gradient(120deg,#102f4c,#167da5);color:#fff;padding:30px 18px 26px;text-align:center;box-shadow:0 8px 28px #123b5d20}
-.brand-header{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}.brand-header img{width:100px;height:100px;object-fit:contain;background:#fff;border-radius:25px;padding:5px;box-shadow:0 5px 18px #001c3b35}.brand-header h1{margin:0;font-size:clamp(22px,4vw,36px)}header p{margin:0;line-height:1.8;color:#e8f7ff}
-.top-link{max-width:1150px;margin:12px auto 0;padding:0 14px;text-align:right}.top-link a{display:inline-block;padding:10px 15px;border-radius:12px;background:#12345a;color:#fff;text-decoration:none;font-weight:bold}
-.wrap{max-width:1200px;margin:24px auto;padding:0 14px}.grid{display:grid;grid-template-columns:.9fr 1.2fr;gap:18px;align-items:stretch}.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.panel h2{margin-top:0;color:var(--navy);font-size:20px}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-button,select{font-family:inherit;border:1px solid transparent;border-radius:12px;padding:12px 10px;background:#e8f5fa;color:var(--navy);font-weight:bold;cursor:pointer;transition:transform .15s,background .15s,box-shadow .15s}button:hover{background:#d5edf7;transform:translateY(-1px)}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #e6bd45;outline-offset:2px}.note{font-size:12px;color:#607b8c;line-height:1.8;margin-top:12px}
-.chat{display:flex;flex-direction:column;min-height:480px}.messages{height:390px;overflow:auto;padding:5px;scroll-behavior:smooth}.msg{max-width:98%;padding:12px 14px;border-radius:15px;margin:8px 0;line-height:1.85;font-size:14px;overflow-wrap:anywhere}.bot{background:#eaf6fb;border:1px solid #dcecf3;border-top-right-radius:4px}.user{background:var(--navy);color:#fff;margin-right:auto;border-top-left-radius:4px}.composer{display:flex;gap:8px;border-top:1px solid #e3eef3;padding-top:12px}.composer input{flex:1;min-width:0;border:1px solid #cfe3ec;border-radius:12px;padding:12px;font:inherit}.send{background:var(--navy);color:#fff;min-width:75px}.send:hover{background:#1b587f;color:#fff}
-.tag{display:inline-block;background:#f8f0d5;color:#6e5712;padding:5px 10px;border-radius:20px;font-size:12px;margin:3px;text-decoration:none}.gradebox{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px auto 0}.gradebox label{font-weight:bold}.gradebox select{background:#fff;border:1px solid #cfe3ec;min-width:190px}.welcome-link{display:inline-block;background:var(--gold);color:#17364a;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:bold;margin-top:14px;box-shadow:0 4px 12px #00000018}
-.welcome,.student-guide{margin-top:22px;scroll-margin-top:18px}.welcome h2{color:var(--navy);margin-top:0}.welcome-intro{line-height:1.9;margin-top:-4px}.welcome-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.welcome-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 8px 22px #123b5d0b}.welcome-card h3{margin:0 0 9px;color:var(--blue);font-size:17px}.welcome-card p,.welcome-card li{line-height:1.85;font-size:14px}.welcome-card ul{padding-right:20px;margin:6px 0}.welcome-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.welcome-actions button{background:#123b5d;color:white}.welcome-note{background:#fff8df;border:1px solid #f0df9b;border-radius:12px;padding:12px;line-height:1.8;margin-top:14px}.guide-frame{width:100%;height:650px;border:1px solid var(--line);border-radius:14px;background:#fff}.guide-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.guide-actions a{display:inline-block;background:#123b5d;color:#fff;padding:11px 15px;border-radius:10px;text-decoration:none;font-weight:bold}
-.schedule-list{display:grid;gap:10px;margin-top:10px}.schedule-card{background:#fff;border:1px solid #d4e8f1;border-right:4px solid var(--blue);border-radius:12px;padding:12px}.schedule-card h3{font-size:15px;color:var(--navy);margin:0 0 7px}.schedule-meta{display:flex;flex-wrap:wrap;gap:6px}.schedule-meta span{background:#f0f7fa;border-radius:8px;padding:4px 7px;font-size:12px}.result-title{font-size:16px;color:var(--navy);font-weight:bold;margin-bottom:8px}.gradebox select{font-size:15px}footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
-@media(max-width:850px){.grid{grid-template-columns:1fr}.welcome-grid{grid-template-columns:1fr 1fr}.messages{height:340px}.guide-frame{height:500px}}@media(max-width:520px){.welcome-grid{grid-template-columns:1fr}.buttons{grid-template-columns:1fr 1fr}.panel{padding:15px}.brand-header img{width:78px;height:78px}.composer{gap:6px}.send{min-width:62px;padding:10px}.messages{height:320px}.guide-frame{height:420px}}
-@media print{header,.top-link,.buttons,.composer,.gradebox,.welcome-link,.tag,footer{display:none!important}body{background:#fff}.wrap{max-width:none;margin:0}.panel{box-shadow:none;break-inside:avoid}.messages{height:auto;overflow:visible}}
+:root{--navy:#123b5d;--blue:#167da5;--gold:#d4af37;--pale:#eef7fb;--ink:#17364a}
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eaf7fc,#f7fbfd);color:var(--ink)}
+header{background:linear-gradient(120deg,#123452,#167da5);color:#fff;padding:30px 18px;text-align:center}
+.brand-header{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.brand-header img{width:112px;height:112px;object-fit:contain;background:#fff;border-radius:50%;padding:3px;box-shadow:0 4px 16px #001c3b35}
+.brand-header h1{margin:0;font-size:clamp(22px,4vw,36px)}
+header h1{margin:0 0 10px;font-size:clamp(24px,4vw,36px)}header p{margin:0;line-height:1.8}
+.wrap{max-width:1150px;margin:24px auto;padding:0 14px}.grid{display:grid;grid-template-columns:.9fr 1.2fr;gap:18px}
+.panel{background:#fff;border:1px solid #dcecf3;border-radius:18px;padding:18px;box-shadow:0 10px 28px #123b5d12}
+.panel h2{margin-top:0;color:var(--navy);font-size:20px}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button,select{font-family:inherit;border:0;border-radius:11px;padding:12px 10px;background:#e8f5fa;color:var(--navy);font-weight:bold;cursor:pointer}
+button:hover{background:#d5edf7}.note{font-size:12px;color:#607b8c;line-height:1.8;margin-top:12px}
+.chat{display:flex;flex-direction:column;min-height:480px}.messages{height:390px;overflow:auto;padding:5px}
+.msg{max-width:98%;padding:12px 14px;border-radius:14px;margin:8px 0;line-height:1.85;font-size:14px;overflow-wrap:anywhere}
+.bot{background:#eaf6fb;border-top-right-radius:4px}.user{background:var(--navy);color:#fff;margin-right:auto;border-top-left-radius:4px}
+.composer{display:flex;gap:8px;border-top:1px solid #e3eef3;padding-top:12px}
+input{flex:1;min-width:0;border:1px solid #cfe3ec;border-radius:11px;padding:12px;font:inherit}.send{background:var(--navy);color:#fff;min-width:75px}
+.tag{display:inline-block;background:#f8f0d5;color:#6e5712;padding:4px 9px;border-radius:20px;font-size:12px;margin:3px;text-decoration:none}
+.gradebox{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px auto 0}
+.gradebox label{font-weight:bold}.gradebox select{background:#fff;border:1px solid #cfe3ec;min-width:190px}
+.welcome-link{display:inline-block;background:#d4af37;color:#17364a;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:bold;margin-top:14px;box-shadow:0 4px 12px #00000018}
+.welcome{margin-top:22px;scroll-margin-top:18px}.welcome h2{color:var(--navy);margin-top:0}.welcome-intro{line-height:1.9;margin-top:-4px}.welcome-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.welcome-card{background:#fff;border:1px solid #dcecf3;border-radius:16px;padding:16px;box-shadow:0 8px 22px #123b5d0b}.welcome-card h3{margin:0 0 9px;color:#167da5;font-size:17px}.welcome-card p,.welcome-card li{line-height:1.85;font-size:14px}.welcome-card ul{padding-right:20px;margin:6px 0}.welcome-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.welcome-actions button{background:#123b5d;color:white}.student-guide{margin-top:22px}.guide-frame{width:100%;height:720px;border:1px solid #dcecf3;border-radius:14px;background:#fff}.guide-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.guide-actions a{display:inline-block;background:#123b5d;color:#fff;padding:11px 15px;border-radius:10px;text-decoration:none;font-weight:bold}.welcome-note{background:#fff8df;border:1px solid #f0df9b;border-radius:12px;padding:12px;line-height:1.8;margin-top:14px}
+@media(max-width:780px){.welcome-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.welcome-grid{grid-template-columns:1fr}
+footer{text-align:center;padding:22px;color:#607b8c;font-size:12px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.messages{height:340px}}@media(max-width:430px){.buttons{grid-template-columns:1fr}}
 </style></head>
 <body>
-<div class="top-link"><a href="student-guide-2026-2027.pdf">📘 دليل الطالب التفصيلي</a></div>
+<div style="max-width:1100px;margin:12px auto;padding:10px 16px;text-align:right"><a href="student-guide.html" style="display:inline-block;padding:10px 16px;border-radius:10px;background:#12345a;color:#fff;text-decoration:none;font-weight:bold">📘 دليل الطالب التفصيلي</a></div>
 
 <header>
 <div class="brand-header"><img src="student-assistant-logo.png" alt="شعار المساعد الطلابي لكلية طب الأسنان جامعة المنوفية"><h1>المساعد الطلابي لكلية طب الأسنان</h1></div>
@@ -29,7 +41,7 @@ button,select{font-family:inherit;border:1px solid transparent;border-radius:12p
 <option value="1">الفرقة الأولى</option><option value="2">الفرقة الثانية</option><option value="3">الفرقة الثالثة</option><option value="4">الفرقة الرابعة</option><option value="5">الفرقة الخامسة</option>
 </select></div>
 <div><span class="tag">المحاضرات</span><span class="tag">السكاشن والعملي</span><span class="tag">أماكن المدرجات والمعامل</span><a href="speakers.html" class="tag">الإرشاد الأكاديمي</a></div><a class="welcome-link" href="#welcome-kit">🎒 افتح الحقيبة الترحيبية للطلاب</a>
-<a href="student-guide-2026-2027.pdf" class="tag">📘 دليل الطالب التفصيلي</a> <a class="welcome-link" href="#student-guide">📘 دليل الطالب</a>
+<a href="student-guide.html" class="tag">📘 دليل الطالب التفصيلي</a> <a class="welcome-link" href="#student-guide">📘 دليل الطالب</a>
 </header>
 <div class="wrap"><div class="grid">
 <section class="panel"><h2>اختار سؤالك</h2><div class="buttons">
@@ -38,7 +50,7 @@ button,select{font-family:inherit;border:1px solid transparent;border-radius:12p
 <button onclick="ask('جدول يوم الاثنين')">📅 جدول الاثنين</button><button onclick="ask('جدول يوم الثلاثاء')">📅 جدول الثلاثاء</button>
 <button onclick="ask('جدول يوم الأربعاء')">📅 جدول الأربعاء</button><button onclick="ask('جدول يوم الخميس')">📅 جدول الخميس</button>
 <button onclick="ask('أماكن المدرجات')">📍 أماكن المدرجات</button><button onclick="ask('أماكن المعامل')">🧪 أماكن المعامل</button>
-<button onclick="ask('الإرشاد الأكاديمي')">🧭 الإرشاد الأكاديمي</button><button onclick="ask('عملي مجموعة A3')">🦷 عملي مجموعة A3</button><button onclick="ask('مساعدة')">❓ مساعدة</button><button onclick="ask('جدول الأسبوع')">🗓️ عرض كل الجدول</button><button onclick="window.print()">🖨️ طباعة الصفحة</button>
+<button onclick="ask('الإرشاد الأكاديمي')">🧭 الإرشاد الأكاديمي</button><button onclick="ask('عملي مجموعة A3')">🦷 عملي مجموعة A3</button><button onclick="ask('مساعدة')">❓ مساعدة</button>
 </div><p class="note">اختار الفرقة أولًا، ثم اسأل عن اليوم أو المادة أو مجموعة العملي. جداول الفرق الثانية إلى الخامسة مدخلة من ملفات الجداول المرفقة، وقد تحتاج بعض الخانات المتداخلة في ملفات PDF إلى مراجعة القسم للتأكد من توقيتها. عند صدور تعديل رسمي، يُتبع الإعلان الأحدث.</p></section>
 <section class="panel chat"><h2>اسأل المساعد الطلابي</h2><div class="messages" id="messages"></div><div class="composer"><input id="input" placeholder="اكتب سؤالك عن مادة أو يوم أو مكان..." onkeydown="if(event.key==='Enter')send()"><button class="send" onclick="send()">إرسال</button></div></section>
 </div>
@@ -57,14 +69,13 @@ button,select{font-family:inherit;border:1px solid transparent;border-radius:12p
 </section>
 <section class="panel student-guide" id="student-guide">
 <h2>📘 دليل الطالب لكلية طب الأسنان – جامعة المنوفية</h2>
-<p class="welcome-intro">يعرض هذا القسم دليل الطالب الرسمي المرفق للعام الجامعي 2026–2027. يحتوي الدليل على اللائحة الداخلية وشروط القيد والمقررات ونظام التقويم وقواعد الامتحانات والإرشاد الأكاديمي وحقوق الطالب والخدمات والأنشطة الطلابية. أرقام الصفحات أدناه هي أرقام الصفحات المطبوعة داخل الدليل؛ راجع إدارة الكلية والإعلانات الرسمية عند وجود تحديث.</p>
+<p class="welcome-intro">يمكنك الرجوع إلى دليل الطالب للعام الجامعي 2025–2026 للتعرّف على معلومات الكلية، واللائحة الدراسية، والإرشاد الأكاديمي، وحقوق الطالب، والامتحانات، والخدمات والأنشطة الطلابية. راجع الدليل والإعلانات الرسمية الأحدث عند وجود أي تحديث.</p>
 <div class="guide-actions">
-<a href="student-guide-2026-2027.pdf" target="_blank" rel="noopener">📖 فتح الدليل في صفحة جديدة</a>
-<a href="student-guide-2026-2027.pdf" download>⬇️ تحميل دليل الطالب PDF</a>
+<a href="student-guide-2025-2026.pdf" target="_blank" rel="noopener">📖 فتح الدليل في صفحة جديدة</a>
+<a href="student-guide-2025-2026.pdf" download>⬇️ تحميل دليل الطالب PDF</a>
 </div>
-<div class="welcome-grid" style="margin:12px 0"><article class="welcome-card"><h3>📚 الدراسة والتقييم</h3><p>اللائحة الداخلية: ص 22 · شروط الالتحاق والقيد: ص 23 · المقررات المؤهلة للبكالوريوس: ص 27 · نظام التقويم: ص 31 · القواعد العامة للامتحانات: ص 46.</p></article><article class="welcome-card"><h3>🧭 حقوق الطالب والإرشاد</h3><p>نظام الإرشاد الأكاديمي: ص 48 · حقوق الطالب الجامعي: ص 50 · قطاع شئون التعليم والطلاب: ص 21.</p></article><article class="welcome-card"><h3>🧪 المعامل والخدمات</h3><p>المعامل: تبدأ من ص 51 · رعاية الشباب: ص 58 · الاتحاد الطلابي: ص 59 · المكتبة: ص 93 · العيادات: ص 113 وما بعدها.</p></article></div>
-<iframe class="guide-frame" src="student-guide-2026-2027.pdf#toolbar=1&navpanes=0" title="دليل الطالب 2026-2027">المتصفح لا يدعم عرض PDF. استخدم زر فتح الدليل في صفحة جديدة.</iframe>
-<p class="note">إذا لم يظهر الدليل داخل الصفحة، تأكّد من رفع ملف PDF إلى نفس مجلد ملف index.html في مستودع GitHub، وبالاسم student-guide-2026-2027.pdf.</p>
+<iframe class="guide-frame" src="student-guide-2025-2026.pdf#toolbar=1&navpanes=0" title="دليل الطالب 2025-2026">المتصفح لا يدعم عرض PDF. استخدم زر فتح الدليل في صفحة جديدة.</iframe>
+<p class="note">إذا لم يظهر الدليل داخل الصفحة، تأكّد من رفع ملف PDF إلى نفس مجلد ملف index.html في مستودع GitHub، وبالاسم student-guide-2025-2026.pdf.</p>
 </section>
 <footer>كلية طب الأسنان – جامعة المنوفية | المساعد الطلابي لجميع الفرق</footer></div>
 <script>
@@ -107,16 +118,11 @@ const S={
 ]};
 const days=[['الأحد',/الأحد|الاحد|sunday/],['الاثنين',/الاثنين|الإثنين|الاتنين|monday/],['الثلاثاء',/الثلاثاء|التلات|tuesday/],['الأربعاء',/الأربعاء|الاربعاء|wednesday/],['الخميس',/الخميس|thursday/],['السبت',/السبت|saturday/]];
 function changeGrade(){const n=document.getElementById('grade').value;add('تم اختيار الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][n])+'. اسأل عن الجدول أو المادة أو مجموعة العملي.');}
-function add(text,who='bot'){const box=document.getElementById('messages');const d=document.createElement('div');d.className='msg '+who;if(who==='user')d.textContent=text;else d.innerHTML=text;box.appendChild(d);box.scrollTop=box.scrollHeight;}
+function add(text,who='bot'){const box=document.getElementById('messages');const d=document.createElement('div');d.className='msg '+who;d.innerHTML=text;box.appendChild(d);box.scrollTop=box.scrollHeight;}
 function norm(s){return s.toLowerCase().replace(/[؟?!.,،؛:]/g,' ').replace(/\s+/g,' ').trim();}
 function answer(q){
 const x=norm(q),grade=document.getElementById('grade').value, arr0=S[grade];
 if(/مساعدة|help|القائمة|الخدمات|ابدأ/.test(x))return 'اسأل عن جدول يوم محدد، اسم مادة بالعربي أو الإنجليزي، عملي مجموعة A1 إلى A6، أماكن المدرجات والمعامل، أو الإرشاد الأكاديمي.';
-if(/حقوق الطالب|حق الطالب|حقوقي/.test(x))return '📘 <b>حقوق الطالب الجامعي:</b> يتناولها دليل الطالب 2026–2027 في الصفحة المطبوعة 50. افتح الدليل من قسم «دليل الطالب» للاطلاع على النص الكامل، ولأي إجراء رسمي راجع إدارة الكلية.';
-if(/نظام التقويم|التقييم|التقييمات|الدرجات|نظام التقييم/.test(x))return '📘 <b>نظام التقويم:</b> خصص دليل الطالب 2026–2027 الصفحة المطبوعة 31 لهذا الموضوع. لا أعرض تفاصيل درجات أو نسب غير مؤكدة؛ افتح الدليل وراجع اللائحة المعتمدة.';
-if(/امتحان|الامتحانات|قواعد الامتحان|لجان الامتحان/.test(x))return '📝 <b>قواعد الامتحانات:</b> راجع «القواعد العامة للامتحانات» في الصفحة المطبوعة 46 من دليل الطالب 2026–2027، مع الالتزام بأي تعليمات رسمية أحدث تصدرها الكلية.';
-if(/شروط القيد|الالتحاق|التسجيل|القيد بالكلية/.test(x))return '📘 يتناول دليل الطالب 2026–2027 شروط الالتحاق والقيد في الصفحة المطبوعة 23، واللائحة الداخلية في الصفحة 22. راجع الدليل أو إدارة شئون التعليم والطلاب للحالة الخاصة بك.';
-if(/معمل|المعامل|لاب|lab|simulator|سيميليتور/.test(x)&&!/جدول/.test(x))return '🧪 <b>أماكن المعامل حسب دليل الطالب 2026–2027:</b><br>• Lap 1 وLap 2: الدور الثالث العلوي.<br>• Lap 3: الدور الرابع.<br>• Lap 4: الدور الخامس.<br>• Simulator 1 وSimulator 2: الدور الثالث العلوي.<br>يرجى مراجعة جدول المادة لمعرفة مكان الحصة المحدد.';
 if(/مدرج\s*أ|مدرج ا|مدرج a/.test(x))return '📍 <b>مدرج أ:</b> الدور الرابع.';
 if(/مدرج\s*2|مدرج ٢|مدرج اتنين/.test(x))return '📍 <b>مدرج 2:</b> الدور الرابع.';
 if(/مدرج\s*3|مدرج ٣|مدرج تلاتة/.test(x))return '📍 <b>مدرج 3:</b> الدور السادس.';
@@ -132,10 +138,10 @@ else if(/محاضرة|محاضرات|lecture/.test(x))arr=arr.filter(e=>/محا�
 if(group)arr=arr.filter(e=>e[5].includes(group)||e[5].includes('كل الفرقة')||e[5].includes('A1–A6')||e[5].includes('A1-A6'));
 if(/جدول الأسبوع|جدول الاسبوع|جدول الاسبوع كامل/.test(x)){arr=arr0.slice();}
 if(arr.length&&(day||query.length>1||group||/جدول|الأسبوع|الاسبوع/.test(x))){
-return '<div class="result-title">📚 الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][grade])+' — '+arr.length+' نتيجة</div><div class="schedule-list">'+arr.map(e=>'<article class="schedule-card"><h3>'+e[0]+' · '+e[1]+'</h3><div class="schedule-meta"><span>⏰ '+e[3]+'</span><span>📍 '+e[4]+'</span><span>📘 '+e[2]+'</span><span>👥 '+e[5]+'</span></div></article>').join('')+'</div><br><small>الجداول مأخوذة من ملفات الجداول المرفقة. بعض الخانات المتداخلة في ملفات PDF تحتاج مراجعة الجدول الأصلي/إعلان القسم للتأكد من التوقيت والتوزيع.</small>';
+return '📚 <b>الفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][grade])+' — نتيجة الجدول</b><br>'+arr.map(e=>'• <b>'+e[0]+' — '+e[1]+'</b><br>النوع: '+e[2]+'<br>الوقت: '+e[3]+'<br>المكان: '+e[4]+'<br>المجموعة: '+e[5]).join('<br><br>')+'<br><br><small>الجداول مأخوذة من ملفات الجداول المرفقة. بعض الخانات المتداخلة في ملفات PDF تحتاج مراجعة الجدول الأصلي/إعلان القسم للتأكد من التوقيت والتوزيع.</small>';
 }
 if(/جدول|الأسبوع|الاسبوع/.test(x))return '📚 اختار يومًا من أزرار الأيام أو اكتب مثلًا: «جدول يوم الأحد» أو اسم المادة.';
-return 'لم أجد نتيجة مطابقة للسؤال في بيانات الفرقة الحالية. جرّب كتابة اسم المادة كما يظهر في الجدول، أو اسأل عن يوم محدد أو مجموعة مثل A3. يمكنك أيضًا اختيار أحد الأزرار الجاهزة.';
+return 'أنا المساعد الطلابي للفرقة '+(['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'][grade])+'. اسألني عن جدول يوم، مادة، مجموعة عملي، أماكن المدرجات والمعامل، أو الإرشاد الأكاديمي. مثال: «عملي Oral Biology مجموعة A3».';
 }
 function ask(q){add(q,'user');setTimeout(()=>add(answer(q),'bot'),80);}
 function send(){const i=document.getElementById('input');const q=i.value.trim();if(!q)return;i.value='';ask(q);}
